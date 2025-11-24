@@ -1,0 +1,157 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'education_exp_add_request.dart';
+
+// **************************************************************************
+// BuiltValueGenerator
+// **************************************************************************
+
+class _$EducationExpAddRequest extends EducationExpAddRequest {
+  @override
+  final int? schoolId;
+  @override
+  final int? educationType;
+  @override
+  final int? beginYear;
+  @override
+  final int? endYear;
+  @override
+  final int? majorId;
+  @override
+  final String? activity;
+
+  factory _$EducationExpAddRequest(
+          [void Function(EducationExpAddRequestBuilder)? updates]) =>
+      (EducationExpAddRequestBuilder()..update(updates))._build();
+
+  _$EducationExpAddRequest._(
+      {this.schoolId,
+      this.educationType,
+      this.beginYear,
+      this.endYear,
+      this.majorId,
+      this.activity})
+      : super._();
+  @override
+  EducationExpAddRequest rebuild(
+          void Function(EducationExpAddRequestBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  EducationExpAddRequestBuilder toBuilder() =>
+      EducationExpAddRequestBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is EducationExpAddRequest &&
+        schoolId == other.schoolId &&
+        educationType == other.educationType &&
+        beginYear == other.beginYear &&
+        endYear == other.endYear &&
+        majorId == other.majorId &&
+        activity == other.activity;
+  }
+
+  @override
+  int get hashCode {
+    var _$hash = 0;
+    _$hash = $jc(_$hash, schoolId.hashCode);
+    _$hash = $jc(_$hash, educationType.hashCode);
+    _$hash = $jc(_$hash, beginYear.hashCode);
+    _$hash = $jc(_$hash, endYear.hashCode);
+    _$hash = $jc(_$hash, majorId.hashCode);
+    _$hash = $jc(_$hash, activity.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'EducationExpAddRequest')
+          ..add('schoolId', schoolId)
+          ..add('educationType', educationType)
+          ..add('beginYear', beginYear)
+          ..add('endYear', endYear)
+          ..add('majorId', majorId)
+          ..add('activity', activity))
+        .toString();
+  }
+}
+
+class EducationExpAddRequestBuilder
+    implements Builder<EducationExpAddRequest, EducationExpAddRequestBuilder> {
+  _$EducationExpAddRequest? _$v;
+
+  int? _schoolId;
+  int? get schoolId => _$this._schoolId;
+  set schoolId(int? schoolId) => _$this._schoolId = schoolId;
+
+  int? _educationType;
+  int? get educationType => _$this._educationType;
+  set educationType(int? educationType) =>
+      _$this._educationType = educationType;
+
+  int? _beginYear;
+  int? get beginYear => _$this._beginYear;
+  set beginYear(int? beginYear) => _$this._beginYear = beginYear;
+
+  int? _endYear;
+  int? get endYear => _$this._endYear;
+  set endYear(int? endYear) => _$this._endYear = endYear;
+
+  int? _majorId;
+  int? get majorId => _$this._majorId;
+  set majorId(int? majorId) => _$this._majorId = majorId;
+
+  String? _activity;
+  String? get activity => _$this._activity;
+  set activity(String? activity) => _$this._activity = activity;
+
+  EducationExpAddRequestBuilder() {
+    EducationExpAddRequest._defaults(this);
+  }
+
+  EducationExpAddRequestBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _schoolId = $v.schoolId;
+      _educationType = $v.educationType;
+      _beginYear = $v.beginYear;
+      _endYear = $v.endYear;
+      _majorId = $v.majorId;
+      _activity = $v.activity;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(EducationExpAddRequest other) {
+    _$v = other as _$EducationExpAddRequest;
+  }
+
+  @override
+  void update(void Function(EducationExpAddRequestBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  EducationExpAddRequest build() => _build();
+
+  _$EducationExpAddRequest _build() {
+    final _$result = _$v ??
+        _$EducationExpAddRequest._(
+          schoolId: schoolId,
+          educationType: educationType,
+          beginYear: beginYear,
+          endYear: endYear,
+          majorId: majorId,
+          activity: activity,
+        );
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint
