@@ -11,6 +11,7 @@ class VerificationCodeInput extends StatefulWidget {
   final Color? backgroundColor;
   final Color? borderColor;
   final ValueChanged<String>? onChanged;
+  final bool disable;
 
   final Future<bool> Function()? onSendCode;
   final String sendButtonText;
@@ -33,6 +34,7 @@ class VerificationCodeInput extends StatefulWidget {
     this.countdownSeconds = 60,
     this.buttonColor = const Color(0xFF3D30A2),
     this.disableColor = Colors.grey,
+    this.disable = false,
   });
 
   @override
@@ -147,7 +149,7 @@ class _VerificationCodeInputState extends State<VerificationCodeInput> {
         style: TextStyle(
           fontSize: widget.fontSize * 0.9,
           fontWeight: FontWeight.bold,
-          color: textColor,
+          color: widget.disable ? textColor.withValues(alpha: 0.4) : textColor,
         ),
       );
     }
@@ -155,7 +157,7 @@ class _VerificationCodeInputState extends State<VerificationCodeInput> {
     return Padding(
       padding: EdgeInsets.only(right: widget.horizontalPadding / 2),
       child: TextButton(
-        onPressed: isDisabled ? null : _handleSendTap,
+        onPressed: isDisabled || widget.disable ? null : _handleSendTap,
         style: TextButton.styleFrom(
           minimumSize: Size.zero,
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -199,7 +201,6 @@ class _VerificationCodeInputState extends State<VerificationCodeInput> {
           hintText: widget.hintText,
           hintStyle: TextStyle(fontSize: widget.fontSize, color: Colors.grey),
           errorStyle: const TextStyle(height: 0, fontSize: 0),
-
           suffixIcon: _buildSendCodeButton(),
           suffixIconConstraints: const BoxConstraints(
             minWidth: 0,

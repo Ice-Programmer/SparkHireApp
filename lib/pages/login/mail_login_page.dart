@@ -105,6 +105,7 @@ class _MailLoginPageState extends State<MailLoginPage> {
 
         VerificationCodeInput(
           height: 60.h,
+          buttonColor: Theme.of(context).colorScheme.primary,
           backgroundColor: Theme.of(context).colorScheme.inverseSurface,
           borderColor: Colors.grey.shade300,
           hintText: AppLocalizations.of(context)!.verificationLoginPlaceholder,
@@ -140,7 +141,7 @@ class _MailLoginPageState extends State<MailLoginPage> {
               return false;
             }
           },
-
+          disable: _userMailLoginRequestBuilder.email?.isEmpty == true,
           onChanged: (value) {
             setState(() {
               _userMailLoginRequestBuilder.verifyCode = value;
