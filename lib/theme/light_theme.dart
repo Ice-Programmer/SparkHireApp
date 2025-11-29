@@ -10,5 +10,6 @@ ThemeData lightMode = ThemeData(
     secondary: const Color(0xFFA6FF00),
     onSurface: Colors.black,
     inverseSurface: const Color(0xFFF5F5F5),
+    onError: const Color(0xFFE13138),
   ),
 );

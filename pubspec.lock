@@ -218,7 +218,7 @@ packages:
     source: hosted
     version: "1.1.0"
   dio:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio
       sha256: d90ee57923d1828ac14e492ca49440f65477f4bb1263575900be731a3dac66a9
@@ -589,6 +589,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "6.1.0"
+  pinput:
+    dependency: "direct main"
+    description:
+      name: pinput
+      sha256: "692e1c29703abefad6c502e97b4d946d506384397438ea242afadbfe48354819"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "6.0.1"
   pool:
     dependency: transitive
     description:

@@ -85,6 +85,7 @@ Class | Method | HTTP request | Description
 [*LoginControllerApi*](doc/LoginControllerApi.md) | [**userLoginByMail**](doc/LoginControllerApi.md#userloginbymail) | **POST** /user/login/mail | 
 [*UserControllerApi*](doc/UserControllerApi.md) | [**getCurrentLoginUser**](doc/UserControllerApi.md#getcurrentloginuser) | **GET** /user/current | 
 [*UserControllerApi*](doc/UserControllerApi.md) | [**switchUserRole**](doc/UserControllerApi.md#switchuserrole) | **POST** /user/role/switch | 
+[*UserControllerApi*](doc/UserControllerApi.md) | [**userRegisterByMail**](doc/UserControllerApi.md#userregisterbymail) | **POST** /user/mail/register | 
 
 
 ## Documentation For Models
@@ -125,6 +126,7 @@ Class | Method | HTTP request | Description
  - [TokenVO](doc/TokenVO.md)
  - [UserBasicInfo](doc/UserBasicInfo.md)
  - [UserMailLoginRequest](doc/UserMailLoginRequest.md)
+ - [UserMailRegisterRequest](doc/UserMailRegisterRequest.md)
  - [UserSwitchRoleRequest](doc/UserSwitchRoleRequest.md)
  - [VerifyCodeRequest](doc/VerifyCodeRequest.md)
  - [WishCareerAddRequest](doc/WishCareerAddRequest.md)

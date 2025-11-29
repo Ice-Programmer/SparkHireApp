@@ -6,42 +6,42 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
-part 'user_mail_login_request.g.dart';
+part 'user_mail_register_request.g.dart';
 
-/// UserMailLoginRequest
+/// UserMailRegisterRequest
 ///
 /// Properties:
 /// * [email] 
 /// * [verifyCode] 
 @BuiltValue()
-abstract class UserMailLoginRequest implements Built<UserMailLoginRequest, UserMailLoginRequestBuilder> {
+abstract class UserMailRegisterRequest implements Built<UserMailRegisterRequest, UserMailRegisterRequestBuilder> {
   @BuiltValueField(wireName: r'email')
   String get email;
 
   @BuiltValueField(wireName: r'verifyCode')
   String get verifyCode;
 
-  UserMailLoginRequest._();
+  UserMailRegisterRequest._();
 
-  factory UserMailLoginRequest([void updates(UserMailLoginRequestBuilder b)]) = _$UserMailLoginRequest;
+  factory UserMailRegisterRequest([void updates(UserMailRegisterRequestBuilder b)]) = _$UserMailRegisterRequest;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(UserMailLoginRequestBuilder b) => b;
+  static void _defaults(UserMailRegisterRequestBuilder b) => b;
 
   @BuiltValueSerializer(custom: true)
-  static Serializer<UserMailLoginRequest> get serializer => _$UserMailLoginRequestSerializer();
+  static Serializer<UserMailRegisterRequest> get serializer => _$UserMailRegisterRequestSerializer();
 }
 
-class _$UserMailLoginRequestSerializer implements PrimitiveSerializer<UserMailLoginRequest> {
+class _$UserMailRegisterRequestSerializer implements PrimitiveSerializer<UserMailRegisterRequest> {
   @override
-  final Iterable<Type> types = const [UserMailLoginRequest, _$UserMailLoginRequest];
+  final Iterable<Type> types = const [UserMailRegisterRequest, _$UserMailRegisterRequest];
 
   @override
-  final String wireName = r'UserMailLoginRequest';
+  final String wireName = r'UserMailRegisterRequest';
 
   Iterable<Object?> _serializeProperties(
     Serializers serializers,
-    UserMailLoginRequest object, {
+    UserMailRegisterRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
     yield r'email';
@@ -59,7 +59,7 @@ class _$UserMailLoginRequestSerializer implements PrimitiveSerializer<UserMailLo
   @override
   Object serialize(
     Serializers serializers,
-    UserMailLoginRequest object, {
+    UserMailRegisterRequest object, {
     FullType specifiedType = FullType.unspecified,
   }) {
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
@@ -70,7 +70,7 @@ class _$UserMailLoginRequestSerializer implements PrimitiveSerializer<UserMailLo
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
     required List<Object?> serializedList,
-    required UserMailLoginRequestBuilder result,
+    required UserMailRegisterRequestBuilder result,
     required List<Object?> unhandled,
   }) {
     for (var i = 0; i < serializedList.length; i += 2) {
@@ -100,12 +100,12 @@ class _$UserMailLoginRequestSerializer implements PrimitiveSerializer<UserMailLo
   }
 
   @override
-  UserMailLoginRequest deserialize(
+  UserMailRegisterRequest deserialize(
     Serializers serializers,
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final result = UserMailLoginRequestBuilder();
+    final result = UserMailRegisterRequestBuilder();
     final serializedList = (serialized as Iterable<Object?>).toList();
     final unhandled = <Object?>[];
     _deserializeProperties(

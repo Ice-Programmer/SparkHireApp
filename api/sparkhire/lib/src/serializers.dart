@@ -50,6 +50,7 @@ import 'package:sparkhire_api/src/model/school_vo.dart';
 import 'package:sparkhire_api/src/model/token_vo.dart';
 import 'package:sparkhire_api/src/model/user_basic_info.dart';
 import 'package:sparkhire_api/src/model/user_mail_login_request.dart';
+import 'package:sparkhire_api/src/model/user_mail_register_request.dart';
 import 'package:sparkhire_api/src/model/user_switch_role_request.dart';
 import 'package:sparkhire_api/src/model/verify_code_request.dart';
 import 'package:sparkhire_api/src/model/wish_career_add_request.dart';
@@ -94,6 +95,7 @@ part 'serializers.g.dart';
   TokenVO,
   UserBasicInfo,
   UserMailLoginRequest,
+  UserMailRegisterRequest,
   UserSwitchRoleRequest,
   VerifyCodeRequest,
   WishCareerAddRequest,

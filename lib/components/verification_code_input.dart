@@ -206,7 +206,9 @@ class _VerificationCodeInputState extends State<VerificationCodeInput> {
             minHeight: 0,
           ),
         ),
-        onChanged: widget.onChanged,
+        onChanged: (value) {
+          widget.onChanged?.call(value);
+        },
       ),
     );
   }

@@ -3,16 +3,31 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:spark_hire_app/common/assets.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/components/custom_input.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
 import 'package:spark_hire_app/components/verification_code_input.dart';
+import 'package:spark_hire_app/http/http_constant.dart';
 import 'package:spark_hire_app/pages/login/components/register_line.dart';
+import 'package:spark_hire_app/providers/api_provider.dart';
+import 'package:spark_hire_app/utils/log_util.dart';
+import 'package:spark_hire_app/utils/toast_util.dart';
+import 'package:sparkhire_api/sparkhire_api.dart';
 
-class MailLoginPage extends StatelessWidget {
+class MailLoginPage extends StatefulWidget {
   const MailLoginPage({super.key});
+
+  @override
+  State<MailLoginPage> createState() => _MailLoginPageState();
+}
+
+class _MailLoginPageState extends State<MailLoginPage> {
+  final UserMailLoginRequestBuilder _userMailLoginRequestBuilder =
+      UserMailLoginRequestBuilder();
+  final SparkhireApi sparkhireApi = SparkhireApi();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +41,7 @@ class MailLoginPage extends StatelessWidget {
             children: [
               _buildPasswordWelcomeLine(context),
               _buildLoginForm(context),
+              10.verticalSpace,
               const RegisterLine(),
             ],
           ),
@@ -71,6 +87,11 @@ class MailLoginPage extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.inverseSurface,
           hintText: AppLocalizations.of(context)!.mailPlaceholder,
           inputType: TextInputType.emailAddress,
+          onChanged: (value) {
+            setState(() {
+              _userMailLoginRequestBuilder.email = value;
+            });
+          },
         ),
 
         22.verticalSpace,
@@ -89,32 +110,42 @@ class MailLoginPage extends StatelessWidget {
           hintText: AppLocalizations.of(context)!.verificationLoginPlaceholder,
           sendButtonText: AppLocalizations.of(context)!.fetchVerificationCode,
           onSendCode: () async {
-            await Future.delayed(const Duration(seconds: 2));
+            final apiProvider = Provider.of<ApiProvider>(
+              context,
+              listen: false,
+            );
 
-            print("验证码 API 调用完成");
+            final bizController = apiProvider.api.getBizControllerApi();
 
-            return true;
+            try {
+              final result = await bizController.sendVerifyCode(
+                verifyCodeRequest: VerifyCodeRequest(
+                  (r) => r..email = _userMailLoginRequestBuilder.email,
+                ),
+              );
+              LogUtils.logger(result.toString());
+              if (result.data != null &&
+                  result.data!.code != HttpConstant.successCode) {
+                ToastUtils.showErrorMsg(
+                  result.data?.message ??
+                      AppLocalizations.of(context)!.sendVerificationCodeError,
+                );
+                return false;
+              }
+              return true;
+            } catch (e) {
+              ToastUtils.showErrorMsg(
+                AppLocalizations.of(context)!.sendVerificationCodeError,
+              );
+              return false;
+            }
           },
 
-          onChanged: (code) {
-            print("输入的验证码是: $code");
+          onChanged: (value) {
+            setState(() {
+              _userMailLoginRequestBuilder.verifyCode = value;
+            });
           },
-        ),
-
-        22.verticalSpace,
-
-        Align(
-          alignment: Alignment.centerRight,
-          child: GestureDetector(
-            onTap: () => {},
-            child: Text(
-              AppLocalizations.of(context)!.forgetPasswordText,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
         ),
 
         40.verticalSpace,
@@ -130,7 +161,9 @@ class MailLoginPage extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           isShadow: false,
           disableSplash: true,
-          disable: true,
+          disable:
+              !(_userMailLoginRequestBuilder.email?.isNotEmpty == true &&
+                  _userMailLoginRequestBuilder.verifyCode?.isNotEmpty == true),
         ),
 
         ..._buildOtherLoginButtonList(context),
@@ -148,8 +181,8 @@ class MailLoginPage extends StatelessWidget {
 
       _buildOtherLoginButton(
         context: context,
-        text: AppLocalizations.of(context)!.loginText,
-        iconText: Assets.assetsImageLoginSelfkey,
+        text: AppLocalizations.of(context)!.phoneLoginText,
+        iconText: Assets.assetsImageLoginPhone,
         onPressed: () => context.go('/login/password'),
       ),
 

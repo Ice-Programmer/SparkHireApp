@@ -1,4 +1,4 @@
-# sparkhire_api.model.UserMailLoginRequest
+# sparkhire_api.model.UserMailRegisterRequest
 
 ## Load the model package
 ```dart

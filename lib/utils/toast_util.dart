@@ -24,18 +24,19 @@ class ToastUtils {
     DelightToastBar(
       autoDismiss: true,
       position: DelightSnackbarPosition.top,
-      snackbarDuration: const Duration(milliseconds: 2000),
-      builder: (context) => ToastCard(
-        leading: Icon(
-          icon ?? Icons.info_sharp,
-          color: successColor,
-          size: 20.r,
-        ),
-        title: Text(
-          message ?? '请求成功',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
-        ),
-      ),
+      snackbarDuration: const Duration(milliseconds: 3000),
+      builder:
+          (context) => ToastCard(
+            leading: Icon(
+              icon ?? Icons.info_sharp,
+              color: successColor,
+              size: 20.r,
+            ),
+            title: Text(
+              message,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+            ),
+          ),
     ).show(context);
   }
 
@@ -46,18 +47,19 @@ class ToastUtils {
     DelightToastBar(
       autoDismiss: true,
       position: DelightSnackbarPosition.top,
-      snackbarDuration: const Duration(milliseconds: 2000),
-      builder: (context) => ToastCard(
-        leading: Icon(
-          icon ?? Icons.error_sharp,
-          color: errorColor,
-          size: 20.r,
-        ),
-        title: Text(
-          message ?? '请求失败',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
-        ),
-      ),
+      snackbarDuration: const Duration(milliseconds: 4000),
+      builder:
+          (context) => ToastCard(
+            leading: Icon(
+              icon ?? Icons.error_sharp,
+              color: errorColor,
+              size: 20.r,
+            ),
+            title: Text(
+              message,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+            ),
+          ),
     ).show(context);
   }
 
@@ -69,17 +71,18 @@ class ToastUtils {
       autoDismiss: true,
       position: DelightSnackbarPosition.top,
       snackbarDuration: const Duration(milliseconds: 2000),
-      builder: (context) => ToastCard(
-        leading: Icon(
-          icon ?? Icons.info_sharp,
-          color: successColor,
-          size: 20.r,
-        ),
-        title: Text(
-          message ?? '请求成功',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
-        ),
-      ),
+      builder:
+          (context) => ToastCard(
+            leading: Icon(
+              icon ?? Icons.info_sharp,
+              color: successColor,
+              size: 20.r,
+            ),
+            title: Text(
+              message,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+            ),
+          ),
     ).show(context);
   }
 }

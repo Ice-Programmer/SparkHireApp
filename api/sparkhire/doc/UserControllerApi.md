@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**getCurrentLoginUser**](UserControllerApi.md#getcurrentloginuser) | **GET** /user/current | 
 [**switchUserRole**](UserControllerApi.md#switchuserrole) | **POST** /user/role/switch | 
+[**userRegisterByMail**](UserControllerApi.md#userregisterbymail) | **POST** /user/mail/register | 
 
 
 # **getCurrentLoginUser**
@@ -79,6 +80,47 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**BaseResponseUserBasicInfo**](BaseResponseUserBasicInfo.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **userRegisterByMail**
+> BaseResponseTokenVO userRegisterByMail(userMailRegisterRequest)
+
+
+
+### Example
+```dart
+import 'package:sparkhire_api/api.dart';
+
+final api = SparkhireApi().getUserControllerApi();
+final UserMailRegisterRequest userMailRegisterRequest = ; // UserMailRegisterRequest | 
+
+try {
+    final response = api.userRegisterByMail(userMailRegisterRequest);
+    print(response);
+} catch on DioException (e) {
+    print('Exception when calling UserControllerApi->userRegisterByMail: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userMailRegisterRequest** | [**UserMailRegisterRequest**](UserMailRegisterRequest.md)|  | 
+
+### Return type
+
+[**BaseResponseTokenVO**](BaseResponseTokenVO.md)
 
 ### Authorization
 

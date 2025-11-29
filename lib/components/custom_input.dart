@@ -17,6 +17,7 @@ class CustomInput extends StatefulWidget {
   final Color? borderColor;
   final VoidCallback? onSuffixTap;
   final TextInputType? inputType;
+  final Color? textColor;
 
   const CustomInput({
     super.key,
@@ -36,6 +37,7 @@ class CustomInput extends StatefulWidget {
     this.borderColor,
     this.onSuffixTap,
     this.inputType,
+    this.textColor,
   });
 
   @override
@@ -73,7 +75,7 @@ class _CustomInputState extends State<CustomInput> {
             textAlignVertical: TextAlignVertical.center,
             style: TextStyle(
               fontSize: widget.fontSize,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.onSurface,
               height: 1.0,
             ),
             decoration: InputDecoration(

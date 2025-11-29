@@ -26,6 +26,10 @@ class Assets {
   /// assets/image/login/mail.svg
   static const String assetsImageLoginMail = "assets/image/login/mail.svg";
 
+  /// Assets for assetsImageLoginPhone
+  /// assets/image/login/phone.svg
+  static const String assetsImageLoginPhone = "assets/image/login/phone.svg";
+
   /// Assets for assetsImageLoginSelfkey
   /// assets/image/login/selfkey.svg
   static const String assetsImageLoginSelfkey = "assets/image/login/selfkey.svg";

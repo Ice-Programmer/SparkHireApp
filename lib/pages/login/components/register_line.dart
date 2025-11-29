@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterLine extends StatelessWidget {
   const RegisterLine({super.key});
@@ -16,7 +17,9 @@ class RegisterLine extends StatelessWidget {
         ),
         8.horizontalSpace,
         InkWell(
-          onTap: () => {},
+          onTap: () => {
+            context.push('/register')
+          },
           child: Text(
             AppLocalizations.of(context)!.registerName,
             style: TextStyle(

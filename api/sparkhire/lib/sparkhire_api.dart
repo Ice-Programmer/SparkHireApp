@@ -53,6 +53,7 @@ export 'package:sparkhire_api/src/model/school_vo.dart';
 export 'package:sparkhire_api/src/model/token_vo.dart';
 export 'package:sparkhire_api/src/model/user_basic_info.dart';
 export 'package:sparkhire_api/src/model/user_mail_login_request.dart';
+export 'package:sparkhire_api/src/model/user_mail_register_request.dart';
 export 'package:sparkhire_api/src/model/user_switch_role_request.dart';
 export 'package:sparkhire_api/src/model/verify_code_request.dart';
 export 'package:sparkhire_api/src/model/wish_career_add_request.dart';

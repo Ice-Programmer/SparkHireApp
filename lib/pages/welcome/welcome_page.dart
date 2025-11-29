@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToNextScreen(duration: const Duration(seconds: 3));
+  }
+
+  void _navigateToNextScreen({required Duration duration}) {
+    Future.delayed(duration, () {
+      if (mounted) {
+        context.go('/guidance');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

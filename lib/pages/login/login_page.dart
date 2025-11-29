@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         minimum: EdgeInsets.only(
-          top: 200.h,
+          top: 160.h,
           bottom: 60.h,
           left: 28.w,
           right: 28.w,
@@ -62,8 +62,8 @@ class LoginPage extends StatelessWidget {
       children: [
         OtherLoginButton(
           context: context,
-          text: AppLocalizations.of(context)!.mailLoginText,
-          iconText: Assets.assetsImageLoginMail,
+          text: AppLocalizations.of(context)!.phoneLoginText,
+          iconText: Assets.assetsImageLoginPhone,
         ),
 
         20.verticalSpace,
@@ -93,7 +93,7 @@ class LoginPage extends StatelessWidget {
         28.verticalSpace,
 
         CustomButton(
-          onPressed: () => {context.go("/login/password")},
+          onPressed: () => {context.go("/login/mail")},
           title: AppLocalizations.of(context)!.loginText,
           textColor: Theme.of(context).colorScheme.onPrimary,
           btnWidth: double.infinity,
