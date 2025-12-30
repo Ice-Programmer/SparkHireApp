@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:spark_hire_app/http/dio_instance.dart';
 import 'package:spark_hire_app/providers/locale_provider.dart';
 import 'package:spark_hire_app/route/routes.dart';
 import 'package:spark_hire_app/theme/dark_theme.dart';
@@ -32,6 +33,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+  @override
+  void initState() {
+    super.initState();
+    DioInstance.instance().initDio();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(

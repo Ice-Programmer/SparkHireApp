@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:spark_hire_app/http/http_constant.dart';
 import 'package:spark_hire_app/http/http_methods.dart';
+import 'package:spark_hire_app/http/print_log_interceptor.dart';
 
 class DioInstance {
   static DioInstance? _instance;
@@ -33,7 +34,29 @@ class DioInstance {
       contentType: contentType ?? Headers.jsonContentType,
     );
     // 返回结果处理
-    // _dio.interceptors.add(ResponseInterceptor());
-    // _dio.interceptors.add(PrintLogInterceptor());
+    _dio.interceptors.add(PrintLogInterceptor());
+  }
+
+  /// post请求
+  Future<Response> post({
+    required String path,
+    Object? data,
+    Map<String, dynamic>? param,
+    Options? options,
+    CancelToken? cancelToken,
+  }) async {
+    return await _dio.post(
+      path,
+      queryParameters: param,
+      data: data,
+      cancelToken: cancelToken,
+      options:
+          options ??
+          Options(
+            method: HttpMethods.post,
+            receiveTimeout: _defaultTimeout,
+            sendTimeout: _defaultTimeout,
+          ),
+    );
   }
 }

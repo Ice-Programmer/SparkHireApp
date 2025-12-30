@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:spark_hire_app/components/custom_pinput.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:spark_hire_app/http/http_constant.dart';
-import 'package:spark_hire_app/providers/api_provider.dart';
+import 'package:spark_hire_app/http/business_exception.dart';
+import 'package:spark_hire_app/model/biz/send_verify_code.dart';
+import 'package:spark_hire_app/model/user/register_user.dart';
+import 'package:spark_hire_app/service/biz_service.dart';
+import 'package:spark_hire_app/service/user_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
-import 'package:sparkhire_api/sparkhire_api.dart';
 
 class RegisterVerificationPage extends StatefulWidget {
   final String email;
@@ -23,24 +24,20 @@ class RegisterVerificationPage extends StatefulWidget {
 }
 
 class _RegisterVerificationPageState extends State<RegisterVerificationPage> {
-  final UserMailRegisterRequestBuilder _registerRequestBuilder =
-      UserMailRegisterRequestBuilder();
+  final BizService _bizService = BizService();
+  final UserService _userService = UserService();
 
   bool _isSending = false;
-  final VerifyCodeRequestBuilder _verifyCodeRequestBuilder =
-      VerifyCodeRequestBuilder();
-
-  late ApiProvider apiProvider;
+  String _email = "";
+  String _verifyCode = "";
 
   bool _isRegister = false;
-
   int _countdown = 60;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    apiProvider = Provider.of<ApiProvider>(context, listen: false);
     _startCountdown();
   }
 
@@ -65,17 +62,14 @@ class _RegisterVerificationPageState extends State<RegisterVerificationPage> {
       _isSending = true;
     });
     try {
-      final result = await apiProvider.api.getBizControllerApi().sendVerifyCode(
-        verifyCodeRequest: VerifyCodeRequest((r) => r..email = widget.email),
+      final _ = await _bizService.sendVerifyCode(
+        SendVerifyCodeRequest(email: _email),
       );
       if (!mounted) return;
-      if (result.data?.code != HttpConstant.successCode) {
-        ToastUtils.showErrorMsg(
-          result.data?.message ?? AppLocalizations.of(context)!.unknownMessage,
-        );
-      }
-    } catch (e) {
-      ToastUtils.showErrorMsg(e.toString());
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
     } finally {
       setState(() {
         _isSending = false;
@@ -96,24 +90,25 @@ class _RegisterVerificationPageState extends State<RegisterVerificationPage> {
     });
 
     try {
-      final result = await apiProvider.api
-          .getUserControllerApi()
-          .userRegisterByMail(
-            userMailRegisterRequest: _registerRequestBuilder.build(),
-          );
+      // final result = await apiProvider.api
+      //     .getUserControllerApi()
+      //     .userRegisterByMail(
+      //       userMailRegisterRequest: _registerRequestBuilder.build(),
+      //     );
+      final result = await _userService.registerUser(
+        RegisterUserRequest(email: _email, verifyCode: _verifyCode),
+      );
       if (!mounted) return;
-      if (result.data?.code == HttpConstant.successCode) {
+      if (result.success) {
         ToastUtils.showInfoMsg(
           AppLocalizations.of(context)!.registerSuccessMsg,
         );
         context.go('/');
-      } else {
-        ToastUtils.showErrorMsg(
-          result.data?.message ?? AppLocalizations.of(context)!.unknownMessage,
-        );
       }
-    } catch (e) {
-      ToastUtils.showErrorMsg(e.toString());
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
     } finally {
       setState(() {
         _isRegister = false;
@@ -162,8 +157,8 @@ class _RegisterVerificationPageState extends State<RegisterVerificationPage> {
                 height: 60.w,
                 onCompleted: (value) {
                   setState(() {
-                    _registerRequestBuilder.email = widget.email;
-                    _registerRequestBuilder.verifyCode = value;
+                    _email = widget.email;
+                    _verifyCode = value;
                   });
                 },
               ),
@@ -185,9 +180,7 @@ class _RegisterVerificationPageState extends State<RegisterVerificationPage> {
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 isShadow: false,
                 disableSplash: true,
-                disable:
-                    _registerRequestBuilder.verifyCode?.length != 6 ||
-                    _isRegister,
+                disable: _email.length != 6 || _isRegister,
               ),
             ],
           ),

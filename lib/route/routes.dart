@@ -1,8 +1,14 @@
 import 'package:go_router/go_router.dart';
+import 'package:spark_hire_app/layouts/home_layout.dart';
+import 'package:spark_hire_app/pages/job/job_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
+import 'package:spark_hire_app/pages/personal/candidate_page.dart';
+import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
 import 'package:spark_hire_app/pages/register/register_verification_page.dart';
+import 'package:spark_hire_app/pages/schedule/schedule_page.dart';
+import 'package:spark_hire_app/pages/search/search_page.dart';
 import 'package:spark_hire_app/pages/welcome/guidance_page.dart';
 import 'package:spark_hire_app/pages/welcome/welcome_page.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
@@ -15,6 +21,7 @@ final GoRouter router = GoRouter(
       name: '欢迎页',
       pageBuilder:
           (context, state) => const NoTransitionPage(child: WelcomePage()),
+      // (context, state) => NoTransitionPage(child: SelectRolePage())
     ),
     GoRoute(
       path: '/guidance',
@@ -45,6 +52,48 @@ final GoRouter router = GoRouter(
         final email = state.uri.queryParameters['email'];
         return RegisterVerificationPage(email: email ?? "");
       },
+    ),
+    GoRoute(
+      path: '/user/role/switch',
+      name: '身份选择',
+      pageBuilder:
+          (context, state) => const NoTransitionPage(child: SelectRolePage()),
+    ),
+    ShellRoute(
+      pageBuilder:
+          (context, state, child) =>
+              NoTransitionPage(child: HomeLayout(child: child)),
+      routes: <GoRoute>[
+        GoRoute(
+          path: '/job',
+          name: '主页',
+          pageBuilder: (context, state) => NoTransitionPage(child: JobPage()),
+        ),
+        GoRoute(
+          path: '/search',
+          name: '搜索',
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: SearchPage()),
+        ),
+        GoRoute(
+          path: '/schedule',
+          name: '日程',
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: SchedulePage()),
+        ),
+        GoRoute(
+          path: '/favorite',
+          name: '收藏',
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: CandidatePage()),
+        ),
+        GoRoute(
+          path: '/personal',
+          name: '我的',
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: CandidatePage()),
+        ),
+      ],
     ),
   ],
 );

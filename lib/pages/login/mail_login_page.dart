@@ -3,19 +3,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:spark_hire_app/common/assets.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/components/custom_input.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
 import 'package:spark_hire_app/components/verification_code_input.dart';
-import 'package:spark_hire_app/http/http_constant.dart';
+import 'package:spark_hire_app/http/business_exception.dart';
+import 'package:spark_hire_app/model/biz/send_verify_code.dart';
+import 'package:spark_hire_app/model/user/user_mail_login.dart';
 import 'package:spark_hire_app/pages/login/components/register_line.dart';
-import 'package:spark_hire_app/providers/api_provider.dart';
+import 'package:spark_hire_app/service/biz_service.dart';
+import 'package:spark_hire_app/service/user_service.dart';
 import 'package:spark_hire_app/utils/log_util.dart';
+import 'package:spark_hire_app/utils/store_util.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
-import 'package:sparkhire_api/sparkhire_api.dart';
 
 class MailLoginPage extends StatefulWidget {
   const MailLoginPage({super.key});
@@ -25,9 +27,45 @@ class MailLoginPage extends StatefulWidget {
 }
 
 class _MailLoginPageState extends State<MailLoginPage> {
-  final UserMailLoginRequestBuilder _userMailLoginRequestBuilder =
-      UserMailLoginRequestBuilder();
-  final SparkhireApi sparkhireApi = SparkhireApi();
+  final UserService _userService = UserService();
+  final BizService _bizService = BizService();
+
+  String _email = "";
+  String _verifyCode = "";
+
+  void _onLogin() async {
+    try {
+      final result = await _userService.userMailLogin(
+        UserMailLoginRequest(email: _email, verifyCode: _verifyCode),
+      );
+      if (!mounted) return;
+
+      final accessToken = result.accessToken;
+      StoreUtil.saveToken(accessToken);
+      context.go('/home');
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+    }
+  }
+
+  Future<bool> _sendVerificationCode() async {
+    try {
+      final result = await _bizService.sendVerifyCode(
+        SendVerifyCodeRequest(email: _email),
+      );
+      if (!mounted) return false;
+      LogUtils.logger(result.toString());
+
+      return true;
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+    } 
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +127,7 @@ class _MailLoginPageState extends State<MailLoginPage> {
           inputType: TextInputType.emailAddress,
           onChanged: (value) {
             setState(() {
-              _userMailLoginRequestBuilder.email = value;
+              _email = value;
             });
           },
         ),
@@ -110,41 +148,11 @@ class _MailLoginPageState extends State<MailLoginPage> {
           borderColor: Colors.grey.shade300,
           hintText: AppLocalizations.of(context)!.verificationLoginPlaceholder,
           sendButtonText: AppLocalizations.of(context)!.fetchVerificationCode,
-          onSendCode: () async {
-            final apiProvider = Provider.of<ApiProvider>(
-              context,
-              listen: false,
-            );
-
-            final bizController = apiProvider.api.getBizControllerApi();
-
-            try {
-              final result = await bizController.sendVerifyCode(
-                verifyCodeRequest: VerifyCodeRequest(
-                  (r) => r..email = _userMailLoginRequestBuilder.email,
-                ),
-              );
-              LogUtils.logger(result.toString());
-              if (result.data != null &&
-                  result.data!.code != HttpConstant.successCode) {
-                ToastUtils.showErrorMsg(
-                  result.data?.message ??
-                      AppLocalizations.of(context)!.sendVerificationCodeError,
-                );
-                return false;
-              }
-              return true;
-            } catch (e) {
-              ToastUtils.showErrorMsg(
-                AppLocalizations.of(context)!.sendVerificationCodeError,
-              );
-              return false;
-            }
-          },
-          disable: _userMailLoginRequestBuilder.email?.isEmpty == true,
+          onSendCode: _sendVerificationCode,
+          disable: _email.isEmpty,
           onChanged: (value) {
             setState(() {
-              _userMailLoginRequestBuilder.verifyCode = value;
+              _verifyCode = value;
             });
           },
         ),
@@ -152,7 +160,7 @@ class _MailLoginPageState extends State<MailLoginPage> {
         40.verticalSpace,
 
         CustomButton(
-          onPressed: () => {context.go("/login/password")},
+          onPressed: _onLogin,
           title: AppLocalizations.of(context)!.login,
           textColor: Theme.of(context).colorScheme.onPrimary,
           btnWidth: double.infinity,
@@ -162,9 +170,7 @@ class _MailLoginPageState extends State<MailLoginPage> {
           backgroundColor: Theme.of(context).colorScheme.primary,
           isShadow: false,
           disableSplash: true,
-          disable:
-              !(_userMailLoginRequestBuilder.email?.isNotEmpty == true &&
-                  _userMailLoginRequestBuilder.verifyCode?.isNotEmpty == true),
+          disable: _email.isEmpty || _verifyCode.isEmpty,
         ),
 
         ..._buildOtherLoginButtonList(context),

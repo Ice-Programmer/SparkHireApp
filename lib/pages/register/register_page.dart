@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:spark_hire_app/components/custom_input.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
-import 'package:spark_hire_app/http/http_constant.dart';
-import 'package:spark_hire_app/providers/api_provider.dart';
+import 'package:spark_hire_app/http/business_exception.dart';
+import 'package:spark_hire_app/model/biz/send_verify_code.dart';
+import 'package:spark_hire_app/service/biz_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
-import 'package:sparkhire_api/sparkhire_api.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -20,31 +19,25 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool _isSending = false;
-  final VerifyCodeRequestBuilder _verifyCodeRequestBuilder =
-      VerifyCodeRequestBuilder();
+  final BizService _bizService = BizService();
+  String _email = '';
 
   void _sendVerificationCode() async {
     setState(() {
       _isSending = true;
     });
-    VerifyCodeRequest verifyCodeRequest = _verifyCodeRequestBuilder.build();
-    final apiProvider = Provider.of<ApiProvider>(context, listen: false);
     try {
-      final result = await apiProvider.api.getBizControllerApi().sendVerifyCode(
-        verifyCodeRequest: verifyCodeRequest,
+      final _ = await _bizService.sendVerifyCode(
+        SendVerifyCodeRequest(email: _email),
       );
+
       if (!mounted) return;
-      if (result.data?.code == HttpConstant.successCode) {
-        context.push(
-          '/register/verification?email=${_verifyCodeRequestBuilder.email}',
-        );
-      } else {
-        ToastUtils.showErrorMsg(
-          result.data?.message ?? AppLocalizations.of(context)!.unknownMessage,
-        );
-      }
-    } catch (e) {
-      ToastUtils.showErrorMsg(e.toString());
+
+      context.push('/register/verification?email=$_email');
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception catch (e) {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
     } finally {
       setState(() {
         _isSending = false;
@@ -102,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 inputType: TextInputType.emailAddress,
                 onChanged: (value) {
                   setState(() {
-                    _verifyCodeRequestBuilder.email = value;
+                    _email = value.trim();
                   });
                 },
               ),
@@ -120,9 +113,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 isShadow: false,
                 disableSplash: true,
-                disable:
-                    _verifyCodeRequestBuilder.email?.isEmpty == true ||
-                    _isSending,
+                disable: _email.isEmpty || _isSending,
               ),
             ],
           ),

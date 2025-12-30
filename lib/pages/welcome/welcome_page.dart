@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:spark_hire_app/http/http_constant.dart';
+import 'package:spark_hire_app/model/user/fetch_current_user.dart';
+import 'package:spark_hire_app/service/user_service.dart';
+import 'package:spark_hire_app/utils/store_util.dart';
+import 'package:spark_hire_app/utils/toast_util.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -11,17 +17,42 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  final UserService _userService = UserService();
+
   @override
   void initState() {
     super.initState();
     _navigateToNextScreen(duration: const Duration(seconds: 3));
   }
 
-  void _navigateToNextScreen({required Duration duration}) {
-    Future.delayed(duration, () {
-      if (mounted) {
-        context.go('/guidance');
+  void _getCurrentLoginUser() async {
+    try {
+      final result = await _userService.fetchCurrentUser(
+        FetchCurrentUserRequest(),
+      );
+      if (!mounted) return;
+      if (result.basicInfo.role == UserRole.visitor) {
+        context.go("/user/switch/role");
+        return;
       }
+      if (result.basicInfo.role == UserRole.candidate) {
+        context.go('/job');
+        return;
+      }
+    } catch (e) {
+      ToastUtils.showErrorMsg(e.toString());
+    }
+    context.go('/guidance');
+  }
+
+  void _navigateToNextScreen({required Duration duration}) {
+    Future.delayed(duration, () async {
+      String? token = await StoreUtil.getToken();
+      ToastUtils.showInfoMsg(token ?? "token is null");
+      if (token == null) {
+        context.go('guidance');
+      }
+      _getCurrentLoginUser();
     });
   }
 

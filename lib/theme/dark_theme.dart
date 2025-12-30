@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spark_hire_app/theme/skeleton_theme.dart';
 
 ThemeData darkMode = ThemeData(
   useMaterial3: true,
@@ -12,4 +13,10 @@ ThemeData darkMode = ThemeData(
     inverseSurface: const Color(0xFF333333),
     onError: const Color(0xFFE13138),
   ),
+  extensions: [
+    SkeletonTheme(
+      baseColor: Colors.grey.shade800,
+      highlightColor: Colors.grey.shade700,
+    ),
+  ],
 );
