@@ -6,7 +6,7 @@ import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
-import 'package:spark_hire_app/pages/personal/components/candidate_title/candidate_info_card.dart';
+import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_card.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_info_card.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card.dart';
 
@@ -27,7 +27,7 @@ class _CandidatePageState extends State<CandidatePage> {
           (_) =>
               _viewModel
                 ..loadCurrentUser()
-                ..loadCurentCandidate(),
+                ..loadCurrentCandidate(),
       child: _buildBody(context, _viewModel),
     );
   }
@@ -40,10 +40,17 @@ class _CandidatePageState extends State<CandidatePage> {
           _buildTitle(context),
           20.verticalSpace,
 
-          Selector<CandidateViewModel, UserBasicInfo?>(
-            selector: (_, vm) => vm.currentUserBasicInfo,
-            builder: (_, userInfo, __) {
-              return CandidateInfoCard(userBasicInfo: userInfo);
+          Selector<CandidateViewModel, (UserBasicInfo?, CandidateInfo?)>(
+            selector:
+                (_, vm) => (vm.currentUserBasicInfo, vm.currentCandidateInfo),
+            builder: (_, data, __) {
+              final userInfo = data.$1;
+              final jobStatus = data.$2;
+
+              return CandidateInfoCard(
+                userBasicInfo: userInfo,
+                candidateInfo: jobStatus,
+              );
             },
           ),
 

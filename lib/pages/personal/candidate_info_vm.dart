@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spark_hire_app/http/business_exception.dart';
+import 'package:spark_hire_app/model/candidate/edit_candidate_basic.dart';
 import 'package:spark_hire_app/model/candidate/edit_candidate_profile.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
@@ -27,7 +28,7 @@ class CandidateViewModel extends ChangeNotifier {
 
   String? get profile => _profile;
 
-  Future<void> loadCurentCandidate() async {
+  Future<void> loadCurrentCandidate() async {
     try {
       final response = await _candidateService.getCurrentCandidate(
         GetCurrentCandidateRequest(),
@@ -67,6 +68,20 @@ class CandidateViewModel extends ChangeNotifier {
       _currentCandidateInfo = _currentCandidateInfo?.copyWith(profile: profile);
 
       notifyListeners();
+
+      ToastUtils.showSuccessMsg('edit successfully');
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+    }
+  }
+
+  Future<void> editCandidateBasicInfo(EditCandidateBasicInfoRequest req) async {
+    try {
+      await _candidateService.editCandidateBasicInfo(req);
+
+      await Future.wait([loadCurrentCandidate(), loadCurrentUser()]);
 
       ToastUtils.showSuccessMsg('edit successfully');
     } on BusinessException catch (e) {

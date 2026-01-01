@@ -12,11 +12,9 @@ class CustomInput extends StatefulWidget {
   final int maxLines;
   final bool isPassword;
   final ValueChanged<String>? onChanged;
-  final IconData? suffixIcon;
   final double prefixGap;
   final String? defaultValue;
   final Color? borderColor;
-  final VoidCallback? onSuffixTap;
   final TextInputType? inputType;
   final Color? textColor;
   final String? title;
@@ -34,11 +32,9 @@ class CustomInput extends StatefulWidget {
     this.isPassword = false,
     this.onChanged,
     this.backgroundColor,
-    this.suffixIcon,
     this.prefixGap = 20,
     this.defaultValue,
     this.borderColor,
-    this.onSuffixTap,
     this.inputType,
     this.textColor,
     this.title,
@@ -58,13 +54,14 @@ class _CustomInputState extends State<CustomInput> {
       return const SizedBox.shrink();
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start, 
       children: [
         Text(
           widget.title!,
           style: TextStyle(
             fontSize: widget.fontSize,
             color: Theme.of(context).colorScheme.onSurface.withValues(
-              alpha: widget.enabled ? 0.7 : 0.2,
+              alpha: widget.enabled ? 0.9 : 0.2,
             ),
           ),
         ),
@@ -79,9 +76,7 @@ class _CustomInputState extends State<CustomInput> {
         widget.backgroundColor ??
         (widget.enabled
             ? Theme.of(context).colorScheme.secondary
-            : Theme.of(
-              context,
-            ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5));
+            : Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,16 +89,14 @@ class _CustomInputState extends State<CustomInput> {
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(widget.borderRadius),
-            border:
-                widget.borderColor != null
-                    ? Border.all(
-                      color:
-                          widget.enabled
-                              ? widget.borderColor!
-                              : widget.borderColor!.withValues(alpha: 0.3),
-                      width: 1.5,
-                    )
-                    : null,
+            border: widget.borderColor != null
+                ? Border.all(
+                    color: widget.enabled
+                        ? widget.borderColor!
+                        : widget.borderColor!.withValues(alpha: 0.3),
+                    width: 1.5,
+                  )
+                : null,
           ),
           child: Opacity(
             opacity: widget.enabled ? 1.0 : 0.6,
@@ -116,8 +109,7 @@ class _CustomInputState extends State<CustomInput> {
               textAlignVertical: TextAlignVertical.center,
               style: TextStyle(
                 fontSize: widget.fontSize,
-                color:
-                    widget.textColor ?? Theme.of(context).colorScheme.onSurface,
+                color: widget.textColor ?? Theme.of(context).colorScheme.onSurface,
                 height: 1.0,
               ),
               decoration: InputDecoration(
@@ -128,25 +120,21 @@ class _CustomInputState extends State<CustomInput> {
                 ),
                 border: InputBorder.none,
                 hintText: widget.hintText,
-                suffixIcon:
-                    widget.isPassword
-                        ? IconButton(
-                          icon: Icon(
-                            _obscureText
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: Colors.grey,
-                          ),
-                          onPressed:
-                              widget.enabled
-                                  ? () {
-                                    setState(() {
-                                      _obscureText = !_obscureText;
-                                    });
-                                  }
-                                  : null,
-                        )
-                        : _buildSuffixButton(),
+                suffixIcon: widget.isPassword
+                    ? IconButton(
+                        icon: Icon(
+                          _obscureText ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: widget.enabled
+                            ? () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              }
+                            : null,
+                      )
+                    : null,
                 hintStyle: TextStyle(
                   fontSize: widget.fontSize,
                   color: Colors.grey,
@@ -161,33 +149,6 @@ class _CustomInputState extends State<CustomInput> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildSuffixButton() {
-    if (widget.suffixIcon == null) {
-      return SizedBox(width: widget.height * 1.5);
-    }
-
-    final bool canTap = widget.enabled && widget.onSuffixTap != null;
-
-    return Material(
-      color:
-          widget.enabled
-              ? Theme.of(context).colorScheme.primary
-              : Colors.grey.shade400,
-      borderRadius: BorderRadius.horizontal(
-        right: Radius.circular(widget.borderRadius),
-      ),
-      child: InkWell(
-        onTap: canTap ? widget.onSuffixTap : null,
-        borderRadius: BorderRadius.circular(widget.borderRadius),
-        child: SizedBox(
-          height: widget.height,
-          width: widget.height * 1.5,
-          child: Icon(widget.suffixIcon, color: Colors.white),
-        ),
-      ),
     );
   }
 }

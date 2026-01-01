@@ -8,13 +8,8 @@ import 'package:spark_hire_app/pages/personal/components/edit_save_btn.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SummaryEditPage extends StatefulWidget {
-  final String profile;
   final CandidateViewModel viewModel;
-  const SummaryEditPage({
-    super.key,
-    required this.profile,
-    required this.viewModel,
-  });
+  const SummaryEditPage({super.key, required this.viewModel});
 
   @override
   State<SummaryEditPage> createState() => _SummaryEditPageState();
@@ -49,22 +44,24 @@ class _SummaryEditPageState extends State<SummaryEditPage> {
             top: 60.h,
             bottom: 10.h,
           ),
-          child: ListView(
-            children: [
-              EditTitle(titleName: AppLocalizations.of(context)!.summaryText),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                EditTitle(titleName: AppLocalizations.of(context)!.summaryText),
 
-              20.verticalSpace,
+                20.verticalSpace,
 
-              CustomMultilineInput(
-                initialValue: widget.viewModel.profile,
-                title: AppLocalizations.of(context)!.summaryEditText,
-                height: MediaQuery.of(context).size.height * 0.6,
-                maxLength: 600,
-                onChanged: (value) {
-                  _profile = value;
-                },
-              ),
-            ],
+                CustomMultilineInput(
+                  initialValue: widget.viewModel.profile,
+                  title: AppLocalizations.of(context)!.summaryEditText,
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  maxLength: 600,
+                  onChanged: (value) {
+                    _profile = value;
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
 import 'package:spark_hire_app/pages/job/job_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
+import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_edit_page.dart';
 import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/candidate_page.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_edit_page.dart';
@@ -112,7 +113,15 @@ final GoRouter router = GoRouter(
       name: '个人简介编辑',
       builder: (context, state) {
         final viewModel = state.extra as CandidateViewModel;
-        return SummaryEditPage(profile: "", viewModel: viewModel);
+        return SummaryEditPage(viewModel: viewModel);
+      },
+    ),
+    GoRoute(
+      path: '/personal/basic/edit',
+      name: '个人基础信息编辑',
+      builder: (context, state) {
+        final viewModel = state.extra as CandidateViewModel;
+        return CandidateInfoEditPage(viewModel: viewModel);
       },
     ),
   ],

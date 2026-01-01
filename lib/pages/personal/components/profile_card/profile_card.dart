@@ -55,7 +55,6 @@ class ProfileCard extends StatelessWidget {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(22.r),
-        // 如果取消阴影后看不清边界，建议加一个细微的边框
         side: BorderSide(
           color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
           width: 1.5,

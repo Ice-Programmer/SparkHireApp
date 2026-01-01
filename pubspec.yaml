@@ -57,6 +57,7 @@ dependencies:
   remixicon: ^1.4.1
   flutter_map: ^8.2.2
   latlong2: ^0.9.1
+  image_picker: ^1.2.1
 
 
 

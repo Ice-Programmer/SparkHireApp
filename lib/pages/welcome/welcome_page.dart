@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-import 'package:spark_hire_app/http/http_constant.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/service/user_service.dart';
 import 'package:spark_hire_app/utils/store_util.dart';
@@ -48,7 +46,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void _navigateToNextScreen({required Duration duration}) {
     Future.delayed(duration, () async {
       String? token = await StoreUtil.getToken();
-      ToastUtils.showInfoMsg(token ?? "token is null");
+      // ToastUtils.showInfoMsg(token ?? "token is null");
       if (token == null) {
         context.go('guidance');
       }

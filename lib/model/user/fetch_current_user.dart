@@ -36,12 +36,38 @@ extension UserRoleExt on UserRole {
   }
 }
 
+enum Gender { female, male, unknow }
+
+extension GenderExt on Gender {
+  static Gender fromInt(int value) {
+    switch (value) {
+      case 0:
+        return Gender.female;
+      case 1:
+        return Gender.male;
+      default:
+        return Gender.unknow;
+    }
+  }
+
+  int get value {
+    switch (this) {
+      case Gender.female:
+        return 0;
+      case Gender.male:
+        return 1;
+      case Gender.unknow:
+        return 3;
+    }
+  }
+}
+
 class UserBasicInfo {
   final int id; // i64 → int
   final String username;
   final UserRole role;
   final String userAvatar;
-  final int gender; // i8 → int
+  final Gender gender; // i8 → int
   final String email;
 
   const UserBasicInfo({
@@ -59,7 +85,7 @@ class UserBasicInfo {
       username: json['username'] as String,
       role: UserRoleExt.fromInt(json['role'] as int),
       userAvatar: json['userAvatar'] as String,
-      gender: json['gender'] as int,
+      gender: GenderExt.fromInt(json['gender'] as int),
       email: json['email'] as String,
     );
   }

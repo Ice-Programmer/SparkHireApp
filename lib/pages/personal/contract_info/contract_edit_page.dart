@@ -80,17 +80,19 @@ class _ContractEditPageState extends State<ContractEditPage> {
             top: 60.h,
             bottom: 10.h,
           ),
-          child: ListView(
-            children: [
-              EditTitle(
-                titleName:
-                    AppLocalizations.of(context)!.contactInformationTitle,
-              ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                EditTitle(
+                  titleName:
+                      AppLocalizations.of(context)!.contactInformationTitle,
+                ),
 
-              20.verticalSpace,
+                20.verticalSpace,
 
-              ..._buildContractEditForm(),
-            ],
+                ..._buildContractEditForm(),
+              ],
+            ),
           ),
         ),
       ),
