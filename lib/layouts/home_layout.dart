@@ -57,8 +57,12 @@ class _HomeLayoutState extends State<HomeLayout> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: Theme.of(context).colorScheme.surface,
-        shape: const CircleBorder(),
-        child: Icon(Icons.calendar_month_rounded, color: Colors.black),
+        elevation: 8,
+        shape: CircleBorder(),
+        child: Icon(
+          Icons.calendar_month_rounded,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
     );
   }
@@ -69,7 +73,6 @@ class _HomeLayoutState extends State<HomeLayout> {
       hasNotch: true,
       fabLocation: StylishBarFabLocation.center,
       notchStyle: NotchStyle.circle,
-
       onTap: (index) {
         setState(() {
           _index = index;
@@ -79,10 +82,30 @@ class _HomeLayoutState extends State<HomeLayout> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       option: AnimatedBarOptions(iconStyle: IconStyle.animated),
       items: [
-        buildItem(index: 0, icon: Icons.home_rounded, title: '首页'),
-        buildItem(index: 1, icon: Icons.group_work_rounded, title: '论坛'),
-        buildItem(index: 2, icon: Icons.bookmark_outline_rounded, title: '收藏'),
-        buildItem(index: 3, icon: Icons.person_rounded, title: '我的'),
+        buildItem(
+          index: 0,
+          icon: Icons.home_rounded,
+          title: '首页',
+          context: context,
+        ),
+        buildItem(
+          index: 1,
+          icon: Icons.group_work_rounded,
+          title: '论坛',
+          context: context,
+        ),
+        buildItem(
+          index: 2,
+          icon: Icons.bookmark_outline_rounded,
+          title: '收藏',
+          context: context,
+        ),
+        buildItem(
+          index: 3,
+          icon: Icons.person_rounded,
+          title: '我的',
+          context: context,
+        ),
       ],
     );
   }
@@ -91,12 +114,21 @@ class _HomeLayoutState extends State<HomeLayout> {
     required int index,
     required IconData icon,
     required String title,
+    required BuildContext context,
   }) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return BottomBarItem(
-      icon: Icon(icon),
+      icon: Icon(
+        icon,
+        color:
+            isDarkMode && index == _index
+                ? Theme.of(context).colorScheme.primary
+                : null,
+      ),
       title: Text(title),
       selectedColor: Theme.of(context).colorScheme.primary,
-      unSelectedColor: Color(0xFFA4ACB9),
+      unSelectedColor: Theme.of(context).colorScheme.onSurfaceVariant,
     );
   }
 }

@@ -6,8 +6,9 @@ import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
-import 'package:spark_hire_app/pages/personal/components/candidate_title_card/candidate_info_card.dart';
-import 'package:spark_hire_app/pages/personal/components/contract_card/contract_info_card.dart';
+import 'package:spark_hire_app/pages/personal/components/candidate_title/candidate_info_card.dart';
+import 'package:spark_hire_app/pages/personal/contract_info/contract_info_card.dart';
+import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card.dart';
 
 class CandidatePage extends StatefulWidget {
   const CandidatePage({super.key});
@@ -20,52 +21,59 @@ class _CandidatePageState extends State<CandidatePage> {
   final CandidateViewModel _viewModel = CandidateViewModel();
 
   @override
-  void initState() {
-    super.initState();
-    _viewModel.loadCurrentUser();
-    _viewModel.loadCurentCandidate();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create:
+          (_) =>
+              _viewModel
+                ..loadCurrentUser()
+                ..loadCurentCandidate(),
+      child: _buildBody(context, _viewModel),
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildBody(BuildContext context, CandidateViewModel vm) {
     return SafeArea(
       minimum: EdgeInsets.all(20.w),
-      child: ChangeNotifierProvider.value(
-        value: _viewModel,
-        child: ListView(
-          children: [
-            _buildTitle(),
+      child: ListView(
+        children: [
+          _buildTitle(context),
+          20.verticalSpace,
 
-            20.verticalSpace,
+          Selector<CandidateViewModel, UserBasicInfo?>(
+            selector: (_, vm) => vm.currentUserBasicInfo,
+            builder: (_, userInfo, __) {
+              return CandidateInfoCard(userBasicInfo: userInfo);
+            },
+          ),
 
-            // Basic Info
-            Selector<CandidateViewModel, UserBasicInfo?>(
-              builder: (context, userInfo, child) {
-                return CandidateInfoCard(userBasicInfo: userInfo);
-              },
-              selector: (_, viewModel) => viewModel.currentUserBasicInfo,
-            ),
+          10.verticalSpace,
 
-            10.verticalSpace,
+          CustomDivider(thickness: 0.3),
 
-            CustomDivider(thickness: 0.3),
+          10.verticalSpace,
 
-            10.verticalSpace,
+          Selector<CandidateViewModel, ContractInfo?>(
+            selector: (_, vm) => vm.contractInfo,
+            builder: (_, contractInfo, __) {
+              return ContractInfoCard(contractInfo: contractInfo);
+            },
+          ),
 
-            // Contract Info
-            Selector<CandidateViewModel, ContractInfo?>(
-              builder: (context, contractInfo, child) {
-                return ContractInfoCard(contractInfo: contractInfo);
-              },
-              selector: (_, viewModel) => viewModel.contractInfo,
-            ),
-          ],
-        ),
+          10.verticalSpace,
+
+          Selector<CandidateViewModel, String?>(
+            selector: (_, vm) => vm.profile,
+            builder: (_, profile, __) {
+              return SummaryInfoCard(profile: profile, viewModel: _viewModel);
+            },
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildTitle() {
+  Widget _buildTitle(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

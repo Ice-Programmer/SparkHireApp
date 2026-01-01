@@ -1,9 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/layouts/home_layout.dart';
+import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
+import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
 import 'package:spark_hire_app/pages/job/job_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
+import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/candidate_page.dart';
+import 'package:spark_hire_app/pages/personal/contract_info/contract_edit_page.dart';
+import 'package:spark_hire_app/pages/personal/summary_info/summary_edit_page.dart';
 import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
 import 'package:spark_hire_app/pages/register/register_verification_page.dart';
@@ -21,7 +26,6 @@ final GoRouter router = GoRouter(
       name: '欢迎页',
       pageBuilder:
           (context, state) => const NoTransitionPage(child: WelcomePage()),
-      // (context, state) => NoTransitionPage(child: SelectRolePage())
     ),
     GoRoute(
       path: '/guidance',
@@ -85,7 +89,7 @@ final GoRouter router = GoRouter(
           path: '/favorite',
           name: '收藏',
           pageBuilder:
-              (context, state) => NoTransitionPage(child: CandidatePage()),
+              (context, state) => NoTransitionPage(child: FavoritePage()),
         ),
         GoRoute(
           path: '/personal',
@@ -94,6 +98,22 @@ final GoRouter router = GoRouter(
               (context, state) => NoTransitionPage(child: CandidatePage()),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/personal/contract/edit',
+      name: '个人联系信息编辑',
+      builder: (context, state) {
+        final contractInfo = state.extra as ContractInfo;
+        return ContractEditPage(contractInfo: contractInfo);
+      },
+    ),
+    GoRoute(
+      path: '/personal/profile/edit',
+      name: '个人简介编辑',
+      builder: (context, state) {
+        final viewModel = state.extra as CandidateViewModel;
+        return SummaryEditPage(profile: "", viewModel: viewModel);
+      },
     ),
   ],
 );

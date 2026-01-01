@@ -6,7 +6,18 @@ import 'package:spark_hire_app/components/custom_divider.dart';
 class ProfileCard extends StatelessWidget {
   final String title;
   final List<Widget>? childList;
-  const ProfileCard({super.key, required this.title, this.childList});
+  final VoidCallback? onEdit;
+  final VoidCallback? onCreate;
+  final IconData iconData;
+
+  const ProfileCard({
+    super.key,
+    required this.title,
+    this.childList,
+    this.onEdit,
+    this.onCreate,
+    required this.iconData,
+  });
 
   Widget buildEditButton(BuildContext context) {
     if (childList?.isEmpty ?? true) {
@@ -20,7 +31,7 @@ class ProfileCard extends StatelessWidget {
       );
     }
     return IconButton(
-      onPressed: () {},
+      onPressed: onEdit,
       icon: Icon(
         RemixIcons.edit_line,
         color: Theme.of(context).colorScheme.primary,
@@ -38,7 +49,19 @@ class ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22.r),
+        // 如果取消阴影后看不清边界，建议加一个细微的边框
+        side: BorderSide(
+          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+          width: 1.5,
+        ),
+      ),
+      color: isDarkMode ? Theme.of(context).colorScheme.inverseSurface : null,
       child: Padding(
         padding: EdgeInsets.all(14.w),
         child: Column(
@@ -46,7 +69,7 @@ class ProfileCard extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  Icons.person_rounded,
+                  iconData,
                   color: Theme.of(context).colorScheme.primary,
                   size: 30.sp,
                 ),

@@ -31,6 +31,7 @@ class ContractInfo {
 
 class CandidateInfo {
   final int age;
+  final String profile;
   final JobStatus jobStatus;
   final ContractInfo contractInfo;
   final int graduationYear;
@@ -40,6 +41,7 @@ class CandidateInfo {
 
   CandidateInfo({
     required this.age,
+    required this.profile,
     required this.jobStatus,
     required this.contractInfo,
     required this.graduationYear,
@@ -48,9 +50,32 @@ class CandidateInfo {
     this.tagList,
   });
 
+  CandidateInfo copyWith({
+    int? age,
+    String? profile,
+    JobStatus? jobStatus,
+    ContractInfo? contractInfo,
+    int? graduationYear,
+    EducationStatus? educationStatus,
+    int? id,
+    List<TagInfo>? tagList,
+  }) {
+    return CandidateInfo(
+      age: age ?? this.age,
+      profile: profile ?? this.profile,
+      jobStatus: jobStatus ?? this.jobStatus,
+      contractInfo: contractInfo ?? this.contractInfo,
+      graduationYear: graduationYear ?? this.graduationYear,
+      educationStatus: educationStatus ?? this.educationStatus,
+      id: id ?? this.id,
+      tagList: tagList ?? this.tagList,
+    );
+  }
+
   factory CandidateInfo.fromJson(Map<String, dynamic> json) {
     return CandidateInfo(
       age: json['age'],
+      profile: json['profile'],
       jobStatus: JobStatusExt.fromInt(json['jobStatus']),
       contractInfo: ContractInfo.fromJson(json['contractInfo']),
       graduationYear: json['graduationYear'],
@@ -68,6 +93,7 @@ class CandidateInfo {
   Map<String, dynamic> toJson() {
     return {
       'age': age,
+      'profile': profile,
       'jobStatus': jobStatus.value,
       'contractInfo': contractInfo.toJson(),
       'graduationYear': graduationYear,

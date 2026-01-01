@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:spark_hire_app/components/description_skeleton.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
@@ -22,8 +23,12 @@ class _ContractInfoCardState extends State<ContractInfoCard> {
       return ProfileCardSkeleton(child: DescriptionSkeleton());
     }
     return ProfileCard(
+      iconData: Icons.person_rounded,
       title: AppLocalizations.of(context)!.contactInformationTitle,
       childList: [_buildContractDescription()],
+      onEdit: () {
+        context.push("/personal/contract/edit", extra: widget.contractInfo);
+      },
     );
   }
 

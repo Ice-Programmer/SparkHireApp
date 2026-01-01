@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomInput extends StatefulWidget {
   final double? width;
@@ -18,6 +19,8 @@ class CustomInput extends StatefulWidget {
   final VoidCallback? onSuffixTap;
   final TextInputType? inputType;
   final Color? textColor;
+  final String? title;
+  final bool enabled;
 
   const CustomInput({
     super.key,
@@ -38,6 +41,8 @@ class CustomInput extends StatefulWidget {
     this.onSuffixTap,
     this.inputType,
     this.textColor,
+    this.title,
+    this.enabled = true,
   });
 
   @override
@@ -48,70 +53,111 @@ class _CustomInputState extends State<CustomInput> {
   bool _obscureText = true;
   final _fieldKey = GlobalKey<FormFieldState<String>>();
 
+  Widget _buildTitle(BuildContext context) {
+    if (widget.title == null) {
+      return const SizedBox.shrink();
+    }
+    return Column(
+      children: [
+        Text(
+          widget.title!,
+          style: TextStyle(
+            fontSize: widget.fontSize,
+            color: Theme.of(context).colorScheme.onSurface.withValues(
+              alpha: widget.enabled ? 0.7 : 0.2,
+            ),
+          ),
+        ),
+        8.verticalSpace,
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Color bgColor =
+        widget.backgroundColor ??
+        (widget.enabled
+            ? Theme.of(context).colorScheme.secondary
+            : Theme.of(
+              context,
+            ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _buildTitle(context),
         Container(
           alignment: Alignment.center,
           height: widget.height,
           width: widget.width,
           decoration: BoxDecoration(
-            color:
-                widget.backgroundColor ??
-                Theme.of(context).colorScheme.secondary,
+            color: bgColor,
             borderRadius: BorderRadius.circular(widget.borderRadius),
             border:
                 widget.borderColor != null
-                    ? Border.all(color: widget.borderColor!, width: 1.5)
+                    ? Border.all(
+                      color:
+                          widget.enabled
+                              ? widget.borderColor!
+                              : widget.borderColor!.withValues(alpha: 0.3),
+                      width: 1.5,
+                    )
                     : null,
           ),
-          child: TextFormField(
-            key: _fieldKey,
-            initialValue: widget.defaultValue,
-            maxLines: widget.maxLines,
-            obscureText: widget.isPassword ? _obscureText : false,
-            textAlignVertical: TextAlignVertical.center,
-            style: TextStyle(
-              fontSize: widget.fontSize,
-              color: Theme.of(context).colorScheme.onSurface,
-              height: 1.0,
-            ),
-            decoration: InputDecoration(
-              isDense: true,
-              isCollapsed: true,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: widget.horizontalPadding,
-              ),
-              border: InputBorder.none,
-              hintText: widget.hintText,
-              suffixIcon:
-                  widget.isPassword
-                      ? IconButton(
-                        icon: Icon(
-                          _obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                      )
-                      : _buildSuffixButton(),
-              hintStyle: TextStyle(
+          child: Opacity(
+            opacity: widget.enabled ? 1.0 : 0.6,
+            child: TextFormField(
+              key: _fieldKey,
+              enabled: widget.enabled,
+              initialValue: widget.defaultValue,
+              maxLines: widget.maxLines,
+              obscureText: widget.isPassword ? _obscureText : false,
+              textAlignVertical: TextAlignVertical.center,
+              style: TextStyle(
                 fontSize: widget.fontSize,
-                color: Colors.grey,
+                color:
+                    widget.textColor ?? Theme.of(context).colorScheme.onSurface,
+                height: 1.0,
               ),
-              errorStyle: const TextStyle(height: 0, fontSize: 0),
+              decoration: InputDecoration(
+                isDense: true,
+                isCollapsed: true,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: widget.horizontalPadding,
+                ),
+                border: InputBorder.none,
+                hintText: widget.hintText,
+                suffixIcon:
+                    widget.isPassword
+                        ? IconButton(
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                          onPressed:
+                              widget.enabled
+                                  ? () {
+                                    setState(() {
+                                      _obscureText = !_obscureText;
+                                    });
+                                  }
+                                  : null,
+                        )
+                        : _buildSuffixButton(),
+                hintStyle: TextStyle(
+                  fontSize: widget.fontSize,
+                  color: Colors.grey,
+                ),
+                errorStyle: const TextStyle(height: 0, fontSize: 0),
+              ),
+              onChanged: (value) {
+                widget.onChanged?.call(value);
+              },
+              keyboardType: widget.inputType,
             ),
-            onChanged: (value) {
-              widget.onChanged?.call(value);
-            },
-            keyboardType: widget.inputType,
           ),
         ),
       ],
@@ -122,13 +168,19 @@ class _CustomInputState extends State<CustomInput> {
     if (widget.suffixIcon == null) {
       return SizedBox(width: widget.height * 1.5);
     }
+
+    final bool canTap = widget.enabled && widget.onSuffixTap != null;
+
     return Material(
-      color: Theme.of(context).colorScheme.primary,
+      color:
+          widget.enabled
+              ? Theme.of(context).colorScheme.primary
+              : Colors.grey.shade400,
       borderRadius: BorderRadius.horizontal(
         right: Radius.circular(widget.borderRadius),
       ),
       child: InkWell(
-        onTap: widget.onSuffixTap,
+        onTap: canTap ? widget.onSuffixTap : null,
         borderRadius: BorderRadius.circular(widget.borderRadius),
         child: SizedBox(
           height: widget.height,

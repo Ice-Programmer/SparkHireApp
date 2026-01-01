@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
-import 'package:spark_hire_app/pages/personal/components/candidate_title_card/candidate_info_skeleton.dart';
+import 'package:spark_hire_app/pages/personal/components/candidate_title/candidate_info_skeleton.dart';
 import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 
 class CandidateInfoCard extends StatefulWidget {
