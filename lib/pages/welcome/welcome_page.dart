@@ -29,11 +29,11 @@ class _WelcomePageState extends State<WelcomePage> {
         FetchCurrentUserRequest(),
       );
       if (!mounted) return;
-      if (result.basicInfo.role == UserRole.visitor) {
+      if (result.basicInfo!.role == UserRole.visitor) {
         context.go("/user/switch/role");
         return;
       }
-      if (result.basicInfo.role == UserRole.candidate) {
+      if (result.basicInfo!.role == UserRole.candidate) {
         context.go('/job');
         return;
       }

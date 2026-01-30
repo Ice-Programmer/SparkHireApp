@@ -42,7 +42,7 @@ class _MailLoginPageState extends State<MailLoginPage> {
 
       final accessToken = result.accessToken;
       StoreUtil.saveToken(accessToken);
-      context.go('/home');
+      context.go('/job');
     } on BusinessException catch (e) {
       ToastUtils.showErrorMsg(e.message);
     } on Exception {
@@ -63,7 +63,7 @@ class _MailLoginPageState extends State<MailLoginPage> {
       ToastUtils.showErrorMsg(e.message);
     } on Exception {
       ToastUtils.showErrorMsg('网络异常，请稍后重试');
-    } 
+    }
     return false;
   }
 

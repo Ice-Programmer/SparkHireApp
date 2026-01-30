@@ -2,7 +2,7 @@ import 'package:spark_hire_app/model/candidate/education_status.dart';
 import 'package:spark_hire_app/model/candidate/job_status.dart';
 import 'package:spark_hire_app/model/common/base.dart';
 import 'package:spark_hire_app/model/common/base_response.dart';
-import 'package:spark_hire_app/model/geo/geo_info.dart';
+import 'package:spark_hire_app/model/information/geo_info.dart';
 import 'package:spark_hire_app/model/tag/tag_info.dart';
 
 class ContractInfo {

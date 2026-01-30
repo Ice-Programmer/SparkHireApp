@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:spark_hire_app/model/geo/geo_info.dart';
+import 'package:spark_hire_app/model/information/geo_info.dart';
 
 class GeoEditPage extends StatefulWidget {
   final GeoDetailInfo? geoDetailInfo;

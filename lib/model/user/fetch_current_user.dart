@@ -100,7 +100,7 @@ class FetchCurrentUserRequest {
 }
 
 class FetchCurrentUserResponse {
-  final UserBasicInfo basicInfo;
+  final UserBasicInfo? basicInfo;
   final BaseResp baseResp;
 
   const FetchCurrentUserResponse({
@@ -111,9 +111,14 @@ class FetchCurrentUserResponse {
   bool get success => baseResp.success;
 
   factory FetchCurrentUserResponse.fromJson(Map<String, dynamic> json) {
+    final baseResp = BaseResp.fromJson(json['BaseResp']);
+
     return FetchCurrentUserResponse(
-      basicInfo: UserBasicInfo.fromJson(json['basicInfo']),
-      baseResp: BaseResp.fromJson(json['BaseResp']),
+      baseResp: baseResp,
+      basicInfo:
+          json['basicInfo'] != null
+              ? UserBasicInfo.fromJson(json['basicInfo'])
+              : null,
     );
   }
 }

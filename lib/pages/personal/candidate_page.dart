@@ -75,6 +75,8 @@ class _CandidatePageState extends State<CandidatePage> {
               return SummaryInfoCard(profile: profile, viewModel: _viewModel);
             },
           ),
+
+          
         ],
       ),
     );

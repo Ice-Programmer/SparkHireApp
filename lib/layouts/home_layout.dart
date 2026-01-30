@@ -31,7 +31,7 @@ class _HomeLayoutState extends State<HomeLayout> {
         FetchCurrentUserRequest(),
       );
       if (!mounted) return;
-      if (result.basicInfo.role == UserRole.visitor) {
+      if (result.basicInfo!.role == UserRole.visitor) {
         context.go('/user/role/switch');
       }
     } on BusinessException catch (e) {
