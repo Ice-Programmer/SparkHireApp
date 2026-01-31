@@ -62,7 +62,7 @@ class ProfileCard extends StatelessWidget {
       ),
       color: isDarkMode ? Theme.of(context).colorScheme.inverseSurface : null,
       child: Padding(
-        padding: EdgeInsets.all(14.w),
+        padding: EdgeInsets.all(12.w),
         child: Column(
           children: [
             Row(
@@ -70,7 +70,7 @@ class ProfileCard extends StatelessWidget {
                 Icon(
                   iconData,
                   color: Theme.of(context).colorScheme.primary,
-                  size: 30.sp,
+                  size: 27.sp,
                 ),
 
                 16.horizontalSpace,
@@ -78,7 +78,7 @@ class ProfileCard extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 18.sp,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

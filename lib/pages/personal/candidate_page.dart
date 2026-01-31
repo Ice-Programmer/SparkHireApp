@@ -76,7 +76,6 @@ class _CandidatePageState extends State<CandidatePage> {
             },
           ),
 
-          
         ],
       ),
     );
