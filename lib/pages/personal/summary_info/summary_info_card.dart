@@ -42,7 +42,7 @@ class _SummaryInfoCardState extends State<SummaryInfoCard> {
           maxLines: 7,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w700,
             color: Theme.of(
               context,

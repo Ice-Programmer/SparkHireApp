@@ -3,14 +3,17 @@ import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/model/candidate/edit_candidate_basic.dart';
 import 'package:spark_hire_app/model/candidate/edit_candidate_profile.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
+import 'package:spark_hire_app/model/education_exp/get_current_user_education.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/service/candidate_service.dart';
+import 'package:spark_hire_app/service/education_exp_service.dart';
 import 'package:spark_hire_app/service/user_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
 class CandidateViewModel extends ChangeNotifier {
   final CandidateService _candidateService = CandidateService();
   final UserService _userService = UserService();
+  final EducationExpService _educationExpService = EducationExpService();
 
   CandidateInfo? _currentCandidateInfo;
 
@@ -20,6 +23,8 @@ class CandidateViewModel extends ChangeNotifier {
 
   String? _profile;
 
+  List<EducationExpInfo>? _educationExpList;
+
   CandidateInfo? get currentCandidateInfo => _currentCandidateInfo;
 
   UserBasicInfo? get currentUserBasicInfo => _currentUserInfo;
@@ -28,14 +33,16 @@ class CandidateViewModel extends ChangeNotifier {
 
   String? get profile => _profile;
 
+  List<EducationExpInfo>? get educationExpList => _educationExpList;
+
   Future<void> loadCurrentCandidate() async {
     try {
       final response = await _candidateService.getCurrentCandidate(
         GetCurrentCandidateRequest(),
       );
       _currentCandidateInfo = response.candidateInfo;
-      _contractInfo = response.candidateInfo.contractInfo;
-      _profile = response.candidateInfo.profile;
+      _contractInfo = response.candidateInfo!.contractInfo;
+      _profile = response.candidateInfo!.profile;
       notifyListeners();
     } on BusinessException catch (e) {
       ToastUtils.showErrorMsg(e.message);
@@ -54,7 +61,21 @@ class CandidateViewModel extends ChangeNotifier {
     } on BusinessException catch (e) {
       ToastUtils.showErrorMsg(e.message);
     } on Exception {
-      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+      ToastUtils.showErrorMsg('网络异常，获取当前用户信息失败，请稍后重试');
+    }
+  }
+
+  Future<void> loadCurrentEducationExp() async {
+    try {
+      final response = await _educationExpService.getCurrentUserEducationExp(
+        GetCurrentUserEducationExpRequest(),
+      );
+      _educationExpList = response.educationExpList;
+      notifyListeners();
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，获取教育经历失败，请稍后重试');
     }
   }
 

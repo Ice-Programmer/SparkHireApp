@@ -4,10 +4,13 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
+import 'package:spark_hire_app/model/education_exp/get_current_user_education.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_card.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_info_card.dart';
+import 'package:spark_hire_app/pages/personal/education_exp/education_info_card.dart';
+import 'package:spark_hire_app/pages/personal/education_exp/education_info_card_skeleton.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card.dart';
 
 class CandidatePage extends StatefulWidget {
@@ -27,7 +30,8 @@ class _CandidatePageState extends State<CandidatePage> {
           (_) =>
               _viewModel
                 ..loadCurrentUser()
-                ..loadCurrentCandidate(),
+                ..loadCurrentCandidate()
+                ..loadCurrentEducationExp(),
       child: _buildBody(context, _viewModel),
     );
   }
@@ -76,6 +80,17 @@ class _CandidatePageState extends State<CandidatePage> {
             },
           ),
 
+          10.verticalSpace,
+
+          Selector<CandidateViewModel, List<EducationExpInfo>?>(
+            selector: (_, vm) => vm.educationExpList,
+            builder: (_, educationExpList, _) {
+              return EducationInfoCard(
+                educationExpList: educationExpList,
+                viewModel: _viewModel,
+              );
+            },
+          ),
         ],
       ),
     );

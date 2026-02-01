@@ -72,27 +72,18 @@ class _ContractEditPageState extends State<ContractEditPage> {
   Widget build(BuildContext context) {
     return KeyboardDismissWrapper(
       child: Scaffold(
+        appBar: EditAppBar(
+          titleName: AppLocalizations.of(context)!.summaryText,
+        ),
         bottomNavigationBar: EditSaveBtn(onEdit: () => {}),
         body: SafeArea(
           minimum: EdgeInsets.only(
             left: 20.w,
             right: 20.w,
-            top: 60.h,
             bottom: 10.h,
           ),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                EditTitle(
-                  titleName:
-                      AppLocalizations.of(context)!.contactInformationTitle,
-                ),
-
-                20.verticalSpace,
-
-                ..._buildContractEditForm(),
-              ],
-            ),
+            child: Column(children: [..._buildContractEditForm()]),
           ),
         ),
       ),

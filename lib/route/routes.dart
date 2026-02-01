@@ -9,6 +9,7 @@ import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_edit_pag
 import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/candidate_page.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_edit_page.dart';
+import 'package:spark_hire_app/pages/personal/education_exp/education_info_edit_page.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_edit_page.dart';
 import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
@@ -100,6 +101,12 @@ final GoRouter router = GoRouter(
         ),
       ],
     ),
+    ..._getCandidateRoute(),
+  ],
+);
+
+List<GoRoute> _getCandidateRoute() {
+  return <GoRoute>[
     GoRoute(
       path: '/personal/contract/edit',
       name: '个人联系信息编辑',
@@ -124,5 +131,15 @@ final GoRouter router = GoRouter(
         return CandidateInfoEditPage(viewModel: viewModel);
       },
     ),
-  ],
-);
+    GoRoute(
+      path: '/personal/education/edit/:eduExpId',
+      name: '个人教育经历编辑',
+      builder: (context, state) {
+        final viewModel = state.extra as CandidateViewModel;
+        final eduExpId = state.pathParameters['eduExpId']!;
+        int value = int.tryParse(eduExpId) ?? 0;
+        return EducationInfoEditPage(viewModel: viewModel, educationExpId: value);
+      },
+    ),
+  ];
+}

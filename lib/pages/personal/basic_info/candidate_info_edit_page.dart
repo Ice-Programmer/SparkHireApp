@@ -99,7 +99,7 @@ class _CandidateInfoEditPageState extends State<CandidateInfoEditPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                EditTitle(
+                EditAppBar(
                   titleName: AppLocalizations.of(context)!.profileTitle,
                 ),
 
@@ -174,19 +174,17 @@ class _CandidateInfoEditPageState extends State<CandidateInfoEditPage> {
 
       20.verticalSpace,
 
-      // 工作状态选择
       CustomSelectInput<JobStatus>(
         title: AppLocalizations.of(context)!.jobStatusTitle,
-        value: _jobStatus, // 绑定状态
+        value: _jobStatus,
         hintText: "请选择",
         options:
             JobStatus.values
-                .where((e) => e != JobStatus.unknown) // 过滤未知状态
+                .where((e) => e != JobStatus.unknown)
                 .map(
                   (status) => SelectOption(
                     label: status.getMultiLanguageString(context),
                     value: status,
-                    // 如果你想给工作状态也加颜色小点
                     icon: Icons.circle,
                     iconColor: status.color,
                   ),

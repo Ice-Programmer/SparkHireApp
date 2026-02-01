@@ -113,7 +113,7 @@ class GetCurrentCandidateRequest {
 }
 
 class GetCurrentCandidateResponse {
-  final CandidateInfo candidateInfo;
+  final CandidateInfo? candidateInfo;
   final BaseResp baseResp;
 
   const GetCurrentCandidateResponse({

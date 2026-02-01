@@ -28,10 +28,10 @@ class _SummaryEditPageState extends State<SummaryEditPage> {
   Widget build(BuildContext context) {
     return KeyboardDismissWrapper(
       child: Scaffold(
+        appBar: EditAppBar(titleName: AppLocalizations.of(context)!.summaryText),
         bottomNavigationBar: EditSaveBtn(
           onEdit: () async {
             await widget.viewModel.editCandidateProfile(_profile);
-
             if (context.mounted) {
               Navigator.pop(context);
             }
@@ -41,16 +41,11 @@ class _SummaryEditPageState extends State<SummaryEditPage> {
           minimum: EdgeInsets.only(
             left: 20.w,
             right: 20.w,
-            top: 60.h,
             bottom: 10.h,
           ),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                EditTitle(titleName: AppLocalizations.of(context)!.summaryText),
-
-                20.verticalSpace,
-
                 CustomMultilineInput(
                   initialValue: widget.viewModel.profile,
                   title: AppLocalizations.of(context)!.summaryEditText,

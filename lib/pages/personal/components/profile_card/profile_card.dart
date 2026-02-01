@@ -9,6 +9,7 @@ class ProfileCard extends StatelessWidget {
   final VoidCallback? onEdit;
   final VoidCallback? onCreate;
   final IconData iconData;
+  final bool allCreate;
 
   const ProfileCard({
     super.key,
@@ -17,24 +18,34 @@ class ProfileCard extends StatelessWidget {
     this.onEdit,
     this.onCreate,
     required this.iconData,
+    this.allCreate = false,
   });
 
   Widget buildEditButton(BuildContext context) {
-    if (childList?.isEmpty ?? true) {
-      return IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.add_rounded,
-          color: Theme.of(context).colorScheme.primary,
-          size: 26.sp,
+    if (allCreate || childList!.isEmpty) {
+      return InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: onCreate,
+        child: Padding(
+          padding: EdgeInsets.all(4.w),
+          child: Icon(
+            Icons.add_rounded,
+            size: 24.sp,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       );
     }
-    return IconButton(
-      onPressed: onEdit,
-      icon: Icon(
-        RemixIcons.edit_line,
-        color: Theme.of(context).colorScheme.primary,
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: onEdit,
+      child: Padding(
+        padding: EdgeInsets.all(4.w),
+        child: Icon(
+          RemixIcons.edit_line,
+          size: 20.sp,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }
@@ -70,15 +81,15 @@ class ProfileCard extends StatelessWidget {
                 Icon(
                   iconData,
                   color: Theme.of(context).colorScheme.primary,
-                  size: 27.sp,
+                  size: 22.sp,
                 ),
 
-                16.horizontalSpace,
+                10.horizontalSpace,
 
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 17.sp,
+                    fontSize: 15.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

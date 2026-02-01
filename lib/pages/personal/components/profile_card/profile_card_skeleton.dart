@@ -32,7 +32,6 @@ class ProfileCardSkeleton extends StatelessWidget {
         baseColor: theme.baseColor,
         highlightColor: theme.highlightColor,
         child: Padding(
-          // 内部间距
           padding: EdgeInsets.all(16.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,8 +39,8 @@ class ProfileCardSkeleton extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    height: 40.w,
-                    width: 40.w,
+                    height: 24.w,
+                    width: 24.w,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: theme.baseColor,
@@ -51,7 +50,7 @@ class ProfileCardSkeleton extends StatelessWidget {
                   12.horizontalSpace,
 
                   Container(
-                    height: 20.h,
+                    height: 16.h,
                     width: 100.w,
                     decoration: BoxDecoration(
                       color: theme.baseColor,

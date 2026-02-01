@@ -40,21 +40,6 @@ extension JobStatusExt on JobStatus {
     }
   }
 
-  String get stringValue {
-    switch (this) {
-      case JobStatus.avaliable:
-        return "目前可随时到岗";
-      case JobStatus.withInMonth:
-        return "可在一个月内到岗";
-      case JobStatus.openOpportunity:
-        return "愿意了解合适机会";
-      case JobStatus.notInterested:
-        return "暂不考虑新的机会";
-      default:
-        return "未知求职状态";
-    }
-  }
-
   String getMultiLanguageString(BuildContext context) {
     switch (this) {
       case JobStatus.avaliable:

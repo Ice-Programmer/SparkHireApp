@@ -59,7 +59,7 @@ class _ContractInfoCardState extends State<ContractInfoCard> {
       return SizedBox.shrink();
     }
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 6.h),
+      padding: EdgeInsets.symmetric(vertical: 3.h),
       child: Row(
         children: [
           3.horizontalSpace,
@@ -69,16 +69,17 @@ class _ContractInfoCardState extends State<ContractInfoCard> {
             color: Theme.of(
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.6),
+            size: 18.sp,
           ),
 
-          16.horizontalSpace,
+          12.horizontalSpace,
 
           Text(
             contractInfo,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w700,
               color: Theme.of(
                 context,
