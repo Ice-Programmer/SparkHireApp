@@ -59,6 +59,7 @@ dependencies:
   latlong2: ^0.9.1
   image_picker: ^1.2.1
   scrollable_positioned_list: ^0.3.8
+  swagger_parser: ^1.42.0
 
 
 
@@ -137,3 +138,18 @@ flutter_assets:
   assets_path: assets/image/
   output_path: lib/common/
   filename: assets.dart
+
+swagger_parser:
+  schema_path: ./json/ice_sparkhire_runtime.json
+  output_directory: lib/generated
+  language: dart
+  # 4. 关键配置：使用哪个解析库
+  # 如果你想要最现代的体验，推荐使用 retrofit + json_serializable
+  client_api: retrofit
+  json_serializer: json_serializable
+  
+  # 5. 可选：是否将所有类放进一个文件夹，还是按标签分类
+  squash_clients: true
+  
+  # 6. 可选：给生成的类加前缀，防止命名冲突
+  # class_name_prefix: Api

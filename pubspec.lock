@@ -1122,6 +1122,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.1"
+  swagger_parser:
+    dependency: "direct main"
+    description:
+      name: swagger_parser
+      sha256: "625734b8b811c892f5dc6f980b865644e375d47edd0baae6a423ec6ae326a357"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.42.0"
   synchronized:
     dependency: transitive
     description:

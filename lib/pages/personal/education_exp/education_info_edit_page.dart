@@ -1,18 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
+import 'package:spark_hire_app/components/custom_multiline_input.dart';
 import 'package:spark_hire_app/components/custom_select_input.dart';
 import 'package:spark_hire_app/components/edit_title.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
 import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/model/candidate/education_status.dart';
+import 'package:spark_hire_app/model/information/list_major.dart';
 import 'package:spark_hire_app/model/information/list_school.dart';
 import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/components/edit_save_btn.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spark_hire_app/service/information_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
+import 'package:collection/collection.dart'; // 引入以使用 firstWhereOrNull
 
 class EducationInfoEditPage extends StatefulWidget {
   final CandidateViewModel viewModel;
@@ -29,130 +32,176 @@ class EducationInfoEditPage extends StatefulWidget {
 
 class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
   final InformationService _informationService = InformationService();
-  bool _loading = true;
-  late List<SchoolInfo> _schoolList;
-  late EducationStatus _selectEducationStatus;
-  late SchoolInfo? _selectSchoolInfo;
+
+  // 1. 状态管理
+  bool _isLoading = true;
+  List<SchoolInfo> _schoolList = [];
+  List<MajorInfo> _majorList = [];
+
+  // 表单数据暂存
+  late EducationStatus _selectedStatus;
+  SchoolInfo? _selectedSchool;
+  MajorInfo? _selectedMajor;
+  late String _activity = "";
+  final TextEditingController _summaryController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _loading = true;
-    _getSchoolList();
-    if (widget.viewModel.educationExpList == null ||
-        widget.viewModel.educationExpList!.isEmpty) {
-      _selectEducationStatus = EducationStatus.unknown;
-      _selectSchoolInfo = null;
-      _loading = false;
-      return;
-    }
-    final educationExp = widget.viewModel.educationExpList!.firstWhere(
-      (e) => e.id == widget.educationExpId,
-    );
-    _selectEducationStatus = educationExp.status;
-    _selectSchoolInfo = educationExp.schoolInfo;
+    _initializeData();
   }
 
-  Future<void> _getSchoolList() async {
+  @override
+  void dispose() {
+    _summaryController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _initializeData() async {
     try {
-      ListSchoolResponse resp = await _informationService.listSchoolList(
-        ListSchoolRequest(),
-      );
-      _schoolList = resp.schoolList ?? [];
+      // 并发请求基础数据
+      final results = await Future.wait([
+        _informationService.listSchoolList(ListSchoolRequest()),
+        _informationService.listMajorList(ListMajorRequest()),
+      ]);
+
+      _schoolList = (results[0] as ListSchoolResponse).schoolList ?? [];
+      _majorList = (results[1] as ListMajorResponse).majorList ?? [];
+
+      _initFormValues();
     } on BusinessException catch (e) {
       ToastUtils.showErrorMsg(e.message);
-    } on Exception {
-      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+    } catch (e) {
+      ToastUtils.showErrorMsg('网络异常');
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  void _initFormValues() {
+    final existingExp = widget.viewModel.educationExpList?.firstWhereOrNull(
+      (e) => e.id == widget.educationExpId,
+    );
+
+    _selectedStatus = existingExp?.status ?? EducationStatus.unknown;
+
+    if (existingExp?.schoolInfo != null) {
+      _selectedSchool = _schoolList.firstWhereOrNull(
+        (s) => s.id == existingExp!.schoolInfo.id,
+      );
+    }
+
+    if (existingExp?.majorInfo != null) {
+      _selectedMajor = _majorList.firstWhereOrNull(
+        (m) => m.id == existingExp!.majorInfo.id,
+      );
+    }
+
+    _activity = existingExp?.activity ?? "";
+  }
+
+  void _onSave() {
+    debugPrint("Selected School: ${_selectedSchool?.schoolName}");
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return KeyboardDismissWrapper(
       child: Scaffold(
-        appBar: EditAppBar(
-          titleName: AppLocalizations.of(context)!.educationText,
-        ),
-        bottomNavigationBar: EditSaveBtn(onEdit: () => {}),
+        appBar: EditAppBar(titleName: l10n.educationText),
+        bottomNavigationBar: EditSaveBtn(onEdit: _onSave),
         body: SafeArea(
-          minimum: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
           child:
-              _loading
+              _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : _buildEducationEditForm(),
+                  : _buildForm(l10n),
         ),
       ),
     );
   }
 
-  Widget _buildEducationEditForm() {
+  Widget _buildForm(AppLocalizations l10n) {
     return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Column(
         children: [
-          // 选择学历
-          CustomSelectInput<EducationStatus>(
-            value: _selectEducationStatus,
-            title: AppLocalizations.of(context)!.educationStatusText,
-            options:
-                EducationStatus.values
-                    .where((e) => e != EducationStatus.unknown)
-                    .map(
-                      (status) => SelectOption(
-                        label: status.text(context),
-                        value: status,
-                        icon: Icons.circle,
-                        iconColor: status.color,
-                      ),
-                    )
-                    .toList(),
-            onSelected: (EducationStatus newValue) {
-              setState(() {
-                _selectEducationStatus = newValue;
-              });
-            },
-          ),
-
+          _buildStatusPicker(l10n),
           20.verticalSpace,
-
-          // 选择学校
-          CustomSelectInput<SchoolInfo>(
-            value: _selectSchoolInfo,
-            title: AppLocalizations.of(context)!.educationStatusText,
-            options:
-                _schoolList
-                    .map(
-                      (school) => SelectOption(
-                        label: school.schoolName,
-                        value: school,
-                        // icon: Icons.circle,
-                        customChild: _buildSchoolItem(school),
-                      ),
-                    )
-                    .toList(),
-            onSelected: (SchoolInfo newValue) {
-              setState(() {
-                _selectSchoolInfo = newValue;
-              });
-            },
+          _buildSchoolPicker(l10n),
+          20.verticalSpace,
+          _buildMajorPicker(l10n),
+          20.verticalSpace,
+          CustomMultilineInput(
+            title: l10n.summaryEditText,
+            initialValue: _activity,
+            height: 200.h,
+            maxLength: 600,
+            onChanged: (value) => _activity = value,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSchoolItem(SchoolInfo schoolInfo) {
-    return Row(
-      children: [
-        CacheImage(height: 20.w, width: 20.h, imageUrl: schoolInfo.schoolIcon),
+  Widget _buildStatusPicker(AppLocalizations l10n) {
+    return CustomSelectInput<EducationStatus>(
+      value: _selectedStatus,
+      title: l10n.educationStatusText,
+      options:
+          EducationStatus.values
+              .where((e) => e != EducationStatus.unknown)
+              .map(
+                (s) => SelectOption(
+                  label: s.text(context),
+                  value: s,
+                  icon: Icons.circle,
+                  iconColor: s.color,
+                ),
+              )
+              .toList(),
+      onSelected: (val) => setState(() => _selectedStatus = val),
+    );
+  }
 
-        10.horizontalSpace,
+  Widget _buildSchoolPicker(AppLocalizations l10n) {
+    return CustomSelectInput<SchoolInfo>(
+      value: _selectedSchool,
+      title: l10n.schoolText,
+      options:
+          _schoolList
+              .map(
+                (s) => SelectOption(
+                  label: s.schoolName,
+                  value: s,
+                  customChild: Row(
+                    children: [
+                      CacheImage(
+                        height: 24.w,
+                        width: 24.w,
+                        imageUrl: s.schoolIcon,
+                      ),
+                      10.horizontalSpace,
+                      Expanded(child: Text(s.schoolName)),
+                    ],
+                  ),
+                ),
+              )
+              .toList(),
+      onSelected: (val) => setState(() => _selectedSchool = val),
+    );
+  }
 
-        Text(schoolInfo.schoolName),
-      ],
+  Widget _buildMajorPicker(AppLocalizations l10n) {
+    return CustomSelectInput<MajorInfo>(
+      value: _selectedMajor,
+      title: l10n.schoolText,
+      options:
+          _majorList
+              .map((m) => SelectOption(label: m.majorName, value: m))
+              .toList(),
+      onSelected: (val) => setState(() => _selectedMajor = val),
     );
   }
 }

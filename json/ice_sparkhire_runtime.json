@@ -1,0 +1,3761 @@
+{
+  "name": "ice_sparkhire_runtime",
+  "namespaces": {
+    "dart": "sparkhire.runtime",
+    "go": "sparkhire_runtime"
+  },
+  "includes": [
+    "base"
+  ],
+  "enums": [
+    {
+      "name": "UserRole",
+      "members": [
+        {
+          "name": "Visitor",
+          "value": 1
+        },
+        {
+          "name": "Candidate",
+          "value": 2
+        },
+        {
+          "name": "HR",
+          "value": 3
+        },
+        {
+          "name": "Admin",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "name": "Gender",
+      "members": [
+        {
+          "name": "Female",
+          "value": 0
+        },
+        {
+          "name": "Male",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "name": "EducationStatus",
+      "members": [
+        {
+          "name": "Bachelor",
+          "value": 1
+        },
+        {
+          "name": "Master",
+          "value": 2
+        },
+        {
+          "name": "Doctor",
+          "value": 3
+        },
+        {
+          "name": "JuniorCollege",
+          "value": 4
+        },
+        {
+          "name": "HighSchool",
+          "value": 5
+        },
+        {
+          "name": "BelowHighSchool",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "name": "JobStatus",
+      "members": [
+        {
+          "name": "Available",
+          "value": 1
+        },
+        {
+          "name": "WithInMonth",
+          "value": 2
+        },
+        {
+          "name": "OpenOpportunity",
+          "value": 3
+        },
+        {
+          "name": "NotInterested",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "name": "TagObjType",
+      "members": [
+        {
+          "name": "Candidate",
+          "value": 1
+        },
+        {
+          "name": "Recruitment",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "name": "GeoLevel",
+      "members": [
+        {
+          "name": "FirstGeo",
+          "value": 1
+        },
+        {
+          "name": "SecondGeo",
+          "value": 2
+        },
+        {
+          "name": "ThirdGeo",
+          "value": 3
+        },
+        {
+          "name": "ForthGeo",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "name": "SalaryCurrencyType",
+      "members": [
+        {
+          "name": "Dollar",
+          "value": 1
+        },
+        {
+          "name": "CNY",
+          "value": 2
+        },
+        {
+          "name": "JPY",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "name": "SalaryFrequencyType",
+      "members": [
+        {
+          "name": "Monthly",
+          "value": 1
+        },
+        {
+          "name": "Yearly",
+          "value": 2
+        },
+        {
+          "name": "Weekly",
+          "value": 3
+        },
+        {
+          "name": "Daily",
+          "value": 4
+        },
+        {
+          "name": "Hourly",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "name": "FileType",
+      "members": [
+        {
+          "name": "CompanyAvatar",
+          "value": 1
+        },
+        {
+          "name": "UserAvatar",
+          "value": 2
+        }
+      ]
+    }
+  ],
+  "typedefs": [
+  ],
+  "structs": [
+    {
+      "name": "PingRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "ping",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "PingResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "pong",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "RegisterUserRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "email",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "verifyCode",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "RegisterUserResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "accessToken",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "UserBasicInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "username",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 3,
+          "name": "role",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "UserRole"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 4,
+          "name": "userAvatar",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 5,
+          "name": "gender",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "Gender"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 6,
+          "name": "email",
+          "typeId": "string",
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "UserMailLoginRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "email",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "verifyCode",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "UserMailLoginResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 2,
+          "name": "accessToken",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "FetchCurrentUserRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "FetchCurrentUserResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "basicInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "UserBasicInfo"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "SwitchUserRoleRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "userRole",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "UserRole"
+          },
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "SwitchUserRoleResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GeoDetailInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "firstGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "secondGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "thirdGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "forthGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "address",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 6,
+          "name": "latitude",
+          "typeId": "double",
+          "required": "optional"
+        },
+        {
+          "key": 7,
+          "name": "longitude",
+          "typeId": "double",
+          "required": "optional"
+        },
+        {
+          "key": 8,
+          "name": "firstGeoLevelName",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 9,
+          "name": "secondGeoLevelName",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 10,
+          "name": "thirdGeoLevelName",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 11,
+          "name": "forthGeoLevelName",
+          "typeId": "string",
+          "required": "optional"
+        }
+      ]
+    },
+    {
+      "name": "GeoModifyInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "firstGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "secondGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "thirdGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "forthGeoLevelId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "address",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "latitude",
+          "typeId": "double",
+          "required": "required"
+        },
+        {
+          "key": 7,
+          "name": "longitude",
+          "typeId": "double",
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "ContractInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "phone",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "email",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "geoInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "GeoDetailInfo"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CandidateInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "age",
+          "typeId": "i32",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "profile",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "jobStatus",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "JobStatus"
+          },
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "contractInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "ContractInfo"
+          },
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "graduationYear",
+          "typeId": "i32",
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "educationStatus",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "EducationStatus"
+          },
+          "required": "required"
+        },
+        {
+          "key": 7,
+          "name": "id",
+          "typeId": "i64",
+          "required": "optional"
+        },
+        {
+          "key": 8,
+          "name": "tagList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "TagInfo"
+            }
+          },
+          "required": "optional"
+        }
+      ]
+    },
+    {
+      "name": "EditCandidateContractInfoRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "geoInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "GeoModifyInfo"
+          },
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "phoneNumber",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCandidateContractInfoResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentCandidateRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentCandidateResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "candidateInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "CandidateInfo"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCandidateProfileRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "profile",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCandidateProfileResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCandidateBasicInfoRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "username",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "avatar",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "status",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "JobStatus"
+          },
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "gender",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "Gender"
+          },
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCandidateBasicInfoResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "TagInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "tagName",
+          "typeId": "string",
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "QueryTagRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "searchText",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 2,
+          "name": "pageNum",
+          "typeId": "i32",
+          "required": "req_out"
+        },
+        {
+          "key": 3,
+          "name": "pageSize",
+          "typeId": "i32",
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "QueryTagResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "total",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "tagList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "TagInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "AddTagRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "tagName",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "AddTagResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "BindTagsRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "objType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "TagObjType"
+          },
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "tagIdList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "i64"
+          },
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "objId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "BindTagsResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "num",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "UnbindTagsRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "objType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "TagObjType"
+          },
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "tagIdList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "i64"
+          },
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "objId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "UnbindTagsResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "num",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "MajorInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "majorName",
+          "typeId": "string",
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "ListMajorRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "ListMajorResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "majorList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "MajorInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "IndustryDetail",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "industryName",
+          "typeId": "string",
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "IndustryInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "industryTypeName",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "industryList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "IndustryDetail"
+            }
+          },
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "ListIndustryRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "ListIndustryResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "industryInfoList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "IndustryInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "SchoolInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "schoolName",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 3,
+          "name": "schoolIcon",
+          "typeId": "string",
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "ListSchoolRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "ListSchoolResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "schoolList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "SchoolInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GeoInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "name",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "code",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "level",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "GeoLevel"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "ListGeoRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "level",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "GeoLevel"
+          },
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "parentId",
+          "typeId": "i64",
+          "required": "optional"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "ListGeoResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "geoList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "GeoInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CareerInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "careerName",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 3,
+          "name": "careerTypeName",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 4,
+          "name": "careerTypeId",
+          "typeId": "i64",
+          "required": "optional"
+        },
+        {
+          "key": 5,
+          "name": "careerIcon",
+          "typeId": "string",
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "ListCareerInfoRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "ListCareerInfoResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "careerList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "CareerInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateEducationExpRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "schoolId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "status",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "EducationStatus"
+          },
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "beginYear",
+          "typeId": "i32",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "endYear",
+          "typeId": "i32",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "majorId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "activity",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateEducationExpResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditEducationExpRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "schoolId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "beginYear",
+          "typeId": "i32",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "endYear",
+          "typeId": "i32",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "majorId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "activity",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditEducationExpResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteEducationExpRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteEducationExpResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EducationExpInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "schoolInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "SchoolInfo"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 3,
+          "name": "beginYear",
+          "typeId": "i32",
+          "required": "req_out"
+        },
+        {
+          "key": 4,
+          "name": "endYear",
+          "typeId": "i32",
+          "required": "req_out"
+        },
+        {
+          "key": 5,
+          "name": "majorInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "MajorInfo"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 6,
+          "name": "activity",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 7,
+          "name": "status",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "EducationStatus"
+          },
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentUserEducationExpRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentUserEducationExpResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "educationExpList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "EducationExpInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateWishCareerRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "careerId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "salaryUpper",
+          "typeId": "i32",
+          "required": "optional"
+        },
+        {
+          "key": 3,
+          "name": "salaryLower",
+          "typeId": "i32",
+          "required": "optional"
+        },
+        {
+          "key": 4,
+          "name": "currencyType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "SalaryCurrencyType"
+          },
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "frequencyType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "SalaryFrequencyType"
+          },
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateWishCareerResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditWishCareerRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "careerId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "salaryUpper",
+          "typeId": "i32",
+          "required": "optional"
+        },
+        {
+          "key": 4,
+          "name": "salaryLower",
+          "typeId": "i32",
+          "required": "optional"
+        },
+        {
+          "key": 5,
+          "name": "currencyType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "SalaryCurrencyType"
+          },
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "frequencyType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "SalaryFrequencyType"
+          },
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditWishCareerResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "WishCareerInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "req_out"
+        },
+        {
+          "key": 2,
+          "name": "careerInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "CareerInfo"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 3,
+          "name": "salaryUpper",
+          "typeId": "i32",
+          "required": "req_out"
+        },
+        {
+          "key": 4,
+          "name": "salaryLower",
+          "typeId": "i32",
+          "required": "req_out"
+        },
+        {
+          "key": 5,
+          "name": "currencyType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "SalaryCurrencyType"
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 6,
+          "name": "frequencyType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "SalaryFrequencyType"
+          },
+          "required": "req_out"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentWishCareerRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentWishCareerResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "wishCareerList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "WishCareerInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteWishCareerRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteWishCareerResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateCareerExperienceRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "experienceName",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "jobRole",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "description",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "startTS",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "endTS",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateCareerExperienceResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCareerExperienceRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "experienceName",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "jobRole",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "description",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "startTS",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "endTS",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCareerExperienceResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CareerExperienceInfo",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "experienceName",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "jobRole",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "description",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "startTS",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "endTS",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentUserCareerExperienceRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "GetCurrentUserCareerExperienceResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "careerExperienceInfoList",
+          "typeId": "list",
+          "type": {
+            "typeId": "list",
+            "elemTypeId": "struct",
+            "elemType": {
+              "typeId": "struct",
+              "class": "CareerExperienceInfo"
+            }
+          },
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteCareerExperienceRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteCareerExperienceResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "SendVerifyCodeRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "email",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "SendVerifyCodeResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "UploadFileRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "file",
+          "typeId": "binary",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "fileType",
+          "typeId": "enum",
+          "type": {
+            "typeId": "enum",
+            "class": "FileType"
+          },
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "filename",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "UploadFileResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "fileLink",
+          "typeId": "string",
+          "required": "req_out"
+        },
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateCompanyRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "companyName",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "description",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "logo",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 4,
+          "name": "industryId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 5,
+          "name": "geoInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "GeoModifyInfo"
+          },
+          "required": "optional"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "CreateCompanyResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCompanyRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 2,
+          "name": "companyName",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 3,
+          "name": "description",
+          "typeId": "string",
+          "required": "required"
+        },
+        {
+          "key": 4,
+          "name": "logo",
+          "typeId": "string",
+          "required": "optional"
+        },
+        {
+          "key": 5,
+          "name": "industryId",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 6,
+          "name": "geoInfo",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "GeoModifyInfo"
+          },
+          "required": "optional"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "EditCompanyResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteCompanyRequest",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 1,
+          "name": "id",
+          "typeId": "i64",
+          "required": "required"
+        },
+        {
+          "key": 255,
+          "name": "Base",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.Base"
+          },
+          "required": "required"
+        }
+      ]
+    },
+    {
+      "name": "DeleteCompanyResponse",
+      "isException": false,
+      "isUnion": false,
+      "fields": [
+        {
+          "key": 255,
+          "name": "BaseResp",
+          "typeId": "struct",
+          "type": {
+            "typeId": "struct",
+            "class": "base.BaseResp"
+          },
+          "required": "required"
+        }
+      ]
+    }
+  ],
+  "constants": [
+    {
+      "name": "UnAuthPathList",
+      "typeId": "list",
+      "type": {
+        "typeId": "list",
+        "elemTypeId": "string"
+      },
+      "value": [
+        "\/api\/v1\/ice\/sparkhire\/runtime\/user\/register",
+        "\/api\/v1\/ice\/sparkhire\/runtime\/user\/login",
+        "\/api\/v1\/ice\/sparkhire\/runtime\/ping",
+        "\/api\/v1\/ice\/sparkhire\/runtime\/verify\/code\/send"
+      ]
+    },
+    {
+      "name": "EducationStatusList",
+      "typeId": "list",
+      "type": {
+        "typeId": "list",
+        "elemTypeId": "enum",
+        "elemType": {
+          "typeId": "enum",
+          "class": "EducationStatus"
+        }
+      },
+      "value": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "JobStatusList",
+      "typeId": "list",
+      "type": {
+        "typeId": "list",
+        "elemTypeId": "enum",
+        "elemType": {
+          "typeId": "enum",
+          "class": "JobStatus"
+        }
+      },
+      "value": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "name": "SalaryCurrencyTypeList",
+      "typeId": "list",
+      "type": {
+        "typeId": "list",
+        "elemTypeId": "enum",
+        "elemType": {
+          "typeId": "enum",
+          "class": "SalaryCurrencyType"
+        }
+      },
+      "value": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "name": "SalaryFrequencyTypeList",
+      "typeId": "list",
+      "type": {
+        "typeId": "list",
+        "elemTypeId": "enum",
+        "elemType": {
+          "typeId": "enum",
+          "class": "SalaryFrequencyType"
+        }
+      },
+      "value": [
+        1,
+        2,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "FileTypeMap",
+      "typeId": "map",
+      "type": {
+        "typeId": "map",
+        "keyTypeId": "enum",
+        "valueTypeId": "string",
+        "keyType": {
+          "typeId": "enum",
+          "class": "FileType"
+        }
+      },
+      "value": {
+        "1": "company\/avatar",
+        "2": "user\/avatar"
+      }
+    }
+  ],
+  "services": [
+    {
+      "name": "SparkhireRuntimeService",
+      "annotations":       {
+        "agw.js_conv": "str",
+        "agw.preserve_base": "true"
+      },
+      "functions": [
+        {
+          "name": "Ping",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "PingResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/ping",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "PingRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "RegisterUser",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "RegisterUserResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/register",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "RegisterUserRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "UserMailLogin",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "UserMailLoginResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/login",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "UserMailLoginRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "FetchCurrentUser",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "FetchCurrentUserResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/current\/fetch",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "FetchCurrentUserRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "SwitchUserRole",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "SwitchUserRoleResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/role\/switch",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "SwitchUserRoleRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "GetCurrentCandidate",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "GetCurrentCandidateResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/candidate\/current\/get",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "GetCurrentCandidateRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "EditCandidateContractInfo",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "EditCandidateContractInfoResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/candidate\/contract\/edit",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "EditCandidateContractInfoRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "EditCandidateProfile",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "EditCandidateProfileResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/candidate\/profile\/edit",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "EditCandidateProfileRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "EditCandidateBasicInfo",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "EditCandidateBasicInfoResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/candidate\/basic\/edit",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "EditCandidateBasicInfoRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "QueryTag",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "QueryTagResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/tag\/query",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "QueryTagRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "AddTag",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "AddTagResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/tag\/add",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "AddTagRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "BindTags",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "BindTagsResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/tag\/bind",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "BindTagsRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "UnbindTags",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "UnbindTagsResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/tag\/unbind",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "UnbindTagsRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "CreateEducationExp",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "CreateEducationExpResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/education\/exp\/create",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "CreateEducationExpRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "EditEducationExp",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "EditEducationExpResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/education\/exp\/edit",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "EditEducationExpRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "DeleteEducationExp",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "DeleteEducationExpResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/education\/exp\/delete",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "DeleteEducationExpRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "GetCurrentEducationExp",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "GetCurrentUserEducationExpResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/education\/exp\/current",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "GetCurrentUserEducationExpRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "CreateWishCareer",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "CreateWishCareerResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/wish\/career\/create",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "CreateWishCareerRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "EditWishCareer",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "EditWishCareerResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/wish\/career\/edit",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "EditWishCareerRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "GetCurrentWishCareer",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "GetCurrentWishCareerResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/wish\/career\/current",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "GetCurrentWishCareerRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "CreateCareerExperience",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "CreateCareerExperienceResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/career\/exp\/create",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "CreateCareerExperienceRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "EditCareerExperience",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "EditCareerExperienceResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/career\/exp\/edit",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "EditCareerExperienceRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "GetCurrentUserCareerExperience",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "GetCurrentUserCareerExperienceResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/career\/exp\/current",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "GetCurrentUserCareerExperienceRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "DeleteCareerExperience",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "DeleteCareerExperienceResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/career\/exp\/delete",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "DeleteCareerExperienceRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "ListMajor",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "ListMajorResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/major\/list",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "ListMajorRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "ListIndustry",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "ListIndustryResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/industry\/list",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "ListIndustryRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "ListSchool",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "ListSchoolResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/school\/list",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "ListSchoolRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "ListGeo",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "ListGeoResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/geo\/list",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "ListGeoRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "ListCareer",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "ListCareerInfoResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/career\/list",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "ListCareerInfoRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "CreateCompany",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "CreateCompanyResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/hr\/company\/create",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "CreateCompanyRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "EditCompany",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "EditCompanyResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/hr\/company\/edit",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "EditCompanyRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "DeleteCompany",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "DeleteCompanyResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/user\/hr\/company\/delete",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "DeleteCompanyRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "SendVerifyCode",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "SendVerifyCodeResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/verify\/code\/send",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "SendVerifyCodeRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        },
+        {
+          "name": "UploadFile",
+          "returnTypeId": "struct",
+          "returnType": {
+            "typeId": "struct",
+            "class": "UploadFileResponse"
+          },
+          "oneway": false,
+          "annotations":           {
+            "api.post": "\/api\/v1\/ice\/sparkhire\/runtime\/verify\/file\/upload",
+            "api.serializer": "json"
+          },
+          "arguments": [
+            {
+              "key": 1,
+              "name": "req",
+              "typeId": "struct",
+              "type": {
+                "typeId": "struct",
+                "class": "UploadFileRequest"
+              },
+              "required": "req_out"
+            }
+          ],
+          "exceptions": [
+          ]
+        }
+      ]
+    }
+  ]
+}
