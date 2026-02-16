@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spark_hire_app/http/business_exception.dart';
+import 'package:spark_hire_app/model/education_exp/delete_education_exp.dart';
 import 'package:spark_hire_app/model/education_exp/get_current_user_education.dart';
 import 'package:spark_hire_app/model/education_exp/modify_education_exp.dart';
 import 'package:spark_hire_app/service/education_exp_service.dart';
@@ -25,16 +26,4 @@ class EducationExpViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> modifyEducationExp(ModifyEducationExpRequest? request) async {
-    if (request == null) return;
-    try {
-      await _educationExpService.modifyEducationExp(request);
-      await loadCurrentEducationExp();
-      ToastUtils.showSuccessMsg('edit successfully');
-    } on BusinessException catch (e) {
-      ToastUtils.showErrorMsg(e.message);
-    } on Exception {
-      ToastUtils.showErrorMsg('网络异常，请稍后重试');
-    }
-  }
 }

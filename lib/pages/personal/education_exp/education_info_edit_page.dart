@@ -8,12 +8,14 @@ import 'package:spark_hire_app/components/edit_title.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
 import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/model/candidate/education_status.dart';
+import 'package:spark_hire_app/model/education_exp/delete_education_exp.dart';
 import 'package:spark_hire_app/model/education_exp/modify_education_exp.dart';
 import 'package:spark_hire_app/model/information/list_major.dart';
 import 'package:spark_hire_app/model/information/list_school.dart';
 import 'package:spark_hire_app/pages/personal/components/edit_save_btn.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
+import 'package:spark_hire_app/service/education_exp_service.dart';
 import 'package:spark_hire_app/service/information_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 import 'package:collection/collection.dart';
@@ -33,6 +35,7 @@ class EducationInfoEditPage extends StatefulWidget {
 
 class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
   final InformationService _informationService = InformationService();
+  final EducationExpService _educationExpService = EducationExpService();
 
   bool _isLoading = true;
   List<SchoolInfo> _schoolList = [];
@@ -107,10 +110,19 @@ class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
 
   void _onSave() async {
     if (_request == null) return;
-    await widget.viewModel.modifyEducationExp(_request);
+    try {
+      await _educationExpService.modifyEducationExp(_request!);
+      await widget.viewModel.loadCurrentEducationExp();
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+      return;
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+      return;
+    }
     if (mounted) {
       Navigator.pop(context);
-      ToastUtils.showSuccessMsg(AppLocalizations.of(context)!.saveSuccessText);
+      ToastUtils.showSuccessMsg('save successfully');
     }
   }
 
@@ -120,7 +132,24 @@ class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
   }
 
   void _deleteBtn() async {
-
+    if (widget.educationExpId <= 0) {
+      return;
+    }
+    try {
+      await _educationExpService.deleteEducationExp(
+        DeleteEducationExpRequest(id: widget.educationExpId),
+      );
+      await widget.viewModel.loadCurrentEducationExp();
+      if (!mounted) {
+        return;
+      }
+      Navigator.pop(context);
+      ToastUtils.showSuccessMsg('delete successfully');
+    } on BusinessException catch (e) {
+      ToastUtils.showErrorMsg(e.message);
+    } on Exception {
+      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+    }
   }
 
   @override
@@ -131,8 +160,8 @@ class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
         appBar: EditAppBar(
           context: context,
           titleName: l10n.educationText,
-          onDeletePress: () {},
-          needActions: true,
+          onDeletePress: _deleteBtn,
+          needActions: widget.educationExpId > 0,
         ),
         bottomNavigationBar: EditSaveBtn(
           onEdit: _onSave,

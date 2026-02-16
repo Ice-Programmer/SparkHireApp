@@ -55,7 +55,10 @@ class EditAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ListTile(
                   leading: const Icon(Icons.delete_forever_rounded),
                   title: Text(AppLocalizations.of(context)!.deleteText),
-                  onTap: onDeletePress,
+                  onTap: () {
+                    onDeletePress!();
+                    Navigator.pop(context);
+                  },
                 ),
             ],
           ),
