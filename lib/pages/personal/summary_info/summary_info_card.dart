@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/components/profile_card/profile_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card_skeleton.dart';
+import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
 
 class SummaryInfoCard extends StatefulWidget {
   final String? profile;
-  final CandidateViewModel viewModel;
+  final CandidateInfoViewModel viewModel;
   const SummaryInfoCard({super.key, this.profile, required this.viewModel});
 
   @override

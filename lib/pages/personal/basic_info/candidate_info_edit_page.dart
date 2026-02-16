@@ -13,14 +13,20 @@ import 'package:spark_hire_app/model/biz/upoad_file.dart';
 import 'package:spark_hire_app/model/candidate/edit_candidate_basic.dart';
 import 'package:spark_hire_app/model/candidate/job_status.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/components/edit_save_btn.dart';
+import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 import 'package:spark_hire_app/service/biz_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
 class CandidateInfoEditPage extends StatefulWidget {
-  final CandidateViewModel viewModel;
-  const CandidateInfoEditPage({super.key, required this.viewModel});
+  final UserViewModel userViewModel;
+  final CandidateInfoViewModel candidateInfoViewModel;
+  const CandidateInfoEditPage({
+    super.key,
+    required this.userViewModel,
+    required this.candidateInfoViewModel,
+  });
 
   @override
   State<CandidateInfoEditPage> createState() => _CandidateInfoEditPageState();
@@ -37,8 +43,8 @@ class _CandidateInfoEditPageState extends State<CandidateInfoEditPage> {
   @override
   void initState() {
     super.initState();
-    final basicInfo = widget.viewModel.currentUserBasicInfo;
-    final candidateInfo = widget.viewModel.currentCandidateInfo;
+    final basicInfo = widget.userViewModel.currentUserBasicInfo;
+    final candidateInfo = widget.candidateInfoViewModel.currentCandidateInfo;
     _avatarUrl = basicInfo?.userAvatar ?? "";
     _username = basicInfo?.username ?? "";
     _gender = basicInfo?.gender ?? Gender.unknow;
@@ -69,7 +75,7 @@ class _CandidateInfoEditPageState extends State<CandidateInfoEditPage> {
   }
 
   Future<void> _handleSave() async {
-    await widget.viewModel.editCandidateBasicInfo(
+    await widget.candidateInfoViewModel.editCandidateBasicInfo(
       EditCandidateBasicInfoRequest(
         username: _username,
         avatar: _avatarUrl,
@@ -100,6 +106,7 @@ class _CandidateInfoEditPageState extends State<CandidateInfoEditPage> {
             child: Column(
               children: [
                 EditAppBar(
+                  context: context,
                   titleName: AppLocalizations.of(context)!.profileTitle,
                 ),
 

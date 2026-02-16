@@ -9,8 +9,9 @@ import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/candidate/job_status.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_skeleton.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 
 class CandidateInfoCard extends StatefulWidget {
   final UserBasicInfo? userBasicInfo;
@@ -22,12 +23,12 @@ class CandidateInfoCard extends StatefulWidget {
 }
 
 class _CandidateInfoCardState extends State<CandidateInfoCard> {
-  final CandidateViewModel _viewModel = CandidateViewModel();
+  final CandidateInfoViewModel _viewModel = CandidateInfoViewModel();
 
   @override
   void initState() {
     super.initState();
-    _viewModel.loadCurrentUser();
+    _viewModel.loadCurrentCandidate();
   }
 
   Widget _buildSubline() {
@@ -117,8 +118,9 @@ class _CandidateInfoCardState extends State<CandidateInfoCard> {
 
           IconButton(
             onPressed: () {
-              final vm = context.read<CandidateViewModel>();
-              context.push("/personal/basic/edit", extra: vm);
+              final candidateInfoViewModel = context.read<CandidateInfoViewModel>();
+              final userViewModel = context.read<UserViewModel>();
+              context.push("/personal/basic/edit", extra: (userViewModel, candidateInfoViewModel));
             },
             icon: Icon(
               RemixIcons.edit_line,

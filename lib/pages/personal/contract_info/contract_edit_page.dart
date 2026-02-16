@@ -73,6 +73,7 @@ class _ContractEditPageState extends State<ContractEditPage> {
     return KeyboardDismissWrapper(
       child: Scaffold(
         appBar: EditAppBar(
+          context: context,
           titleName: AppLocalizations.of(context)!.summaryText,
         ),
         bottomNavigationBar: EditSaveBtn(onEdit: () => {}),

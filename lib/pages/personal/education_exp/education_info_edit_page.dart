@@ -11,16 +11,15 @@ import 'package:spark_hire_app/model/candidate/education_status.dart';
 import 'package:spark_hire_app/model/education_exp/modify_education_exp.dart';
 import 'package:spark_hire_app/model/information/list_major.dart';
 import 'package:spark_hire_app/model/information/list_school.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/components/edit_save_btn.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:spark_hire_app/service/education_exp_service.dart';
+import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
 import 'package:spark_hire_app/service/information_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 import 'package:collection/collection.dart';
 
 class EducationInfoEditPage extends StatefulWidget {
-  final CandidateViewModel viewModel;
+  final EducationExpViewModel viewModel;
   final int educationExpId; // id > 0 为编辑，id <= 0 为新增
   const EducationInfoEditPage({
     super.key,
@@ -34,7 +33,6 @@ class EducationInfoEditPage extends StatefulWidget {
 
 class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
   final InformationService _informationService = InformationService();
-  final EducationExpService _educationExpService = EducationExpService();
 
   bool _isLoading = true;
   List<SchoolInfo> _schoolList = [];
@@ -52,7 +50,6 @@ class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
 
   Future<void> _initializeData() async {
     try {
-      // 并发请求基础数据
       final results = await Future.wait([
         _informationService.listSchoolList(ListSchoolRequest()),
         _informationService.listMajorList(ListMajorRequest()),
@@ -122,12 +119,21 @@ class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
     return !_request!.validate();
   }
 
+  void _deleteBtn() async {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return KeyboardDismissWrapper(
       child: Scaffold(
-        appBar: EditAppBar(titleName: l10n.educationText),
+        appBar: EditAppBar(
+          context: context,
+          titleName: l10n.educationText,
+          onDeletePress: () {},
+          needActions: true,
+        ),
         bottomNavigationBar: EditSaveBtn(
           onEdit: _onSave,
           disable: _disableButton(),

@@ -6,11 +6,13 @@ import 'package:spark_hire_app/pages/job/job_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_edit_page.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/candidate_page.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_edit_page.dart';
 import 'package:spark_hire_app/pages/personal/education_exp/education_info_edit_page.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_edit_page.dart';
+import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
 import 'package:spark_hire_app/pages/register/register_verification_page.dart';
@@ -119,7 +121,7 @@ List<GoRoute> _getCandidateRoute() {
       path: '/personal/profile/edit',
       name: '个人简介编辑',
       builder: (context, state) {
-        final viewModel = state.extra as CandidateViewModel;
+        final viewModel = state.extra as CandidateInfoViewModel;
         return SummaryEditPage(viewModel: viewModel);
       },
     ),
@@ -127,18 +129,25 @@ List<GoRoute> _getCandidateRoute() {
       path: '/personal/basic/edit',
       name: '个人基础信息编辑',
       builder: (context, state) {
-        final viewModel = state.extra as CandidateViewModel;
-        return CandidateInfoEditPage(viewModel: viewModel);
+        final (userVm, candidateVm) =
+            state.extra as (UserViewModel, CandidateInfoViewModel);
+        return CandidateInfoEditPage(
+          userViewModel: userVm,
+          candidateInfoViewModel: candidateVm,
+        );
       },
     ),
     GoRoute(
       path: '/personal/education/edit/:eduExpId',
       name: '个人教育经历编辑',
       builder: (context, state) {
-        final viewModel = state.extra as CandidateViewModel;
+        final viewModel = state.extra as EducationExpViewModel;
         final eduExpId = state.pathParameters['eduExpId']!;
         int value = int.tryParse(eduExpId) ?? 0;
-        return EducationInfoEditPage(viewModel: viewModel, educationExpId: value);
+        return EducationInfoEditPage(
+          viewModel: viewModel,
+          educationExpId: value,
+        );
       },
     ),
   ];

@@ -6,13 +6,13 @@ import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spark_hire_app/model/candidate/education_status.dart';
 import 'package:spark_hire_app/model/education_exp/get_current_user_education.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/components/profile_card/profile_card.dart';
 import 'package:spark_hire_app/pages/personal/education_exp/education_info_card_skeleton.dart';
+import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
 
 class EducationInfoCard extends StatelessWidget {
   final List<EducationExpInfo>? educationExpList;
-  final CandidateViewModel viewModel;
+  final EducationExpViewModel viewModel;
 
   const EducationInfoCard({
     super.key,

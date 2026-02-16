@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark_hire_app/components/custom_multiline_input.dart';
 import 'package:spark_hire_app/components/edit_title.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/components/edit_save_btn.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
 
 class SummaryEditPage extends StatefulWidget {
-  final CandidateViewModel viewModel;
+  final CandidateInfoViewModel viewModel;
   const SummaryEditPage({super.key, required this.viewModel});
 
   @override
@@ -28,7 +28,10 @@ class _SummaryEditPageState extends State<SummaryEditPage> {
   Widget build(BuildContext context) {
     return KeyboardDismissWrapper(
       child: Scaffold(
-        appBar: EditAppBar(titleName: AppLocalizations.of(context)!.summaryText),
+        appBar: EditAppBar(
+          context: context,
+          titleName: AppLocalizations.of(context)!.summaryText,
+        ),
         bottomNavigationBar: EditSaveBtn(
           onEdit: () async {
             await widget.viewModel.editCandidateProfile(_profile);
@@ -38,11 +41,7 @@ class _SummaryEditPageState extends State<SummaryEditPage> {
           },
         ),
         body: SafeArea(
-          minimum: EdgeInsets.only(
-            left: 20.w,
-            right: 20.w,
-            bottom: 10.h,
-          ),
+          minimum: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
           child: SingleChildScrollView(
             child: Column(
               children: [

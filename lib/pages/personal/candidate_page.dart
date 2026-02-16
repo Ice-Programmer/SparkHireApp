@@ -4,14 +4,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
-import 'package:spark_hire_app/model/education_exp/get_current_user_education.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
-import 'package:spark_hire_app/pages/personal/candidate_info_vm.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_card.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_info_card.dart';
 import 'package:spark_hire_app/pages/personal/education_exp/education_info_card.dart';
-import 'package:spark_hire_app/pages/personal/education_exp/education_info_card_skeleton.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card.dart';
+import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 
 class CandidatePage extends StatefulWidget {
   const CandidatePage({super.key});
@@ -21,22 +21,28 @@ class CandidatePage extends StatefulWidget {
 }
 
 class _CandidatePageState extends State<CandidatePage> {
-  final CandidateViewModel _viewModel = CandidateViewModel();
-
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create:
-          (_) =>
-              _viewModel
-                ..loadCurrentUser()
-                ..loadCurrentCandidate()
-                ..loadCurrentEducationExp(),
-      child: _buildBody(context, _viewModel),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserViewModel()..loadCurrentUser(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CandidateInfoViewModel()..loadCurrentCandidate(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => EducationExpViewModel()..loadCurrentEducationExp(),
+        ),
+      ],
+      // builder 使得下方的 child 可以获取到刚刚创建的 Providers
+      builder: (context, child) {
+        return _buildBody(context);
+      },
     );
   }
 
-  Widget _buildBody(BuildContext context, CandidateViewModel vm) {
+  Widget _buildBody(BuildContext context) {
     return SafeArea(
       minimum: EdgeInsets.all(20.w),
       child: ListView(
@@ -44,9 +50,11 @@ class _CandidatePageState extends State<CandidatePage> {
           _buildTitle(context),
           20.verticalSpace,
 
-          Selector<CandidateViewModel, (UserBasicInfo?, CandidateInfo?)>(
-            selector:
-                (_, vm) => (vm.currentUserBasicInfo, vm.currentCandidateInfo),
+          Selector2<UserViewModel, CandidateInfoViewModel, (UserBasicInfo?, CandidateInfo?)>(
+            selector: (_, userVm, candidateVm) => (
+              userVm.currentUserBasicInfo,
+              candidateVm.currentCandidateInfo
+            ),
             builder: (_, data, __) {
               final userInfo = data.$1;
               final jobStatus = data.$2;
@@ -59,35 +67,35 @@ class _CandidatePageState extends State<CandidatePage> {
           ),
 
           10.verticalSpace,
-
           CustomDivider(thickness: 0.3),
+          5.verticalSpace,
 
-          10.verticalSpace,
-
-          Selector<CandidateViewModel, ContractInfo?>(
+          Selector<CandidateInfoViewModel, ContractInfo?>(
             selector: (_, vm) => vm.contractInfo,
             builder: (_, contractInfo, __) {
               return ContractInfoCard(contractInfo: contractInfo);
             },
           ),
 
-          10.verticalSpace,
+          3.verticalSpace,
 
-          Selector<CandidateViewModel, String?>(
-            selector: (_, vm) => vm.profile,
-            builder: (_, profile, __) {
-              return SummaryInfoCard(profile: profile, viewModel: _viewModel);
+          // 单独监听 CandidateInfoViewModel 的 profile
+          Consumer<CandidateInfoViewModel>(
+            builder: (context, vm, _) {
+              return SummaryInfoCard(
+                profile: vm.profile, 
+                viewModel: vm, 
+              );
             },
           ),
 
-          10.verticalSpace,
+          3.verticalSpace,
 
-          Selector<CandidateViewModel, List<EducationExpInfo>?>(
-            selector: (_, vm) => vm.educationExpList,
-            builder: (_, educationExpList, _) {
+          Consumer<EducationExpViewModel>(
+            builder: (context, vm, _) {
               return EducationInfoCard(
-                educationExpList: educationExpList,
-                viewModel: _viewModel,
+                educationExpList: vm.educationExpList,
+                viewModel: vm, // 这里传入拆分后的 EducationExpViewModel
               );
             },
           ),
@@ -104,7 +112,6 @@ class _CandidatePageState extends State<CandidatePage> {
           AppLocalizations.of(context)!.profileText,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
         ),
-
         Icon(Icons.settings_rounded),
       ],
     );
