@@ -5,8 +5,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditSaveBtn extends StatelessWidget {
   final VoidCallback? onEdit;
+  final bool disable;
 
-  const EditSaveBtn({super.key, required this.onEdit});
+  const EditSaveBtn({super.key, required this.onEdit, this.disable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,7 @@ class EditSaveBtn extends StatelessWidget {
         fontSize: 18.sp,
         borderRadius: 30.w,
         backgroundColor: Theme.of(context).colorScheme.primary,
+        disable: disable,
       ),
     );
   }
