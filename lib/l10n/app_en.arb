@@ -11,6 +11,7 @@
   "beginDateText": "Start Date",
   "belowHighSchoolText": "Below High School",
   "cancelText": "Cancel",
+  "careerExpText": "Work Experience",
   "confirmText": "Confirm",
   "contactInformationTitle": "Contact Information",
   "deleteSuccessText": "Deleted successfully!",
@@ -40,6 +41,7 @@
   "highSchoolText": "High School",
   "inputVerificationText": "Enter Verification Code",
   "jobStatusTitle": "Job Status",
+  "jobTitleText": "Job Title",
   "juniorCollegeText": "Associate Degree",
   "languageName": "English",
   "login": "Login",
@@ -51,8 +53,10 @@
   "majorText": "major",
   "maleText": "Male",
   "masterText": "Master",
+  "monthText": "months",
   "nameText": "Name",
   "nextStep": "Next Step",
+  "optionalText": "Optional",
   "otherLoginText": "Other login options",
   "passwordLoginText": "Password Login",
   "passwordPlaceholder": "Please enter your password",
@@ -94,5 +98,6 @@
   "verificationLoginPlaceholder": "Please enter the verification code",
   "verificationWaitText": "resend later",
   "wechatLoginText": "Sign in with WeChat",
+  "workCompanyName": "Company",
   "yearText": "years"
 }

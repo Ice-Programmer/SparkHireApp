@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CustomMultilineInput extends StatelessWidget {
+class CustomMultilineInput extends StatefulWidget {
   final double? width;
   final double? height;
-
   final String? hintText;
   final String? initialValue;
   final int maxLines;
@@ -32,8 +31,29 @@ class CustomMultilineInput extends StatelessWidget {
     this.fontSize = 16,
   });
 
+  @override
+  State<CustomMultilineInput> createState() => _CustomMultilineInputState();
+}
+
+class _CustomMultilineInputState extends State<CustomMultilineInput> {
+  late TextEditingController _controller;
+  int _currentLength = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue);
+    _currentLength = _controller.text.length;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   Widget _buildTitle(BuildContext context) {
-    if (title == null) {
+    if (widget.title == null) {
       return const SizedBox.shrink();
     }
     return Column(
@@ -41,12 +61,13 @@ class CustomMultilineInput extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            title!,
+            widget.title!,
             style: TextStyle(
-              fontSize: fontSize,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: enabled ? 0.7 : 0.2),
+              fontSize: widget.fontSize,
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: widget.enabled ? 0.7 : 0.2),
             ),
           ),
         ),
@@ -57,43 +78,74 @@ class CustomMultilineInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 判断是否超过限制颜色
+    bool isOverLimit = widget.maxLength != null && _currentLength >= widget.maxLength!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildTitle(context),
         Container(
-          width: width,
-          height: height,
-          padding: EdgeInsets.all(14.w),
+          width: widget.width,
+          height: widget.height,
+          padding: EdgeInsets.fromLTRB(14.w, 14.w, 14.w, 8.w), // 底部留点空间给计数器
           decoration: BoxDecoration(
-            color:
-                backgroundColor ?? Theme.of(context).colorScheme.inverseSurface,
-            borderRadius: BorderRadius.circular(borderRadius),
+            color: widget.backgroundColor ??
+                Theme.of(context).colorScheme.inverseSurface,
+            borderRadius: BorderRadius.circular(widget.borderRadius),
           ),
-          child: TextFormField(
-            enabled: enabled,
-            initialValue: initialValue,
-            maxLines: maxLines,
-            maxLength: maxLength,
-            keyboardType: TextInputType.multiline,
-            textAlignVertical: TextAlignVertical.top,
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            decoration: InputDecoration(
-              isDense: true,
-              border: InputBorder.none,
-              counterText: '', // 👈 隐藏默认计数器
-              hintText: hintText,
-              hintStyle: TextStyle(
-                fontSize: 14.sp,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.4),
+          child: Column(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: _controller,
+                  enabled: widget.enabled,
+                  maxLines: widget.maxLines,
+                  maxLength: widget.maxLength, // 框架层限制输入
+                  keyboardType: TextInputType.multiline,
+                  textAlignVertical: TextAlignVertical.top,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    border: InputBorder.none,
+                    counterText: '', // 隐藏原生计数器
+                    hintText: widget.hintText,
+                    hintStyle: TextStyle(
+                      fontSize: 14.sp,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.4),
+                    ),
+                  ),
+                  onChanged: (val) {
+                    setState(() {
+                      _currentLength = val.length;
+                    });
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(val);
+                    }
+                  },
+                ),
               ),
-            ),
-            onChanged: onChanged,
+              // 自定义计数器显示
+              if (widget.maxLength != null)
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    '$_currentLength/${widget.maxLength}',
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: isOverLimit 
+                          ? Colors.red 
+                          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+                    ),
+                  ),
+                ),
+            ],
           ),
         ),
       ],

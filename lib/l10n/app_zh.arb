@@ -11,6 +11,7 @@
   "beginDateText": "开始时间",
   "belowHighSchoolText": "高中以下",
   "cancelText": "取消",
+  "careerExpText": "工作经历",
   "confirmText": "确认",
   "contactInformationTitle": "联系方式",
   "deleteText": "删除",
@@ -39,6 +40,7 @@
   "highSchoolText": "高中",
   "inputVerificationText": "输入验证码",
   "jobStatusTitle": "求职状态",
+  "jobTitleText": "职位名称",
   "juniorCollegeText": "大专",
   "languageName": "简体中文",
   "login": "登录",
@@ -50,8 +52,10 @@
   "majorText": "专业",
   "maleText": "男",
   "masterText": "硕士",
+  "monthText": "月",
   "nameText": "姓名",
   "nextStep": "下一步",
+  "optionalText": "可选",
   "otherLoginText": "其他登录方式",
   "passwordLoginText": "密码登录",
   "passwordPlaceholder": "请输入您的密码",
@@ -93,5 +97,6 @@
   "verificationLoginPlaceholder": "请输入验证码",
   "verificationWaitText": "后重发",
   "wechatLoginText": "微信登录",
+  "workCompanyName": "公司名称",
   "yearText": "年"
 }

@@ -6,10 +6,12 @@ import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_card.dart';
+import 'package:spark_hire_app/pages/personal/career_exp/career_exp_card.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_info_card.dart';
 import 'package:spark_hire_app/pages/personal/education_exp/education_info_card.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card.dart';
 import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/career_exp_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 
@@ -34,6 +36,9 @@ class _CandidatePageState extends State<CandidatePage> {
         ChangeNotifierProvider(
           create: (_) => EducationExpViewModel()..loadCurrentEducationExp(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => CareerExpViewModel()..loadCurrentCareerExpList(),
+        ),
       ],
       // builder 使得下方的 child 可以获取到刚刚创建的 Providers
       builder: (context, child) {
@@ -50,11 +55,16 @@ class _CandidatePageState extends State<CandidatePage> {
           _buildTitle(context),
           20.verticalSpace,
 
-          Selector2<UserViewModel, CandidateInfoViewModel, (UserBasicInfo?, CandidateInfo?)>(
-            selector: (_, userVm, candidateVm) => (
-              userVm.currentUserBasicInfo,
-              candidateVm.currentCandidateInfo
-            ),
+          Selector2<
+            UserViewModel,
+            CandidateInfoViewModel,
+            (UserBasicInfo?, CandidateInfo?)
+          >(
+            selector:
+                (_, userVm, candidateVm) => (
+                  userVm.currentUserBasicInfo,
+                  candidateVm.currentCandidateInfo,
+                ),
             builder: (_, data, __) {
               final userInfo = data.$1;
               final jobStatus = data.$2;
@@ -82,10 +92,7 @@ class _CandidatePageState extends State<CandidatePage> {
           // 单独监听 CandidateInfoViewModel 的 profile
           Consumer<CandidateInfoViewModel>(
             builder: (context, vm, _) {
-              return SummaryInfoCard(
-                profile: vm.profile, 
-                viewModel: vm, 
-              );
+              return SummaryInfoCard(profile: vm.profile, viewModel: vm);
             },
           ),
 
@@ -99,6 +106,17 @@ class _CandidatePageState extends State<CandidatePage> {
               );
             },
           ),
+
+          Consumer<CareerExpViewModel>(
+            builder: (context, vm, _) {
+              return CareerExpCard(
+                viewModel: vm,
+                careerExpInfoList: vm.careerExpList,
+              );
+            },
+          ),
+
+          50.verticalSpace,
         ],
       ),
     );

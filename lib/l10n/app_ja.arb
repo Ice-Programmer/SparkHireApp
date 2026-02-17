@@ -11,6 +11,7 @@
   "beginDateText": "開始時間",
   "belowHighSchoolText": "高校未満",
   "cancelText": "キャンセル",
+  "careerExpText": "職務経歴",
   "confirmText": "確認",
   "contactInformationTitle": "連絡方法",
   "deleteSuccessText": "削除しました！",
@@ -40,6 +41,7 @@
   "highSchoolText": "高等学校",
   "inputVerificationText": "認証コードを入力",
   "jobStatusTitle": "転職意欲",
+  "jobTitleText": "職種",
   "juniorCollegeText": "短期大学",
   "languageName": "日本語",
   "login": "ログイン",
@@ -51,8 +53,10 @@
   "majorText": "専攻",
   "maleText": "男",
   "masterText": "修士",
+  "monthText": "ヶ月",
   "nameText": "名前",
   "nextStep": "次へ",
+  "optionalText": "任意",
   "otherLoginText": "その他のログイン",
   "passwordLoginText": "パスワードログイン",
   "passwordPlaceholder": "パスワードを入力してください",
@@ -94,5 +98,6 @@
   "verificationLoginPlaceholder": "認証コードを入力してください",
   "verificationWaitText": "後で再送",
   "wechatLoginText": "WeChatでログイン",
+  "workCompanyName": "会社名",
   "yearText": "年"
 }
