@@ -79,6 +79,8 @@
   "selectDateText": "Select a date",
   "selectLanguage": "Select Language",
   "sendVerificationCodeError": "Failed to send the code. Please try again",
+  "skillText": "Skill",
+  "skillsHintText": "Enter skill name",
   "skip": "skip",
   "start": "Start",
   "statusAvailable": "Available now",

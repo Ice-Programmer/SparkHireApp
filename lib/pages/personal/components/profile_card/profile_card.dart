@@ -22,7 +22,7 @@ class ProfileCard extends StatelessWidget {
   });
 
   Widget buildEditButton(BuildContext context) {
-    if (allCreate || childList!.isEmpty) {
+    if (allCreate || childList == null) {
       return InkWell(
         borderRadius: BorderRadius.circular(20),
         onTap: onCreate,
@@ -51,7 +51,7 @@ class ProfileCard extends StatelessWidget {
   }
 
   Widget _buildCardChind(BuildContext context) {
-    if (childList == null) {
+    if (childList == null || childList!.isEmpty) {
       return SizedBox.shrink();
     }
 

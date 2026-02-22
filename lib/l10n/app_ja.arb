@@ -79,6 +79,8 @@
   "selectDateText": "日付を選択",
   "selectLanguage": "言語を選択",
   "sendVerificationCodeError": "コードの送信に失敗しました。もう一度お試しください",
+  "skillText": "スキル",
+  "skillsHintText": "スキル名を入力",
   "skip": "スキップ",
   "start": "スタート",
   "statusAvailable": "即日入社可能",

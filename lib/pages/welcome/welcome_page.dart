@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
+import 'package:spark_hire_app/providers/user_provider.dart';
 import 'package:spark_hire_app/service/user_service.dart';
 import 'package:spark_hire_app/utils/store_util.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
@@ -29,6 +31,7 @@ class _WelcomePageState extends State<WelcomePage> {
         FetchCurrentUserRequest(),
       );
       if (!mounted) return;
+      context.read<UserProvider>().setUserInfo(result.basicInfo);
       if (result.basicInfo!.role == UserRole.visitor) {
         context.go("/user/switch/role");
         return;

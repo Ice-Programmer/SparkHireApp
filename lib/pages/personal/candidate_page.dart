@@ -10,9 +10,11 @@ import 'package:spark_hire_app/pages/personal/career_exp/career_exp_card.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_info_card.dart';
 import 'package:spark_hire_app/pages/personal/education_exp/education_info_card.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card.dart';
+import 'package:spark_hire_app/pages/personal/tag_info/tag_info_card.dart';
 import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/career_exp_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/tag_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 
 class CandidatePage extends StatefulWidget {
@@ -38,6 +40,9 @@ class _CandidatePageState extends State<CandidatePage> {
         ),
         ChangeNotifierProvider(
           create: (_) => CareerExpViewModel()..loadCurrentCareerExpList(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => TagViewModel()..loadCurrentTagList(),
         ),
       ],
       // builder 使得下方的 child 可以获取到刚刚创建的 Providers
@@ -77,7 +82,9 @@ class _CandidatePageState extends State<CandidatePage> {
           ),
 
           10.verticalSpace,
+
           CustomDivider(thickness: 0.3),
+
           5.verticalSpace,
 
           Selector<CandidateInfoViewModel, ContractInfo?>(
@@ -113,6 +120,15 @@ class _CandidatePageState extends State<CandidatePage> {
                 viewModel: vm,
                 careerExpInfoList: vm.careerExpList,
               );
+            },
+          ),
+
+          4.verticalSpace,
+
+          // tag 视图
+          Consumer<TagViewModel>(
+            builder: (context, vm, _) {
+              return TagInfoCard(viewModel: vm, tagList: vm.tagList);
             },
           ),
 

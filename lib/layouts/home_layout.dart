@@ -96,7 +96,7 @@ class _HomeLayoutState extends State<HomeLayout> {
         ),
         buildItem(
           index: 2,
-          icon: Icons.bookmark_outline_rounded,
+          icon: Icons.bookmark_rounded,
           title: '收藏',
           context: context,
         ),

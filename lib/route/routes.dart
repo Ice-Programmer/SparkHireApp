@@ -11,9 +11,11 @@ import 'package:spark_hire_app/pages/personal/career_exp/career_exp_edit_page.da
 import 'package:spark_hire_app/pages/personal/contract_info/contract_edit_page.dart';
 import 'package:spark_hire_app/pages/personal/education_exp/education_info_edit_page.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_edit_page.dart';
+import 'package:spark_hire_app/pages/personal/tag_info/tag_info_edit_page.dart';
 import 'package:spark_hire_app/pages/personal/view_model/candidate_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/career_exp_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/tag_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
@@ -160,6 +162,14 @@ List<GoRoute> _getCandidateRoute() {
         final eduExpId = state.pathParameters['careerExpId']!;
         int value = int.tryParse(eduExpId) ?? 0;
         return CareerExpEditPage(viewModel: viewModel, careerExpId: value);
+      },
+    ),
+    GoRoute(
+      path: '/personal/skill/tag/edit',
+      name: '个人技能标签编辑',
+      builder: (context, state) {
+        final viewModel = state.extra as TagViewModel;
+        return TagInfoEditPage(viewModel: viewModel);
       },
     ),
   ];

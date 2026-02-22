@@ -78,6 +78,8 @@
   "selectDateText": "请选择日期",
   "selectLanguage": "选择语言",
   "sendVerificationCodeError": "发送验证码失败",
+  "skillText": "技能",
+  "skillsHintText": "请输入技能名称",
   "skip": "跳过",
   "start": "开始",
   "statusAvailable": "目前可随时到岗",
