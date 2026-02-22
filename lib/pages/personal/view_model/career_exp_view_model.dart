@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/model/career_exp/get_current_user_career_exp.dart';
-import 'package:spark_hire_app/service/career_exp_service.dart';
+import 'package:spark_hire_app/service/career_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
 class CareerExpViewModel extends ChangeNotifier {
-  final CareerExpService _careerExpService = CareerExpService();
+  final CareerService _careerExpService = CareerService();
 
   List<CareerExperienceInfo>? _careerExpInfoList;
   List<CareerExperienceInfo>? get careerExpList => _careerExpInfoList;

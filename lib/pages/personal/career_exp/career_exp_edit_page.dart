@@ -11,7 +11,7 @@ import 'package:spark_hire_app/model/career_exp/modify_career_experience.dart';
 import 'package:spark_hire_app/pages/personal/components/edit_save_btn.dart';
 import 'package:spark_hire_app/pages/personal/view_model/career_exp_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:spark_hire_app/service/career_exp_service.dart';
+import 'package:spark_hire_app/service/career_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
 class CareerExpEditPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class CareerExpEditPage extends StatefulWidget {
 }
 
 class _CareerExpEditPageState extends State<CareerExpEditPage> {
-  final CareerExpService _careerExpService = CareerExpService();
+  final CareerService _careerExpService = CareerService();
   ModifyCareerExperienceRequest? _request;
 
   @override
