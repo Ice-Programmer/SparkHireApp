@@ -16,6 +16,8 @@ import 'package:spark_hire_app/pages/personal/view_model/career_exp_view_model.d
 import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/tag_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/wish_career_view_model.dart';
+import 'package:spark_hire_app/pages/personal/wish_career/wish_career_card.dart';
 
 class CandidatePage extends StatefulWidget {
   const CandidatePage({super.key});
@@ -44,8 +46,10 @@ class _CandidatePageState extends State<CandidatePage> {
         ChangeNotifierProvider(
           create: (_) => TagViewModel()..loadCurrentTagList(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => WishCareerViewModel()..loadCurrentWiskCareerList(),
+        ),
       ],
-      // builder 使得下方的 child 可以获取到刚刚创建的 Providers
       builder: (context, child) {
         return _buildBody(context);
       },
@@ -129,6 +133,13 @@ class _CandidatePageState extends State<CandidatePage> {
           Consumer<TagViewModel>(
             builder: (context, vm, _) {
               return TagInfoCard(viewModel: vm, tagList: vm.tagList);
+            },
+          ),
+
+          // 期望职业
+          Consumer<WishCareerViewModel>(
+            builder: (context, vm, _) {
+              return WishCareerCard(viewModel: vm);
             },
           ),
 

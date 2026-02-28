@@ -55,10 +55,10 @@ class TagInfoCard extends StatelessWidget {
             ...tags.map(
               (tag) => CustomTag(
                 text: tag.tagName,
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 borderRadius: 10.r,
                 horizontalPadding: 10.w,
-                verticalPadding: 5.h,
+                verticalPadding: 3.h,
               ),
             ),
           ],

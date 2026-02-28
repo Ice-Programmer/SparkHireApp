@@ -6,20 +6,23 @@ class CareerInfo {
   final String careerName;
   final String careerTypeName;
   final int careerTypeId;
+  final String careerIcon;
 
   const CareerInfo({
     required this.id,
     required this.careerName,
-    required this.careerTypeName,
+    this.careerTypeName = "",
     required this.careerTypeId,
+    this.careerIcon = "",
   });
 
   factory CareerInfo.fromJson(Map<String, dynamic> json) {
     return CareerInfo(
       id: json['id'],
       careerName: json['careerName'],
-      careerTypeName: json['careerTypeName'],
-      careerTypeId: json['careerTypeId'],
+      careerTypeName: json['careerTypeName'] ?? "",
+      careerTypeId: json['careerTypeId'] ?? 0,
+      careerIcon: json['careerIcon'] ?? "",
     );
   }
 
@@ -29,6 +32,7 @@ class CareerInfo {
       'careerName': careerName,
       'careerTypeName': careerTypeName,
       'careerTypeId': careerTypeId,
+      'careerIcon': careerIcon,
     };
   }
 }

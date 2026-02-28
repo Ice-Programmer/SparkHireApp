@@ -48,7 +48,7 @@ class WishCareerInfo {
       'careerInfo': careerInfo.toJson(),
       'salaryUpper': salaryUpper,
       'salaryLower': salaryLower,
-      'salaryCurrencyType': salaryCurrencyType.value,
+      'currencyType': salaryCurrencyType.value,
       'frequencyType': frequencyType.value,
     };
   }
@@ -60,7 +60,7 @@ class WishCareerInfo {
       salaryUpper: map['salaryUpper'] as int,
       salaryLower: map['salaryLower'] as int,
       salaryCurrencyType: SalaryCurrencyTypeExt.fromInt(
-        map['salaryCurrencyType'],
+        map['currencyType'],
       ),
       frequencyType: SalaryFrequencyTypeeExt.fromInt(map['frequencyType']),
     );
@@ -122,7 +122,7 @@ class GetCurrentWishCareerResponse {
     return GetCurrentWishCareerResponse(
       wishCareerList:
           (json["wishCareerList"] as List)
-              .map((e) => WishCareerInfo.fromJson(e))
+              .map((e) => WishCareerInfo.fromMap(e))
               .toList(),
       baseResp: BaseResp.fromJson(json['BaseResp']),
     );
