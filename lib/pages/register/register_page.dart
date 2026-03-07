@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
     } on BusinessException catch (e) {
       ToastUtils.showErrorMsg(e.message);
     } on Exception catch (e) {
-      ToastUtils.showErrorMsg('网络异常，请稍后重试');
+      ToastUtils.showErrorMsg('网络异常，请稍后重试 $e');
     } finally {
       setState(() {
         _isSending = false;

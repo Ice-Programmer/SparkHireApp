@@ -184,24 +184,15 @@ class _CustomAvatarUploadState extends State<CustomAvatarUpload> {
     }
   }
 
-  void _openFullScreen(BuildContext context) {
-    // 优先展示本地图片，如果没有则展示网络图片
-    ImageProvider imageProvider;
-    if (_localAvatarFile != null) {
-      imageProvider = FileImage(_localAvatarFile!);
-    } else {
-      imageProvider = CachedNetworkImageProvider(widget.avatar!);
-    }
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder:
-            (_) => FullScreenGallery(
-              images: [widget.avatar ?? ""],
-              initialIndex: 0,
-            ),
+void _openFullScreen(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => FullScreenGallery(
+        images: [widget.avatar ?? ""],
+        initialIndex: 0,
       ),
-    );
-  }
+    ),
+  );
+}
 }

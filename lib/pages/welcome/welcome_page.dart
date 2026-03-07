@@ -48,7 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
   void _navigateToNextScreen({required Duration duration}) {
     Future.delayed(duration, () async {
       String? token = await StoreUtil.getToken();
-      if (token == null) {
+      if (token == null && mounted) {
         context.go('/guidance'); // 加上斜杠
         return;
       }

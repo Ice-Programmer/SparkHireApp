@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:spark_hire_app/model/information/geo_info.dart';
+import 'package:spark_hire_app/utils/log_util.dart';
 
 class GeoEditPage extends StatefulWidget {
   final GeoDetailInfo? geoDetailInfo;
@@ -96,7 +97,7 @@ class _GeoEditPageState extends State<GeoEditPage> {
             child: Container(
               padding: EdgeInsets.all(12.w),
               decoration: BoxDecoration(
-                color: _isRegionSelected ? Colors.blue.withOpacity(0.05) : Colors.grey[100],
+                color: _isRegionSelected ? Colors.blue.withValues(alpha: 0.05) : Colors.grey[100],
                 borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(color: _isRegionSelected ? Colors.blue : Colors.transparent, width: 1),
               ),
@@ -173,7 +174,7 @@ class _GeoEditPageState extends State<GeoEditPage> {
           // 未激活时的提示遮罩（可选）
           if (!_isRegionSelected)
             Container(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               alignment: Alignment.center,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
@@ -227,7 +228,7 @@ class _GeoEditPageState extends State<GeoEditPage> {
             height: 50.h,
             child: ElevatedButton(
               onPressed: _isRegionSelected ? () {
-                print("最终保存: $geoInfo");
+                LogUtils.logger("最终保存: $geoInfo");
               } : null, // 未选区域时禁用按钮
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,

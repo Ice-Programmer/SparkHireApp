@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_input.dart';
 import 'package:spark_hire_app/components/edit_title.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
-import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/model/tag/add_tag.dart';
 import 'package:spark_hire_app/model/tag/query_tag.dart';
 import 'package:spark_hire_app/model/tag/tag_info.dart';
@@ -87,7 +86,7 @@ class _TagInfoEditPageState extends State<TagInfoEditPage> {
         );
         if (mounted) {
           setState(() {
-            _searchResults = response.tagList ?? [];
+            _searchResults = response.tagList;
             _isSearching = false;
           });
         }
@@ -238,7 +237,7 @@ class _TagInfoEditPageState extends State<TagInfoEditPage> {
   Widget _buildSearchResultsPanel() {
     // 检查搜索结果中是否已经包含完全一致的名称
     bool alreadyExists = _searchResults.any(
-      (t) => t.tagName?.toLowerCase() == searchText.trim().toLowerCase(),
+      (t) => t.tagName.toLowerCase() == searchText.trim().toLowerCase(),
     );
 
     return Container(
@@ -248,12 +247,12 @@ class _TagInfoEditPageState extends State<TagInfoEditPage> {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
         ],
-        border: Border.all(color: Colors.grey.withOpacity(0.2)),
+        border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -286,12 +285,12 @@ class _TagInfoEditPageState extends State<TagInfoEditPage> {
               itemCount: _searchResults.length,
               separatorBuilder:
                   (_, __) =>
-                      Divider(height: 1, color: Colors.grey.withOpacity(0.1)),
+                      Divider(height: 1, color: Colors.grey.withValues(alpha: 0.1)),
               itemBuilder: (context, index) {
                 final tag = _searchResults[index];
                 return _buildResultItem(
                   icon: Icons.label_outline,
-                  label: tag.tagName ?? "",
+                  label: tag.tagName,
                   onTap: () => _addTag(existTag: tag),
                 );
               },
@@ -351,7 +350,7 @@ class _TagInfoEditPageState extends State<TagInfoEditPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            tag.tagName ?? '',
+            tag.tagName,
             style: TextStyle(
               color: primaryColor,
               fontSize: 14.sp,

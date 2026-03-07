@@ -48,7 +48,7 @@ class BindTagRequest {
   }) {
     return BindTagRequest(
       objType: objType ?? this.objType,
-      tagIdList: tagList ?? this.tagIdList,
+      tagIdList: tagList ?? tagIdList,
       objId: objId ?? this.objId,
     );
   }
