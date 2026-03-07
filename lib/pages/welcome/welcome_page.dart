@@ -7,7 +7,6 @@ import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/providers/user_provider.dart';
 import 'package:spark_hire_app/service/user_service.dart';
 import 'package:spark_hire_app/utils/store_util.dart';
-import 'package:spark_hire_app/utils/toast_util.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -27,13 +26,13 @@ class _WelcomePageState extends State<WelcomePage> {
 
   void _getCurrentLoginUser() async {
     try {
-      final result = await _userService.fetchCurrentUser(
-        FetchCurrentUserRequest(),
-      );
+      final result = await _userService.fetchCurrentUser(FetchCurrentUserRequest());
       if (!mounted) return;
       context.read<UserProvider>().setUserInfo(result.basicInfo);
+      
       if (result.basicInfo!.role == UserRole.visitor) {
-        context.go("/user/switch/role");
+        // 确保这里的路径与 router.dart 中定义的一致
+        context.go("/user/role/switch"); 
         return;
       }
       if (result.basicInfo!.role == UserRole.candidate) {
@@ -41,17 +40,17 @@ class _WelcomePageState extends State<WelcomePage> {
         return;
       }
     } catch (e) {
-      ToastUtils.showErrorMsg(e.toString());
+      // ToastUtils.showErrorMsg(e.toString());
     }
-    context.go('/guidance');
+    context.go('/guidance'); // 加上斜杠
   }
 
   void _navigateToNextScreen({required Duration duration}) {
     Future.delayed(duration, () async {
       String? token = await StoreUtil.getToken();
-      // ToastUtils.showInfoMsg(token ?? "token is null");
       if (token == null) {
-        context.go('guidance');
+        context.go('/guidance'); // 加上斜杠
+        return;
       }
       _getCurrentLoginUser();
     });

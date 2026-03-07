@@ -18,8 +18,9 @@ class WishCareerCard extends StatelessWidget {
     return ProfileCard(
       title: AppLocalizations.of(context)!.expectedCareerText,
       iconData: Icons.track_changes_rounded,
+      allCreate: true,
       onCreate: () {
-        context.push("/personal/education/edit/0", extra: viewModel);
+        context.push("/personal/wish/career/edit/0", extra: viewModel);
       },
       childList:
           viewModel.wishCareerList
@@ -61,7 +62,7 @@ class WishCareerCard extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(20.r),
       onTap: () {
-        context.push("/personal/education/edit/$id", extra: viewModel);
+        context.push("/personal/wish/career/edit/$id", extra: viewModel);
       },
       child: Padding(
         padding: EdgeInsets.all(8.w),

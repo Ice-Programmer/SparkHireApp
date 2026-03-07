@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
@@ -61,7 +62,9 @@ class _CandidatePageState extends State<CandidatePage> {
       minimum: EdgeInsets.all(20.w),
       child: ListView(
         children: [
+          // 顶部 个人资料 展示栏
           _buildTitle(context),
+
           20.verticalSpace,
 
           Selector2<
@@ -157,8 +160,18 @@ class _CandidatePageState extends State<CandidatePage> {
           AppLocalizations.of(context)!.profileText,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
         ),
-        Icon(Icons.settings_rounded),
+
+        _buildSettingBtn(),
       ],
+    );
+  }
+
+  Widget _buildSettingBtn() {
+    return IconButton(
+      onPressed: () {
+        context.push("/career/selection");
+      },
+      icon: Icon(Icons.settings_rounded),
     );
   }
 }

@@ -62,7 +62,7 @@ class WishCareerInfo {
       salaryCurrencyType: SalaryCurrencyTypeExt.fromInt(
         map['currencyType'],
       ),
-      frequencyType: SalaryFrequencyTypeeExt.fromInt(map['frequencyType']),
+      frequencyType: SalaryFrequencyTypeExt.fromInt(map['frequencyType']),
     );
   }
 

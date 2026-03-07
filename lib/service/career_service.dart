@@ -4,7 +4,9 @@ import 'package:spark_hire_app/http/dio_instance.dart';
 import 'package:spark_hire_app/model/career_exp/delete_career_experience.dart';
 import 'package:spark_hire_app/model/career_exp/get_current_user_career_exp.dart';
 import 'package:spark_hire_app/model/career_exp/modify_career_experience.dart';
+import 'package:spark_hire_app/model/wish_career/delete_wish_career.dart';
 import 'package:spark_hire_app/model/wish_career/get_current_wish_career.dart';
+import 'package:spark_hire_app/model/wish_career/modify_wish_career.dart';
 
 class CareerService {
   final DioInstance _dioInstance = DioInstance.instance();
@@ -95,6 +97,56 @@ class CareerService {
       );
 
       final result = GetCurrentWishCareerResponse.fromJson(resp.data);
+
+      if (!result.success) {
+        throw BusinessException(
+          result.baseResp.statusMessage,
+          result.baseResp.statusCode,
+        );
+      }
+
+      return result;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<ModifyWishCareerResponse> modifyWishCareer(
+    ModifyWishCareerRequest req,
+  ) async {
+    try {
+      final resp = await _dioInstance.post(
+        path: '/api/v1/ice/sparkhire/runtime/wish/career/modify',
+        data: req.toJson(),
+        options: Options(contentType: 'application/json'),
+      );
+
+      final result = ModifyWishCareerResponse.fromJson(resp.data);
+
+      if (!result.success) {
+        throw BusinessException(
+          result.baseResp.statusMessage,
+          result.baseResp.statusCode,
+        );
+      }
+
+      return result;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<DeleteWishCareerResponse> deleteWishCareer(
+    DeleteWishCareerRequest req,
+  ) async {
+    try {
+      final resp = await _dioInstance.post(
+        path: '/api/v1/ice/sparkhire/runtime/wish/career/delete',
+        data: req.toJson(),
+        options: Options(contentType: 'application/json'),
+      );
+
+      final result = DeleteWishCareerResponse.fromJson(resp.data);
 
       if (!result.success) {
         throw BusinessException(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// 选项模型 (保持不变)
+/// 选项模型
 class SelectOption<T> {
   final String label;
   final T value;
   final IconData? icon;
   final Color? iconColor;
+  final Widget? leading;
   final Widget? customDisplay;
   final Widget? customChild;
 
@@ -15,6 +16,7 @@ class SelectOption<T> {
     required this.value,
     this.icon,
     this.iconColor,
+    this.leading,
     this.customDisplay,
     this.customChild,
   });
@@ -29,6 +31,7 @@ class CustomSelectInput<T> extends StatefulWidget {
   final double height;
   final double? width;
   final bool enableSearch;
+  final Color? backgroundColor; // 新增：可选背景色
 
   const CustomSelectInput({
     super.key,
@@ -40,6 +43,7 @@ class CustomSelectInput<T> extends StatefulWidget {
     this.height = 50,
     this.width,
     this.enableSearch = true,
+    this.backgroundColor,
   });
 
   @override
@@ -64,11 +68,21 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
     }
   }
 
+  Widget? _buildLeading(SelectOption<T> option, {double? iconSize}) {
+    if (option.leading != null) return option.leading;
+    if (option.icon != null) {
+      return Icon(
+        option.icon,
+        color: option.iconColor ?? Colors.grey,
+        size: iconSize ?? 22.sp,
+      );
+    }
+    return null;
+  }
+
   void _showPicker(BuildContext context) {
     _focusNode.requestFocus();
-
     List<SelectOption<T>> filteredOptions = widget.options;
-
     showModalBottomSheet(
       context: context,
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -93,7 +107,7 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
                       width: 40.w,
                       height: 4.h,
                       decoration: BoxDecoration(
-                        color: Colors.grey.withAlpha(80),
+                        color: Colors.grey.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(2.r),
                       ),
                     ),
@@ -104,103 +118,90 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
                           decoration: InputDecoration(
                             hintText: "搜索...",
                             prefixIcon: const Icon(Icons.search),
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 15.w,
-                            ),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.r),
                               borderSide: BorderSide.none,
                             ),
                             filled: true,
-                            fillColor: Theme.of(
-                              context,
-                            ).colorScheme.inverseSurface.withAlpha(80),
+                            fillColor: Theme.of(context)
+                                .colorScheme
+                                .inverseSurface
+                                .withValues(alpha: 0.1),
                           ),
                           onChanged: (val) {
                             setModalState(() {
-                              filteredOptions =
-                                  widget.options
-                                      .where(
-                                        (opt) => opt.label
-                                            .toLowerCase()
-                                            .contains(val.toLowerCase()),
-                                      )
-                                      .toList();
+                              filteredOptions = widget.options
+                                  .where((opt) => opt.label
+                                      .toLowerCase()
+                                      .contains(val.toLowerCase()))
+                                  .toList();
                             });
                           },
                         ),
                       ),
                     Flexible(
-                      child:
-                          filteredOptions.isEmpty
-                              ? Padding(
-                                padding: EdgeInsets.symmetric(vertical: 40.h),
-                                child: const Center(
-                                  child: Text(
-                                    "未找到结果",
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                              )
-                              : ListView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                itemCount: filteredOptions.length,
-                                itemBuilder: (context, index) {
-                                  final option = filteredOptions[index];
-                                  bool isSelected =
-                                      option.value == widget.value;
-
-                                  return InkWell(
-                                    onTap: () {
-                                      widget.onSelected(option.value);
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 20.w,
-                                        vertical: 15.h,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color:
-                                            isSelected
-                                                ? Theme.of(context)
-                                                    .colorScheme
-                                                    .primary
-                                                    .withAlpha(20)
-                                                : null,
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: Colors.grey.withAlpha(20),
-                                            width: 0.5,
-                                          ),
+                      child: filteredOptions.isEmpty
+                          ? Padding(
+                              padding: EdgeInsets.symmetric(vertical: 40.h),
+                              child: const Center(
+                                child: Text("未找到结果",
+                                    style: TextStyle(color: Colors.grey)),
+                              ),
+                            )
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              itemCount: filteredOptions.length,
+                              itemBuilder: (context, index) {
+                                final option = filteredOptions[index];
+                                bool isSelected = option.value == widget.value;
+                                return InkWell(
+                                  onTap: () {
+                                    widget.onSelected(option.value);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 20.w,
+                                      vertical: 15.h,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withValues(alpha: 0.1)
+                                          : null,
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color:
+                                              Colors.grey.withValues(alpha: 0.1),
+                                          width: 0.5,
                                         ),
                                       ),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child:
-                                                option.customChild ??
-                                                _buildDefaultItem(
-                                                  option,
-                                                  isSelected,
-                                                ),
-                                          ),
-                                          if (isSelected)
-                                            Icon(
-                                              Icons.check_circle,
-                                              color:
-                                                  Theme.of(
-                                                    context,
-                                                  ).colorScheme.primary,
-                                              size: 20.sp,
-                                            ),
-                                        ],
-                                      ),
                                     ),
-                                  );
-                                },
-                              ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: option.customChild ??
+                                              _buildDefaultItem(
+                                                  option, isSelected),
+                                        ),
+                                        if (isSelected)
+                                          Icon(
+                                            Icons.check_circle,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            size: 20.sp,
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                     ),
                   ],
                 ),
@@ -213,14 +214,11 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
   }
 
   Widget _buildDefaultItem(SelectOption<T> option, bool isSelected) {
+    final leading = _buildLeading(option);
     return Row(
       children: [
-        if (option.icon != null) ...[
-          Icon(
-            option.icon,
-            color: option.iconColor ?? Colors.grey,
-            size: 22.sp,
-          ),
+        if (leading != null) ...[
+          leading,
           12.horizontalSpace,
         ],
         Expanded(
@@ -236,10 +234,33 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
     );
   }
 
+  Widget _buildDefaultDisplay(SelectOption<T> option) {
+    final leading = _buildLeading(option, iconSize: 18.sp);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (leading != null) ...[
+          SizedBox(
+            width: 22.sp,
+            height: 22.sp,
+            child: Center(child: leading),
+          ),
+          8.horizontalSpace,
+        ],
+        Flexible(
+          child: Text(
+            option.label,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 16.sp),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final selectedOption = _selectedOption;
-
     return SizedBox(
       width: widget.width?.w,
       child: Column(
@@ -251,12 +272,14 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w500,
-                color: Theme.of(context).colorScheme.onSurface.withAlpha(200),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.8),
               ),
             ),
             8.verticalSpace,
           ],
-          // 4. 使用 Focus 包裹选择器容器
           Focus(
             focusNode: _focusNode,
             child: GestureDetector(
@@ -265,23 +288,30 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
                 height: widget.height.h,
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.inverseSurface,
+                  // 使用新增的背景色变量
+                  color: widget.backgroundColor ??
+                      Theme.of(context)
+                          .colorScheme
+                          .inverseSurface
+                          .withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(10.r),
+                  border: Border.all(
+                    color: Colors.grey.withValues(alpha: 0.2),
+                    width: 1,
+                  ),
                 ),
                 child: Row(
                   children: [
                     Expanded(
-                      child:
-                          selectedOption == null
-                              ? Text(
-                                widget.hintText ?? "请选择",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16.sp,
-                                ),
-                              )
-                              : (selectedOption.customDisplay ??
-                                  _buildDefaultDisplay(selectedOption)),
+                      child: selectedOption == null
+                          ? Text(
+                              widget.hintText ?? "请选择",
+                              style: const TextStyle(
+                                color: Colors.grey,
+                              ),
+                            )
+                          : (selectedOption.customDisplay ??
+                              _buildDefaultDisplay(selectedOption)),
                     ),
                     Icon(
                       Icons.keyboard_arrow_down,
@@ -295,14 +325,6 @@ class _CustomSelectInputState<T> extends State<CustomSelectInput<T>> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildDefaultDisplay(SelectOption<T> option) {
-    return Text(
-      option.label,
-      overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontSize: 16.sp),
     );
   }
 }

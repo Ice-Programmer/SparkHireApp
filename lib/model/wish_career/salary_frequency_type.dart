@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum SalaryFrequencyType { monthly, yearly, weekly, daily, hourly, unknown }
 
-extension SalaryFrequencyTypeeExt on SalaryFrequencyType {
+extension SalaryFrequencyTypeExt on SalaryFrequencyType {
   static SalaryFrequencyType fromInt(int value) {
     switch (value) {
       case 1:
@@ -32,6 +35,23 @@ extension SalaryFrequencyTypeeExt on SalaryFrequencyType {
         return 5;
       default:
         return 0;
+    }
+  }
+
+  String getText(BuildContext context) {
+    switch (this) {
+      case SalaryFrequencyType.monthly:
+        return AppLocalizations.of(context)!.monthText;
+      case SalaryFrequencyType.yearly:
+        return AppLocalizations.of(context)!.yearlyText;
+      case SalaryFrequencyType.weekly:
+        return AppLocalizations.of(context)!.weeklyText;
+      case SalaryFrequencyType.daily:
+        return AppLocalizations.of(context)!.dailyText;
+      case SalaryFrequencyType.hourly:
+        return AppLocalizations.of(context)!.hourlyText;
+      default:
+        return "";
     }
   }
 }

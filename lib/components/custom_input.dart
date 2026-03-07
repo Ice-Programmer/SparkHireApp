@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // 1. 引入 services 库以使用 FilteringTextInputFormatter
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomInput extends StatefulWidget {
@@ -19,6 +20,7 @@ class CustomInput extends StatefulWidget {
   final Color? textColor;
   final String? title;
   final bool enabled;
+  final bool onlyNumbers; // 2. 新增只限数字的可选参数
 
   const CustomInput({
     super.key,
@@ -39,6 +41,7 @@ class CustomInput extends StatefulWidget {
     this.textColor,
     this.title,
     this.enabled = true,
+    this.onlyNumbers = false, // 3. 默认不限制
   });
 
   @override
@@ -112,6 +115,10 @@ class _CustomInputState extends State<CustomInput> {
                 color: widget.textColor ?? Theme.of(context).colorScheme.onSurface,
                 height: 1.0,
               ),
+              // 4. 配置 inputFormatters 限制输入
+              inputFormatters: widget.onlyNumbers
+                  ? [FilteringTextInputFormatter.digitsOnly] 
+                  : null,
               decoration: InputDecoration(
                 isDense: true,
                 isCollapsed: true,
@@ -144,7 +151,9 @@ class _CustomInputState extends State<CustomInput> {
               onChanged: (value) {
                 widget.onChanged?.call(value);
               },
-              keyboardType: widget.inputType,
+              keyboardType: widget.onlyNumbers 
+                  ? TextInputType.number // 如果只限数字，强制弹出数字键盘
+                  : widget.inputType,
             ),
           ),
         ),

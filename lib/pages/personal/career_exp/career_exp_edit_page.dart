@@ -35,7 +35,6 @@ class _CareerExpEditPageState extends State<CareerExpEditPage> {
   void initState() {
     super.initState();
     initFormData();
-    if (widget.careerExpId > 0) {}
   }
 
   void initFormData() {

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
@@ -17,160 +18,160 @@ import 'package:spark_hire_app/pages/personal/view_model/career_exp_view_model.d
 import 'package:spark_hire_app/pages/personal/view_model/education_exp_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/tag_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
+import 'package:spark_hire_app/pages/personal/view_model/wish_career_view_model.dart';
+import 'package:spark_hire_app/pages/personal/wish_career/wish_career_edit_page.dart';
 import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
 import 'package:spark_hire_app/pages/register/register_verification_page.dart';
 import 'package:spark_hire_app/pages/schedule/schedule_page.dart';
 import 'package:spark_hire_app/pages/search/search_page.dart';
+import 'package:spark_hire_app/pages/select_page/career_selection_page.dart';
 import 'package:spark_hire_app/pages/welcome/guidance_page.dart';
 import 'package:spark_hire_app/pages/welcome/welcome_page.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
+// 专门为 ShellRoute 准备的 Key，防止路径冲突
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
+
 final GoRouter router = GoRouter(
   navigatorKey: ToastUtils.rootNavigatorKey,
+  initialLocation: '/',
+  debugLogDiagnostics: true, // 开启调试日志，方便查看跳转过程
   routes: [
+    // ---------------- 顶层路由 ----------------
     GoRoute(
-      path: '/', // 根路径
+      path: '/',
       name: '欢迎页',
-      pageBuilder:
-          (context, state) => const NoTransitionPage(child: WelcomePage()),
+      builder: (context, state) => const WelcomePage(),
     ),
     GoRoute(
       path: '/guidance',
       name: '引导页',
-      pageBuilder:
-          (context, state) => const NoTransitionPage(child: GuidancePage()),
+      builder: (context, state) => const GuidancePage(),
     ),
     GoRoute(
       path: '/login',
       name: "登录页面",
-      pageBuilder:
-          (context, state) => const NoTransitionPage(child: LoginPage()),
-    ),
-    GoRoute(
-      path: '/login/mail',
-      name: "邮箱登录页面",
-      pageBuilder: (context, state) => NoTransitionPage(child: MailLoginPage()),
+      builder: (context, state) => const LoginPage(),
+      routes: [
+        GoRoute(
+          path: 'mail',
+          name: "邮箱登录页面",
+          builder: (context, state) => MailLoginPage(),
+        ),
+      ],
     ),
     GoRoute(
       path: '/register',
       name: "用户注册",
       builder: (context, state) => RegisterPage(),
+      routes: [
+        GoRoute(
+          path: 'verification',
+          name: "用户注册验证码页面",
+          builder: (context, state) => RegisterVerificationPage(
+            email: state.uri.queryParameters['email'] ?? "",
+          ),
+        ),
+      ],
     ),
-    GoRoute(
-      path: '/register/verification',
-      name: "用户注册验证码页面",
-      builder: (context, state) {
-        final email = state.uri.queryParameters['email'];
-        return RegisterVerificationPage(email: email ?? "");
-      },
-    ),
+    // 统一路径为 /user/role/switch，对应 WelcomePage 的跳转
     GoRoute(
       path: '/user/role/switch',
       name: '身份选择',
-      pageBuilder:
-          (context, state) => const NoTransitionPage(child: SelectRolePage()),
+      builder: (context, state) => const SelectRolePage(),
     ),
+    GoRoute(
+      path: '/career/selection',
+      name: '职业选择',
+      builder: (context, state) => JobSelectionPage(),
+    ),
+
+    // ---------------- ShellRoute (底部导航栏) ----------------
     ShellRoute(
-      pageBuilder:
-          (context, state, child) =>
-              NoTransitionPage(child: HomeLayout(child: child)),
-      routes: <GoRoute>[
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) => HomeLayout(child: child),
+      routes: [
         GoRoute(
           path: '/job',
           name: '主页',
-          pageBuilder: (context, state) => NoTransitionPage(child: JobPage()),
+          builder: (context, state) => JobPage(),
         ),
         GoRoute(
           path: '/search',
           name: '搜索',
-          pageBuilder:
-              (context, state) => NoTransitionPage(child: SearchPage()),
+          builder: (context, state) => SearchPage(),
         ),
         GoRoute(
           path: '/schedule',
           name: '日程',
-          pageBuilder:
-              (context, state) => NoTransitionPage(child: SchedulePage()),
+          builder: (context, state) => SchedulePage(),
         ),
         GoRoute(
           path: '/favorite',
           name: '收藏',
-          pageBuilder:
-              (context, state) => NoTransitionPage(child: FavoritePage()),
+          builder: (context, state) => FavoritePage(),
         ),
         GoRoute(
           path: '/personal',
           name: '我的',
-          pageBuilder:
-              (context, state) => NoTransitionPage(child: CandidatePage()),
+          builder: (context, state) => CandidatePage(),
+          // 编辑子路由嵌套在 /personal 下，但通过 parentNavigatorKey 强制全屏显示
+          routes: _getCandidateEditRoutes(),
         ),
       ],
     ),
-    ..._getCandidateRoute(),
   ],
 );
 
-List<GoRoute> _getCandidateRoute() {
-  return <GoRoute>[
+List<GoRoute> _getCandidateEditRoutes() {
+  return [
     GoRoute(
-      path: '/personal/contract/edit',
-      name: '个人联系信息编辑',
+      path: 'contract/edit',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => ContractEditPage(contractInfo: state.extra as ContractInfo),
+    ),
+    GoRoute(
+      path: 'profile/edit',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => SummaryEditPage(viewModel: state.extra as CandidateInfoViewModel),
+    ),
+    GoRoute(
+      path: 'basic/edit',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
       builder: (context, state) {
-        final contractInfo = state.extra as ContractInfo;
-        return ContractEditPage(contractInfo: contractInfo);
+        final (userVm, candidateVm) = state.extra as (UserViewModel, CandidateInfoViewModel);
+        return CandidateInfoEditPage(userViewModel: userVm, candidateInfoViewModel: candidateVm);
       },
     ),
     GoRoute(
-      path: '/personal/profile/edit',
-      name: '个人简介编辑',
-      builder: (context, state) {
-        final viewModel = state.extra as CandidateInfoViewModel;
-        return SummaryEditPage(viewModel: viewModel);
-      },
+      path: 'education/edit/:eduExpId',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => EducationInfoEditPage(
+        viewModel: state.extra as EducationExpViewModel,
+        educationExpId: int.tryParse(state.pathParameters['eduExpId'] ?? '0') ?? 0,
+      ),
     ),
     GoRoute(
-      path: '/personal/basic/edit',
-      name: '个人基础信息编辑',
-      builder: (context, state) {
-        final (userVm, candidateVm) =
-            state.extra as (UserViewModel, CandidateInfoViewModel);
-        return CandidateInfoEditPage(
-          userViewModel: userVm,
-          candidateInfoViewModel: candidateVm,
-        );
-      },
+      path: 'career/exp/edit/:careerExpId',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => CareerExpEditPage(
+        viewModel: state.extra as CareerExpViewModel,
+        careerExpId: int.tryParse(state.pathParameters['careerExpId'] ?? '0') ?? 0,
+      ),
     ),
     GoRoute(
-      path: '/personal/education/edit/:eduExpId',
-      name: '个人教育经历编辑',
-      builder: (context, state) {
-        final viewModel = state.extra as EducationExpViewModel;
-        final eduExpId = state.pathParameters['eduExpId']!;
-        int value = int.tryParse(eduExpId) ?? 0;
-        return EducationInfoEditPage(
-          viewModel: viewModel,
-          educationExpId: value,
-        );
-      },
+      path: 'skill/tag/edit',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => TagInfoEditPage(viewModel: state.extra as TagViewModel),
     ),
     GoRoute(
-      path: '/personal/career/exp/edit/:careerExpId',
-      name: '个人工作经历编辑',
-      builder: (context, state) {
-        final viewModel = state.extra as CareerExpViewModel;
-        final eduExpId = state.pathParameters['careerExpId']!;
-        int value = int.tryParse(eduExpId) ?? 0;
-        return CareerExpEditPage(viewModel: viewModel, careerExpId: value);
-      },
-    ),
-    GoRoute(
-      path: '/personal/skill/tag/edit',
-      name: '个人技能标签编辑',
-      builder: (context, state) {
-        final viewModel = state.extra as TagViewModel;
-        return TagInfoEditPage(viewModel: viewModel);
-      },
+      path: 'wish/career/edit/:wishCareerId',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => WishCareerEditPage(
+        viewModel: state.extra as WishCareerViewModel,
+        wishCareerId: int.tryParse(state.pathParameters['wishCareerId'] ?? '0') ?? 0,
+      ),
     ),
   ];
 }
