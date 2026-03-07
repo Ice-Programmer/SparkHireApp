@@ -6,7 +6,7 @@ import 'package:spark_hire_app/components/custom_select_input.dart';
 import 'package:spark_hire_app/components/edit_title.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
 import 'package:spark_hire_app/http/business_exception.dart';
-import 'package:spark_hire_app/model/information/list_career.dart'; // 导入 CareerInfo 模型
+import 'package:spark_hire_app/model/information/list_career.dart';
 import 'package:spark_hire_app/model/wish_career/delete_wish_career.dart';
 import 'package:spark_hire_app/model/wish_career/modify_wish_career.dart';
 import 'package:spark_hire_app/model/wish_career/salary_currency_type.dart';
@@ -39,7 +39,7 @@ class _WishCareerEditPageState extends State<WishCareerEditPage> {
   // --- 状态变量 ---
   bool _isLowerUnlimited = false;
   bool _isUpperUnlimited = false;
-  String _selectedJobName = ""; // 用于在 UI 上显示职位名称
+  String _selectedJobName = ""; // 用于在 UI 上显示选中的职位名称
 
   bool get _isNegotiable => _isLowerUnlimited && _isUpperUnlimited;
 
@@ -65,7 +65,7 @@ class _WishCareerEditPageState extends State<WishCareerEditPage> {
       );
       _isLowerUnlimited = existing.salaryLower == 0;
       _isUpperUnlimited = existing.salaryUpper == 0;
-      _selectedJobName = existing.careerInfo.careerName;
+      _selectedJobName = existing.careerInfo.careerName; // 初始化已有的职位名
     } else {
       _request = ModifyWishCareerRequest(
         careerId: 0,
@@ -105,20 +105,19 @@ class _WishCareerEditPageState extends State<WishCareerEditPage> {
 
   void _onSave() => _handleAction(
     () => _careerService.modifyWishCareer(_request!),
-    AppLocalizations.of(context)!.saveSuccessText ?? 'Save Success',
+    AppLocalizations.of(context)!.saveSuccessText,
   );
 
-  // 跳转职业选择
-  Future<void> _onSelectJob() async {
-    // 假设 JobSelectionPage 返回的是选中的 CareerInfo 对象
+  // 跳转职业选择并接收返回结果
+  Future<void> _handleSelectJob() async {
     final result = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const JobSelectionPage()),
+      MaterialPageRoute(builder: (context) => JobSelectionPage(initialJobId: _request?.careerId)),
     );
 
     if (result != null && result is CareerInfo) {
       setState(() {
-        _request = _request?.copyWith(careerId: result.id);
+        _request = _request?.copyWith(careerId: result.id); 
         _selectedJobName = result.careerName;
       });
     }
@@ -170,7 +169,6 @@ class _WishCareerEditPageState extends State<WishCareerEditPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1. 职位选择入口
           _buildJobSelector(l10n),
 
           20.verticalSpace,
@@ -262,37 +260,19 @@ class _WishCareerEditPageState extends State<WishCareerEditPage> {
     );
   }
 
-  // 1. 跳转并接收的方法
-  Future<void> _handleSelectJob() async {
-    // result 会接收 Navigator.pop 传回来的 selectedJob
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const JobSelectionPage()),
-    );
-
-    // 检查是否真的选了东西返回（防止用户直接点返回键）
-    if (result != null && result is CareerInfo) {
-      setState(() {
-        // 更新请求模型中的 ID
-        _request = _request?.copyWith(careerId: result.id);
-        // 更新本地用于展示的名称（如果有这个变量的话）
-        _selectedJobName = result.careerName;
-      });
-    }
-  }
-
-  // 2. 在 build 方法中展示选中的内容
-  // 推荐用一个点击区域来展示
+  // 修改后的选择器：支持点击和数据显示
   Widget _buildJobSelector(AppLocalizations l10n) {
     return GestureDetector(
-      onTap: _handleSelectJob, // 点击跳转
-      child: CustomInput(
-        title: l10n.selectJobTitleText,
-        hintText: l10n.selectJobTitleText,
-        // 展示选中的职位名，如果没有选则显示默认占位符
-        enabled: false, // 禁用输入，仅作为点击入口
-        backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-        height: 60.h,
+      onTap: _handleSelectJob,
+      child: AbsorbPointer(
+        child: CustomInput(
+          key: ValueKey(_selectedJobName),
+          title: l10n.expectedCareerText,
+          hintText: l10n.expectedCareerText,
+          defaultValue: _selectedJobName.isEmpty ? null : _selectedJobName,
+          backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+          height: 60.h,
+        ),
       ),
     );
   }

@@ -30,15 +30,13 @@ import 'package:spark_hire_app/pages/welcome/guidance_page.dart';
 import 'package:spark_hire_app/pages/welcome/welcome_page.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
-// 专门为 ShellRoute 准备的 Key，防止路径冲突
 final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 final GoRouter router = GoRouter(
   navigatorKey: ToastUtils.rootNavigatorKey,
   initialLocation: '/',
-  debugLogDiagnostics: true, // 开启调试日志，方便查看跳转过程
+  debugLogDiagnostics: true,
   routes: [
-    // ---------------- 顶层路由 ----------------
     GoRoute(
       path: '/',
       name: '欢迎页',
@@ -87,7 +85,6 @@ final GoRouter router = GoRouter(
       builder: (context, state) => JobSelectionPage(),
     ),
 
-    // ---------------- ShellRoute (底部导航栏) ----------------
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
       builder: (context, state, child) => HomeLayout(child: child),
@@ -116,7 +113,6 @@ final GoRouter router = GoRouter(
           path: '/personal',
           name: '我的',
           builder: (context, state) => CandidatePage(),
-          // 编辑子路由嵌套在 /personal 下，但通过 parentNavigatorKey 强制全屏显示
           routes: _getCandidateEditRoutes(),
         ),
       ],

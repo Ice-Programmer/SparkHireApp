@@ -13,7 +13,10 @@ class CareerCategory {
 }
 
 class JobSelectionPage extends StatefulWidget {
-  const JobSelectionPage({super.key});
+  // 1. 添加可选参数
+  final int? initialJobId;
+
+  const JobSelectionPage({super.key, this.initialJobId});
 
   @override
   State<JobSelectionPage> createState() => _JobSelectionPageState();
@@ -33,6 +36,8 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
   @override
   void initState() {
     super.initState();
+    // 2. 初始化时先赋值 ID
+    _selectedJobId = widget.initialJobId;
     _fetchData();
   }
 
@@ -41,21 +46,40 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
       final result = await _informationService.listCareerInfo(
         ListCareerInfoRequest(),
       );
+      
+      // 分组逻辑
       final groupedMap = groupBy(
         result.careerList,
         (CareerInfo info) => info.careerTypeName,
       );
 
-      final uiList =
-          groupedMap.entries.map((entry) {
-            return CareerCategory(name: entry.key, jobs: entry.value);
-          }).toList();
+      final uiList = groupedMap.entries.map((entry) {
+        return CareerCategory(name: entry.key, jobs: entry.value);
+      }).toList();
 
       if (!mounted) return;
+
       setState(() {
         _careerCategories = uiList;
         _isLoading = false;
-        if (_careerCategories.isNotEmpty) {
+
+        // 3. 核心逻辑：根据传入的 ID 寻找对应的分类和名称
+        if (_selectedJobId != null) {
+          bool found = false;
+          for (int i = 0; i < _careerCategories.length; i++) {
+            final targetJob = _careerCategories[i].jobs.firstWhereOrNull(
+              (job) => job.id == _selectedJobId,
+            );
+            if (targetJob != null) {
+              _selectedCategoryIndex = i; // 自动切换到该分类
+              _selectedJobName = targetJob.careerName; // 获取名字用于标题显示
+              found = true;
+              break;
+            }
+          }
+          // 如果没找到对应的 ID，清空选中状态
+          if (!found) _selectedJobId = null;
+        } else if (_careerCategories.isNotEmpty) {
           _selectedCategoryIndex = 0;
         }
       });
@@ -78,48 +102,46 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
         ),
       ),
       body: SafeArea(
-        child:
-            _isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: Text(
-                        "${AppLocalizations.of(context)!.selectJobTitleText} $_selectedJobName",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: Text(
+                      "${AppLocalizations.of(context)!.selectJobTitleText} $_selectedJobName",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    16.verticalSpace,
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      child: _buildSearchBar(sideBgColor),
+                  ),
+                  16.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    child: _buildSearchBar(sideBgColor),
+                  ),
+                  20.verticalSpace,
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildLeftNav(sideBgColor),
+                        _buildRightContent(sideBgColor),
+                      ],
                     ),
-                    20.verticalSpace,
-                    Expanded(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _buildLeftNav(sideBgColor),
-
-                          _buildRightContent(sideBgColor),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
       ),
       bottomNavigationBar: _buildBottomBtn(),
     );
   }
 
-  /// 搜索框：恢复灰底
+  /// 搜索框
   Widget _buildSearchBar(Color bgColor) {
     return Container(
       height: 40.h,
@@ -141,7 +163,7 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
     );
   }
 
-  /// 左侧导航：恢复选中态连通样式
+  /// 左侧导航
   Widget _buildLeftNav(Color bgColor) {
     return SizedBox(
       width: 105.w,
@@ -160,10 +182,9 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
                     width: 4.w,
                     height: 20.h,
                     decoration: BoxDecoration(
-                      color:
-                          isSelected
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.transparent,
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.transparent,
                       borderRadius: BorderRadius.horizontal(
                         right: Radius.circular(2.r),
                       ),
@@ -175,12 +196,8 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
                       _careerCategories[index].name,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        fontWeight:
-                            isSelected ? FontWeight.w600 : FontWeight.normal,
-                        color:
-                            isSelected
-                                ? Theme.of(context).colorScheme.primary
-                                : null,
+                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                        color: isSelected ? Theme.of(context).colorScheme.primary : null,
                       ),
                     ),
                   ),
@@ -199,7 +216,7 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
 
     return Expanded(
       child: Container(
-        color: bgColor, // 灰底
+        color: bgColor,
         child: ListView.builder(
           padding: EdgeInsets.fromLTRB(12.w, 8.h, 16.w, 20.h),
           itemCount: jobs.length,
@@ -215,11 +232,10 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
 
   Widget _buildCareerInfoCard(CareerInfo job, bool isSelected) {
     return GestureDetector(
-      onTap:
-          () => setState(() {
-            _selectedJobId = job.id;
-            _selectedJobName = job.careerName;
-          }),
+      onTap: () => setState(() {
+        _selectedJobId = job.id;
+        _selectedJobName = job.careerName;
+      }),
       child: Container(
         margin: EdgeInsets.only(bottom: 12.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -233,18 +249,13 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
             Row(
               children: [
                 Icon(
-                  isSelected
-                      ? Icons.radio_button_checked
-                      : Icons.radio_button_unchecked,
-                  color:
-                      isSelected
-                          ? Theme.of(context).colorScheme.primary
-                          : const Color(0xFFD3D3D3),
+                  isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked,
+                  color: isSelected
+                      ? Theme.of(context).colorScheme.primary
+                      : const Color(0xFFD3D3D3),
                   size: 20.sp,
                 ),
-
                 8.horizontalSpace,
-
                 Text(
                   job.careerName,
                   style: TextStyle(
@@ -254,13 +265,10 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
                 ),
               ],
             ),
-
             8.verticalSpace,
-
             Row(
               children: [
                 28.horizontalSpace,
-
                 Expanded(
                   child: Text(
                     job.description,
@@ -292,7 +300,7 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
       ),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 10,
@@ -309,15 +317,17 @@ class _JobSelectionPageState extends State<JobSelectionPage> {
           ),
           elevation: 0,
         ),
-        onPressed:
-            _selectedJobId == null
-                ? null
-                : () {
-                  final selectedJob = _careerCategories[_selectedCategoryIndex]
-                      .jobs
-                      .firstWhere((e) => e.id == _selectedJobId);
-                  Navigator.pop(context, selectedJob);
-                },
+        onPressed: _selectedJobId == null
+            ? null
+            : () {
+                // 确保从全量数据中准确拿到选中的 job
+                CareerInfo? selectedJob;
+                for (var cat in _careerCategories) {
+                  selectedJob = cat.jobs.firstWhereOrNull((e) => e.id == _selectedJobId);
+                  if (selectedJob != null) break;
+                }
+                Navigator.pop(context, selectedJob);
+              },
         child: Text(
           AppLocalizations.of(context)!.save,
           style: TextStyle(
