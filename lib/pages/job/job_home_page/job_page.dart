@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark_hire_app/components/clickable_search_bar.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/components/analyze_card.dart';
+import 'package:spark_hire_app/pages/job/job_home_page/components/popular_job_card.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/components/title_content.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -30,9 +31,13 @@ class JobPage extends StatelessWidget {
           // 分析卡片
           AnalysisDataCard(),
 
+          20.verticalSpace,
+
           // 受欢迎的工作
+          PopularJobCard(),
 
           // 技能相符的职位
+          
         ],
       ),
     );
