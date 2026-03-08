@@ -105,6 +105,7 @@
   "statusNotInterested": "暂不考虑机会",
   "statusOpen": "考虑机会中",
   "statusUnknown": "未知状态",
+  "subscibeToUnlockText": "订阅解锁",
   "summaryEditText": "个人简介（最多 500 字）",
   "summaryText": "个人简介",
   "switchRoleHeaderText": "开启您的专属旅程",
@@ -125,6 +126,7 @@
   "weeklyText": "周薪",
   "welcomeBackSecondText": "来找个好工作吧！",
   "welcomeBackText": "欢迎回来 👋",
+  "whoViewdText": "谁看过",
   "workCompanyName": "公司名称",
   "yearText": "年",
   "yearlyText": "年薪"

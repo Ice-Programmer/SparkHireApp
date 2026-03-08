@@ -105,6 +105,7 @@
   "statusNotInterested": "現在は検討していない",
   "statusOpen": "良い話があれば聞きたい",
   "statusUnknown": "不明",
+  "subscibeToUnlockText": "購読してロック解除",
   "summaryEditText": "自己紹介（500文字以内）",
   "summaryText": "自己紹介",
   "switchRoleHeaderText": "あなたの旅を始めましょう",
@@ -125,6 +126,7 @@
   "weeklyText": "週給",
   "welcomeBackSecondText": "理想の仕事を見つけよう！ ",
   "welcomeBackText": "お帰りなさい 👋",
+  "whoViewdText": "誰が閲覧したか",
   "workCompanyName": "会社名",
   "yearText": "年",
   "yearlyText": "年収"

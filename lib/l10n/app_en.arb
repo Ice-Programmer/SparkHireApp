@@ -105,6 +105,7 @@
   "statusNotInterested": "Not interested",
   "statusOpen": "Open to opportunities",
   "statusUnknown": "Unknown",
+  "subscibeToUnlockText": "Subscribe to Unlock",
   "summaryEditText": "Summary (Max. 1000 characters)",
   "summaryText": "Summary",
   "switchRoleHeaderText": "Start Your Personal Journey",
@@ -125,6 +126,7 @@
   "weeklyText": "Weekly",
   "welcomeBackSecondText": "Let's find your dream job!",
   "welcomeBackText": "Welcome back 👋",
+  "whoViewdText": "Who Viewed",
   "workCompanyName": "Company",
   "yearText": "years",
   "yearlyText": "Annual"

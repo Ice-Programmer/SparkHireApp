@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/common/assets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -98,11 +99,16 @@ class AnalysisDataCard extends StatelessWidget {
                       ),
 
                       // ➡️
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 8.0),
-                        child: Icon(
-                          Icons.arrow_forward_rounded,
-                          color: Theme.of(context).colorScheme.onPrimary,
+                      InkWell(
+                        onTap: () {
+                          context.push('/analyze');
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Theme.of(context).colorScheme.onPrimary,
+                          ),
                         ),
                       ),
                     ],

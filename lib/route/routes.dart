@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
+import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/job_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
@@ -76,7 +77,6 @@ final GoRouter router = GoRouter(
         ),
       ],
     ),
-    // 统一路径为 /user/role/switch，对应 WelcomePage 的跳转
     GoRoute(
       path: '/user/role/switch',
       name: '身份选择',
@@ -86,6 +86,11 @@ final GoRouter router = GoRouter(
       path: '/career/selection',
       name: '职业选择',
       builder: (context, state) => JobSelectionPage(),
+    ),
+    GoRoute(
+      path: '/analyze',
+      name: "职业分析",
+      builder: (context, state) => AnalyzePage(),
     ),
 
     ShellRoute(
