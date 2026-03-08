@@ -99,6 +99,7 @@ flutter:
     - assets/image/login/selfkey.svg
     - assets/image/login/phone.svg
     - assets/image/icon/edit.svg
+    - assets/image/job/analyze_card_bg.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
-import 'package:spark_hire_app/pages/job/job_page.dart';
+import 'package:spark_hire_app/pages/job/job_home_page/job_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_edit_page.dart';
@@ -30,7 +30,9 @@ import 'package:spark_hire_app/pages/welcome/guidance_page.dart';
 import 'package:spark_hire_app/pages/welcome/welcome_page.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'shell',
+);
 
 final GoRouter router = GoRouter(
   navigatorKey: ToastUtils.rootNavigatorKey,
@@ -67,9 +69,10 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'verification',
           name: "用户注册验证码页面",
-          builder: (context, state) => RegisterVerificationPage(
-            email: state.uri.queryParameters['email'] ?? "",
-          ),
+          builder:
+              (context, state) => RegisterVerificationPage(
+                email: state.uri.queryParameters['email'] ?? "",
+              ),
         ),
       ],
     ),
@@ -92,7 +95,7 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: '/job',
           name: '主页',
-          builder: (context, state) => JobPage(),
+          pageBuilder: (context, state) => NoTransitionPage(child: JobPage()),
         ),
         GoRoute(
           path: '/search',
@@ -102,17 +105,20 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: '/schedule',
           name: '日程',
-          builder: (context, state) => SchedulePage(),
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: SchedulePage()),
         ),
         GoRoute(
           path: '/favorite',
           name: '收藏',
-          builder: (context, state) => FavoritePage(),
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: FavoritePage()),
         ),
         GoRoute(
           path: '/personal',
           name: '我的',
-          builder: (context, state) => CandidatePage(),
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: CandidatePage()),
           routes: _getCandidateEditRoutes(),
         ),
       ],
@@ -125,49 +131,65 @@ List<GoRoute> _getCandidateEditRoutes() {
     GoRoute(
       path: 'contract/edit',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => ContractEditPage(contractInfo: state.extra as ContractInfo),
+      builder:
+          (context, state) =>
+              ContractEditPage(contractInfo: state.extra as ContractInfo),
     ),
     GoRoute(
       path: 'profile/edit',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => SummaryEditPage(viewModel: state.extra as CandidateInfoViewModel),
+      builder:
+          (context, state) =>
+              SummaryEditPage(viewModel: state.extra as CandidateInfoViewModel),
     ),
     GoRoute(
       path: 'basic/edit',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
       builder: (context, state) {
-        final (userVm, candidateVm) = state.extra as (UserViewModel, CandidateInfoViewModel);
-        return CandidateInfoEditPage(userViewModel: userVm, candidateInfoViewModel: candidateVm);
+        final (userVm, candidateVm) =
+            state.extra as (UserViewModel, CandidateInfoViewModel);
+        return CandidateInfoEditPage(
+          userViewModel: userVm,
+          candidateInfoViewModel: candidateVm,
+        );
       },
     ),
     GoRoute(
       path: 'education/edit/:eduExpId',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => EducationInfoEditPage(
-        viewModel: state.extra as EducationExpViewModel,
-        educationExpId: int.tryParse(state.pathParameters['eduExpId'] ?? '0') ?? 0,
-      ),
+      builder:
+          (context, state) => EducationInfoEditPage(
+            viewModel: state.extra as EducationExpViewModel,
+            educationExpId:
+                int.tryParse(state.pathParameters['eduExpId'] ?? '0') ?? 0,
+          ),
     ),
     GoRoute(
       path: 'career/exp/edit/:careerExpId',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => CareerExpEditPage(
-        viewModel: state.extra as CareerExpViewModel,
-        careerExpId: int.tryParse(state.pathParameters['careerExpId'] ?? '0') ?? 0,
-      ),
+      builder:
+          (context, state) => CareerExpEditPage(
+            viewModel: state.extra as CareerExpViewModel,
+            careerExpId:
+                int.tryParse(state.pathParameters['careerExpId'] ?? '0') ?? 0,
+          ),
     ),
     GoRoute(
       path: 'skill/tag/edit',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => TagInfoEditPage(viewModel: state.extra as TagViewModel),
+      builder:
+          (context, state) =>
+              TagInfoEditPage(viewModel: state.extra as TagViewModel),
     ),
     GoRoute(
       path: 'wish/career/edit/:wishCareerId',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => WishCareerEditPage(
-        viewModel: state.extra as WishCareerViewModel,
-        wishCareerId: int.tryParse(state.pathParameters['wishCareerId'] ?? '0') ?? 0,
-      ),
+      builder:
+          (context, state) => WishCareerEditPage(
+            viewModel: state.extra as WishCareerViewModel,
+            wishCareerId:
+                int.tryParse(state.pathParameters['wishCareerId'] ?? '0') ?? 0,
+          ),
     ),
   ];
 }

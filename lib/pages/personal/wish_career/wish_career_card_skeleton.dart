@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+// todo
 class WishCareerCardSkeleton extends StatelessWidget {
   const WishCareerCardSkeleton({super.key});
 

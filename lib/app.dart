@@ -25,6 +25,22 @@ Size get designSize {
   );
 }
 
+class NoOverscrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    return child;
+  }
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const ClampingScrollPhysics();
+  }
+}
+
 class App extends StatefulWidget {
   const App({super.key});
 
@@ -45,6 +61,7 @@ class _AppState extends State<App> {
       designSize: designSize,
       builder: (context, child) {
         return MaterialApp.router(
+          scrollBehavior: NoOverscrollBehavior(),
           routerConfig: router,
           localizationsDelegates: [
             AppLocalizations.delegate,

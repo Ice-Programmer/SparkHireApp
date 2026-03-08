@@ -20,14 +20,9 @@ import 'package:spark_hire_app/pages/personal/view_model/user_view_model.dart';
 import 'package:spark_hire_app/pages/personal/view_model/wish_career_view_model.dart';
 import 'package:spark_hire_app/pages/personal/wish_career/wish_career_card.dart';
 
-class CandidatePage extends StatefulWidget {
+class CandidatePage extends StatelessWidget {
   const CandidatePage({super.key});
 
-  @override
-  State<CandidatePage> createState() => _CandidatePageState();
-}
-
-class _CandidatePageState extends State<CandidatePage> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -161,12 +156,12 @@ class _CandidatePageState extends State<CandidatePage> {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
         ),
 
-        _buildSettingBtn(),
+        _buildSettingBtn(context),
       ],
     );
   }
 
-  Widget _buildSettingBtn() {
+  Widget _buildSettingBtn(BuildContext context) {
     return IconButton(
       onPressed: () {
         context.push("/career/selection");
