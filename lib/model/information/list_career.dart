@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
 import 'package:spark_hire_app/model/common/base.dart';
 import 'package:spark_hire_app/model/common/base_response.dart';
 
@@ -69,4 +71,48 @@ class ListCareerInfoResponse {
       baseResp: BaseResp.fromJson(json['BaseResp']),
     );
   }
+}
+
+class IndustryDetailInfo {
+  final int id;
+  final String industryName;
+
+  IndustryDetailInfo({required this.id, required this.industryName});
+
+  IndustryDetailInfo copyWith({int? id, String? industryName}) {
+    return IndustryDetailInfo(
+      id: id ?? this.id,
+      industryName: industryName ?? this.industryName,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{'id': id, 'industryName': industryName};
+  }
+
+  factory IndustryDetailInfo.fromMap(Map<String, dynamic> map) {
+    return IndustryDetailInfo(
+      id: map['id'] as int,
+      industryName: map['industryName'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory IndustryDetailInfo.fromJson(String source) =>
+      IndustryDetailInfo.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() =>
+      'IndustryDetailInfo(id: $id, industryName: $industryName)';
+
+  @override
+  bool operator ==(covariant IndustryDetailInfo other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id && other.industryName == industryName;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ industryName.hashCode;
 }

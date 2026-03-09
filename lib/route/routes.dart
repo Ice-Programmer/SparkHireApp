@@ -4,7 +4,7 @@ import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
-import 'package:spark_hire_app/pages/job/job_home_page/job_page.dart';
+import 'package:spark_hire_app/pages/job/job_home_page/job_home_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_edit_page.dart';
@@ -100,7 +100,7 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: '/job',
           name: '主页',
-          pageBuilder: (context, state) => NoTransitionPage(child: JobPage()),
+          pageBuilder: (context, state) => NoTransitionPage(child: JobHomePage()),
         ),
         GoRoute(
           path: '/search',
