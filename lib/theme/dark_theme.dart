@@ -13,6 +13,7 @@ ThemeData darkMode = ThemeData(
     inverseSurface: const Color(0xFF333333),
     onError: const Color(0xFFE13138),
     outline: const Color(0xFFA4ACB9),
+    surface: const Color(0xFF0D0D12),
   ),
   extensions: [
     SkeletonTheme(

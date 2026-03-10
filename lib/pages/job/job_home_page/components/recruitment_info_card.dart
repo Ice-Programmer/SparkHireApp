@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
-import 'package:spark_hire_app/model/wish_career/salary_currency_type.dart';
 import 'package:spark_hire_app/model/wish_career/salary_frequency_type.dart';
-import 'package:spark_hire_app/model/wish_career/salary_info.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spark_hire_app/utils/salary_util.dart';
 
 class RecruitmentInfoCard extends StatelessWidget {
@@ -14,151 +12,156 @@ class RecruitmentInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.6),
-          width: 0.4,
+    return GestureDetector(
+      onTap: () {
+        context.push('/job/detail', extra: recruitmentInfo);
+      },
+      child: Container(
+        padding: EdgeInsets.all(16.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.6),
+            width: 0.4,
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 第一行：头像、标题和收藏按钮
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // 公司头像
-              _buildCareerImage(
-                context: context,
-                icon: recruitmentInfo.companyInfo.companyLogo,
-              ),
-
-              12.horizontalSpace,
-
-              // 职位信息
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // 职位名称
-                    Text(
-                      recruitmentInfo.name,
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    4.verticalSpace,
-
-                    // 公司名称
-                    Text(
-                      recruitmentInfo.companyInfo.companyName,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                    ),
-                  ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 第一行：头像、标题和收藏按钮
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // 公司头像
+                _buildCompanyImage(
+                  context: context,
+                  icon: recruitmentInfo.companyInfo.companyLogo,
                 ),
-              ),
 
-              // 收藏图标
-              Icon(
-                Icons.bookmarks_outlined,
-                color: Colors.grey[400],
-                size: 28.r,
-              ),
-            ],
-          ),
+                12.horizontalSpace,
 
-          // 第二行：标签列表
-          buildTagRow(
-            context,
-            recruitmentInfo.tagInfoList.map((tag) => tag.tagName).toList(),
-          ),
+                // 职位信息
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 职位名称
+                      Text(
+                        recruitmentInfo.name,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
 
-          10.verticalSpace,
+                      4.verticalSpace,
 
-          // 第三行：职位描述
-          Text(
-            recruitmentInfo.description,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Colors.grey[600],
-              height: 1.5,
+                      // 公司名称
+                      Text(
+                        recruitmentInfo.companyInfo.companyName,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // 收藏图标
+                Icon(
+                  Icons.bookmarks_outlined,
+                  color: Colors.grey[400],
+                  size: 28.r,
+                ),
+              ],
             ),
-          ),
 
-          20.verticalSpace,
+            // 第二行：标签列表
+            buildTagRow(
+              context,
+              recruitmentInfo.tagInfoList.map((tag) => tag.tagName).toList(),
+            ),
 
-          // 第四行：地点和薪资
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // 地点
-              Expanded(
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.location_on_outlined,
-                      size: 16.r,
-                      color: Colors.grey,
-                    ),
+            10.verticalSpace,
 
-                    4.horizontalSpace,
+            // 第三行：职位描述
+            Text(
+              recruitmentInfo.description,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Colors.grey[600],
+                height: 1.5,
+              ),
+            ),
 
-                    Expanded(
-                      child: Text(
-                        '${recruitmentInfo.geoInfo.thirdGeoLevelName} ${recruitmentInfo.geoInfo.forthGeoLevelName}',
+            20.verticalSpace,
+
+            // 第四行：地点和薪资
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // 地点
+                Expanded(
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: 16.r,
+                        color: Colors.grey,
+                      ),
+
+                      4.horizontalSpace,
+
+                      Expanded(
+                        child: Text(
+                          '${recruitmentInfo.geoInfo.thirdGeoLevelName} ${recruitmentInfo.geoInfo.forthGeoLevelName}',
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            color: Colors.grey[500],
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                12.horizontalSpace,
+
+                // 薪资
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: SalaryUtil.buildSalaryRangeText(
+                          context,
+                          recruitmentInfo.salaryInfo,
+                        ),
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            " ${recruitmentInfo.salaryInfo.frequencyType.getText(context)}",
                         style: TextStyle(
                           fontSize: 13.sp,
-                          color: Colors.grey[500],
+                          color: Colors.grey[400],
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-
-              12.horizontalSpace,
-
-              // 薪资
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: _buildSalaryRangeText(
-                        context,
-                        recruitmentInfo.salaryInfo,
-                      ),
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    TextSpan(
-                      text:
-                          " ${recruitmentInfo.salaryInfo.frequencyType.getText(context)}",
-                      style: TextStyle(
-                        fontSize: 13.sp,
-                        color: Colors.grey[400],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -182,7 +185,7 @@ class RecruitmentInfoCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCareerImage({
+  Widget _buildCompanyImage({
     required String icon,
     required BuildContext context,
   }) {
@@ -203,26 +206,6 @@ class RecruitmentInfoCard extends StatelessWidget {
         borderRadius: 10.r,
       ),
     );
-  }
-
-  String _buildSalaryRangeText(BuildContext context, SalaryInfo salaryInfo) {
-    final l10n = AppLocalizations.of(context)!;
-    final lower = salaryInfo.salaryLower;
-    final upper = salaryInfo.salaryUpper;
-    final symbol = salaryInfo.currencyType?.symbol ?? "\$";
-
-    // 1. 全为0的情况：面议
-    if (lower == 0 && upper == 0) return l10n.salaryNegotiableText;
-
-    // 2. 格式化数字（如 4000 -> 4k）
-    final sLower = SalaryUtil.formatSalary(lower ?? 0);
-    final sUpper = SalaryUtil.formatSalary(upper ?? 0);
-
-    // 3. 构建区间
-    if (lower == 0) return '$symbol$sUpper ${l10n.belowText}';
-    if (upper == 0) return '$symbol$sLower+';
-
-    return '$symbol$sLower-$sUpper';
   }
 
   Widget buildTagRow(BuildContext context, List<String> tags) {

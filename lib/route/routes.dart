@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
+import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
+import 'package:spark_hire_app/pages/job/job_detail_page/job_detail_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/job_home_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
@@ -92,6 +94,13 @@ final GoRouter router = GoRouter(
       name: "职业分析",
       builder: (context, state) => AnalyzePage(),
     ),
+    GoRoute(
+      path: '/job/detail',
+      name: '工作详情',
+      builder:
+          (context, state) =>
+              JobDetailPage(recruitmentInfo: state.extra as RecruitmentInfo),
+    ),
 
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
@@ -100,7 +109,8 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: '/job',
           name: '主页',
-          pageBuilder: (context, state) => NoTransitionPage(child: JobHomePage()),
+          pageBuilder:
+              (context, state) => NoTransitionPage(child: JobHomePage()),
         ),
         GoRoute(
           path: '/search',

@@ -13,6 +13,7 @@ ThemeData lightMode = ThemeData(
     inverseSurface: const Color(0xFFF5F5F5),
     onError: const Color(0xFFE13138),
     outline: const Color(0xFF818898),
+    surface: const Color(0xFFFFFFFF),
   ),
   extensions: [
     SkeletonTheme(
