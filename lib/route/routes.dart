@@ -4,6 +4,7 @@ import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
 import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
 import 'package:spark_hire_app/pages/job/job_detail_page/job_detail_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/job_home_page.dart';
@@ -100,6 +101,15 @@ final GoRouter router = GoRouter(
       builder:
           (context, state) =>
               JobDetailPage(recruitmentInfo: state.extra as RecruitmentInfo),
+    ),
+    GoRoute(
+      path: '/company/detail/:companyId',
+      name: "公司详情页",
+      builder:
+          (context, state) => CompanyDetailPage(
+            companyId:
+                int.tryParse(state.pathParameters['companyId'] ?? '0') ?? 0,
+          ),
     ),
 
     ShellRoute(

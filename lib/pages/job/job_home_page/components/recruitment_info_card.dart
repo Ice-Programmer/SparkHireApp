@@ -48,8 +48,10 @@ class RecruitmentInfoCard extends StatelessWidget {
                       // 职位名称
                       Text(
                         recruitmentInfo.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -59,8 +61,10 @@ class RecruitmentInfoCard extends StatelessWidget {
                       // 公司名称
                       Text(
                         recruitmentInfo.companyInfo.companyName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           color: Theme.of(context).colorScheme.outline,
                         ),
                       ),
@@ -72,7 +76,7 @@ class RecruitmentInfoCard extends StatelessWidget {
                 Icon(
                   Icons.bookmarks_outlined,
                   color: Colors.grey[400],
-                  size: 28.r,
+                  size: 22.r,
                 ),
               ],
             ),
@@ -91,13 +95,13 @@ class RecruitmentInfoCard extends StatelessWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
                 color: Colors.grey[600],
                 height: 1.5,
               ),
             ),
 
-            20.verticalSpace,
+            16.verticalSpace,
 
             // 第四行：地点和薪资
             Row(
@@ -119,7 +123,7 @@ class RecruitmentInfoCard extends StatelessWidget {
                         child: Text(
                           '${recruitmentInfo.geoInfo.thirdGeoLevelName} ${recruitmentInfo.geoInfo.forthGeoLevelName}',
                           style: TextStyle(
-                            fontSize: 13.sp,
+                            fontSize: 12.sp,
                             color: Colors.grey[500],
                           ),
                           overflow: TextOverflow.ellipsis,
@@ -142,7 +146,7 @@ class RecruitmentInfoCard extends StatelessWidget {
                           recruitmentInfo.salaryInfo,
                         ),
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
@@ -151,7 +155,7 @@ class RecruitmentInfoCard extends StatelessWidget {
                         text:
                             " ${recruitmentInfo.salaryInfo.frequencyType.getText(context)}",
                         style: TextStyle(
-                          fontSize: 13.sp,
+                          fontSize: 12.sp,
                           color: Colors.grey[400],
                         ),
                       ),
@@ -198,12 +202,12 @@ class RecruitmentInfoCard extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(39.r),
       ),
-      padding: EdgeInsets.all(12.w),
+      padding: EdgeInsets.all(8.r),
       child: CacheImage(
-        height: 30.h,
-        width: 30.w,
+        height: 26.h,
+        width: 26.w,
         imageUrl: icon,
-        borderRadius: 10.r,
+        borderRadius: 6.r,
       ),
     );
   }

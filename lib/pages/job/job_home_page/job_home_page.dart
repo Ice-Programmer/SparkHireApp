@@ -59,19 +59,30 @@ class _JobHomePageState extends State<JobHomePage> {
             controller: _scrollController, // 绑定控制器
             physics: const AlwaysScrollableScrollPhysics(), // 保证内容不足一屏也能下拉刷新
             children: [
+              // 标题栏
               const TitleContent(),
+
               24.verticalSpace,
+
+              // 搜索栏
               ClickableSearchButton(
                 onTap: () {},
                 hintText: AppLocalizations.of(context)!.searchText,
               ),
+
               20.verticalSpace,
+
+              // 分析卡片
               const AnalysisDataCard(),
+
               20.verticalSpace,
+
+              // 受欢迎的工作
               const PopularJobCard(),
+
               20.verticalSpace,
-              
-              // 5. 使用 Consumer 监听数据变化，传给子组件渲染
+
+              // 工作列表
               Consumer<RecruitmentViewModel>(
                 builder: (context, viewModel, child) {
                   return RelativeJobContent(viewModel: viewModel);

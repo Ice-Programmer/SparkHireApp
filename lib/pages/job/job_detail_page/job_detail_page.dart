@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/components/custom_markdown.dart';
 import 'package:spark_hire_app/model/recruitment/job_type.dart';
@@ -69,15 +70,21 @@ class JobDetailPage extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: Center(
-                      child: Container(
-                        padding: EdgeInsets.all(6.r),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: _buildCompanyImage(
-                          icon: recruitmentInfo.companyInfo.companyLogo,
-                          context: context,
+                      child: GestureDetector(
+                        onTap:
+                            () => context.push(
+                              '/company/detail/${recruitmentInfo.companyInfo.id}',
+                            ),
+                        child: Container(
+                          padding: EdgeInsets.all(6.r),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: _buildCompanyImage(
+                            icon: recruitmentInfo.companyInfo.companyLogo,
+                            context: context,
+                          ),
                         ),
                       ),
                     ),
@@ -185,7 +192,9 @@ class JobDetailPage extends StatelessWidget {
             ],
           ),
 
-          40.verticalSpace,
+          _buildTagGroup(context),
+
+          20.verticalSpace,
 
           // 职位描述
           Text(
@@ -256,6 +265,33 @@ class JobDetailPage extends StatelessWidget {
     );
   }
 
+  Widget _buildTagGroup(BuildContext context) {
+    final tags = recruitmentInfo.tagInfoList;
+    if (tags.isEmpty) {
+      return SizedBox.shrink();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        20.verticalSpace,
+
+        // 技能标签
+        Text(
+          AppLocalizations.of(context)!.skillTagsText,
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        ),
+
+        12.verticalSpace,
+
+        Wrap(
+          spacing: 8.w,
+          runSpacing: 5.h,
+          children: tags.map((tag) => _buildTag(context, tag.tagName)).toList(),
+        ),
+      ],
+    );
+  }
+
   // 构建底部悬浮按钮
   Widget _buildBottomBar(BuildContext context) {
     return Container(
@@ -281,6 +317,25 @@ class JobDetailPage extends StatelessWidget {
               color: Colors.white,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  // 标签构建方法
+  Widget _buildTag(BuildContext context, String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.inverseSurface,
+        borderRadius: BorderRadius.circular(100.r),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 12.sp,
+          color: Theme.of(context).colorScheme.outline,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );

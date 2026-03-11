@@ -110,6 +110,7 @@
   "selectJobTitleText": "選択した職業は：",
   "selectLanguage": "言語を選択",
   "sendVerificationCodeError": "コードの送信に失敗しました。もう一度お試しください",
+  "skillTagsText": "スキルタグ",
   "skillText": "スキル",
   "skillsHintText": "スキル名を入力",
   "skip": "スキップ",
