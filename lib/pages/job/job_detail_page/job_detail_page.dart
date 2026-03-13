@@ -5,6 +5,7 @@ import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/components/custom_markdown.dart';
 import 'package:spark_hire_app/model/recruitment/job_type.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
+import 'package:spark_hire_app/pages/job/job_detail_page/components/geo_detail_content.dart';
 import 'package:spark_hire_app/utils/salary_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -225,6 +226,18 @@ class JobDetailPage extends StatelessWidget {
           12.verticalSpace,
 
           CustomMarkdown(text: recruitmentInfo.requirement),
+
+          40.verticalSpace,
+
+          Text(
+            AppLocalizations.of(context)!.workLocationText,
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          ),
+
+          12.verticalSpace,
+
+          // 工作地点
+          JobLocationMapCard(geoInfo: recruitmentInfo.geoInfo),
 
           40.verticalSpace, // 底部留白
         ],
