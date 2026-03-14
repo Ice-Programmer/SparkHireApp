@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/model/company/company_info.dart';
 
 class CompanyDescriptionContent extends StatelessWidget {
@@ -22,83 +23,126 @@ class CompanyDescriptionContent extends StatelessWidget {
           companyInfo.description,
           style: TextStyle(
             fontSize: 14.sp,
-            color: Colors.grey[700],
+            color: Theme.of(context).colorScheme.tertiary,
             height: 1.8,
           ),
         ),
+
         40.verticalSpace,
 
-        _buildSectionTitle("办公环境", trailing: "查看全部"),
+        _buildSectionTitle(context),
 
         20.verticalSpace,
 
-        _buildOfficeGallery(),
-        100.verticalSpace, // 底部留白
+        _buildOfficeGallery(context),
+
+        100.verticalSpace,
       ],
     );
   }
 
-  Widget _buildSectionTitle(String title, {String? trailing}) {
+  Widget _buildSectionTitle(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          title,
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          "办公环境",
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
         ),
-        if (trailing != null)
-          Text(
-            trailing,
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: const Color(0xFF2E1AAB),
-              fontWeight: FontWeight.w600,
-            ),
+
+        // todo 跳转逻辑
+        Text(
+          "查看全部",
+          style: TextStyle(
+            fontSize: 13.sp,
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.w600,
           ),
+        ),
       ],
     );
   }
 
-  Widget _buildOfficeGallery() {
-    final List<String> images = ["img1", "img2", "img3", "img4"];
+  Widget _buildOfficeGallery(BuildContext context) {
+    final List<String> images = companyInfo.companyImageList;
+
+    if (images.isEmpty) return _buildEmptyGallery(context);
+
     return SizedBox(
       height: 80.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: images.length,
+        itemCount: images.length > 4 ? 4 : images.length,
         separatorBuilder: (_, __) => 12.horizontalSpace,
         itemBuilder: (context, index) {
-          return Container(
-            width: 80.w,
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.circular(12.r),
-              image: const DecorationImage(
-                image: NetworkImage(
-                  "https://via.placeholder.com/150",
-                ), // 请替换为真实图片
-                fit: BoxFit.cover,
+          final bool showMoreOverlay = index == 3 && images.length > 4;
+
+          return Stack(
+            children: [
+              CacheImage(
+                width: 80.w,
+                height: 80.h,
+                imageUrl: images[index], // 当前显示的图
+                borderRadius: 12.r,
+                canView: true,
+                galleryImages: images,
+                index: index,
+                // ---------------------------
               ),
-            ),
-            child:
-                index == 3
-                    ? Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.black38,
-                        borderRadius: BorderRadius.circular(12.r),
+
+              if (showMoreOverlay)
+                IgnorePointer(
+                  child: Container(
+                    width: 80.w,
+                    height: 80.h,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.black45,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Text(
+                      "+${images.length - 3}",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.bold,
                       ),
-                      child: const Text(
-                        "8+",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    )
-                    : null,
+                    ),
+                  ),
+                ),
+            ],
           );
         },
+      ),
+    );
+  }
+
+  /// 优雅的占位组件
+  Widget _buildEmptyGallery(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 10.w),
+      height: 80.h,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.inverseSurface,
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(color: Colors.grey[300]!, width: 1),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.image_not_supported_outlined,
+            color: Colors.grey[400],
+            size: 24.r,
+          ),
+          4.verticalSpace,
+          Text(
+            "暂无办公环境照片",
+            style: TextStyle(color: Colors.grey[500], fontSize: 12.sp),
+          ),
+        ],
       ),
     );
   }

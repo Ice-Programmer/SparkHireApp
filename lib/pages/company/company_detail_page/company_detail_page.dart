@@ -55,7 +55,6 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
     }
 
     return Scaffold(
-      backgroundColor: Colors.white, // body 的背景色
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
@@ -88,21 +87,14 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
           ];
         },
         // 3. 标签页内容
-        body: Container(
-          // 这里继续保留圆角效果，盖在背景色之上
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(26.r)),
-          ),
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              _buildScrollPage(CompanyDescriptionContent(companyInfo: _companyInfo!)),
-              _buildScrollPage(const Center(child: Text("职位列表"))),
-              _buildScrollPage(const Center(child: Text("福利说明"))),
-              _buildScrollPage(const Center(child: Text("薪资参考"))),
-            ],
-          ),
+        body: TabBarView(
+          controller: _tabController,
+          children: [
+            _buildScrollPage(CompanyDescriptionContent(companyInfo: _companyInfo!)),
+            _buildScrollPage(const Center(child: Text("职位列表"))),
+            _buildScrollPage(const Center(child: Text("福利说明"))),
+            _buildScrollPage(const Center(child: Text("薪资参考"))),
+          ],
         ),
       ),
     );
@@ -130,7 +122,7 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      color: Colors.white, // 确保吸顶后背景不透明
+      color: Theme.of(context).colorScheme.surface,
       alignment: Alignment.centerLeft,
       child: tabBar,
     );

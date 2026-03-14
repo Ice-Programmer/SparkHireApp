@@ -14,6 +14,7 @@ ThemeData lightMode = ThemeData(
     onError: const Color(0xFFE13138),
     outline: const Color(0xFF818898),
     surface: const Color(0xFFFFFFFF),
+    tertiary: Colors.grey[700]
   ),
   extensions: [
     SkeletonTheme(

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // 必须引入
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spark_hire_app/components/full_screen_gallery.dart';
 
 class CacheImage extends StatelessWidget {
@@ -12,6 +12,9 @@ class CacheImage extends StatelessWidget {
   final double maxHeight;
   final double maxWidth;
 
+  final List<String>? galleryImages;
+  final int index;
+
   const CacheImage({
     super.key,
     this.height,
@@ -21,22 +24,24 @@ class CacheImage extends StatelessWidget {
     this.canView = false,
     this.maxHeight = double.infinity,
     this.maxWidth = double.infinity,
+    this.galleryImages, // 可选
+    this.index = 0, // 默认为0
   });
 
-  // 判断是否为 SVG
   bool get _isSvg => imageUrl.toLowerCase().split('?').first.endsWith('.svg');
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: canView ? () => _openFullScreen(context) : null,
+      // 只有在 canView 为 true 且有图片地址时才响应点击
+      onTap:
+          (canView && imageUrl.isNotEmpty)
+              ? () => _openFullScreen(context)
+              : null,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
         child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: maxHeight,
-            maxWidth: maxWidth,
-          ),
+          constraints: BoxConstraints(maxHeight: maxHeight, maxWidth: maxWidth),
           child: _buildImageContent(context),
         ),
       ),
@@ -44,13 +49,14 @@ class CacheImage extends StatelessWidget {
   }
 
   Widget _buildImageContent(BuildContext context) {
+    if (imageUrl.isEmpty) return _buildPlaceholder();
+
     if (_isSvg) {
       return SvgPicture.network(
         imageUrl,
         height: height,
         width: width,
         fit: BoxFit.cover,
-        // SVG 的加载占位
         placeholderBuilder: (context) => _buildPlaceholder(),
       );
     }
@@ -66,21 +72,19 @@ class CacheImage extends StatelessWidget {
   }
 
   Widget _buildPlaceholder() {
-    return Container(
-      width: width,
-      height: height,
-      color: Colors.grey[200],
-    );
+    return Container(width: width, height: height, color: Colors.grey[200]);
   }
 
   void _openFullScreen(BuildContext context) {
     Navigator.push(
       context,
       PageRouteBuilder(
-        pageBuilder: (_, animation, secondaryAnimation) => FullScreenGallery(
-          images: [imageUrl],
-          initialIndex: 0,
-        ),
+        pageBuilder:
+            (_, animation, secondaryAnimation) => FullScreenGallery(
+              // 如果提供了 galleryImages 就用列表，否则就用当前单图组成的列表
+              images: galleryImages ?? [imageUrl],
+              initialIndex: index,
+            ),
         transitionsBuilder: (_, animation, __, child) {
           return FadeTransition(
             opacity: animation,
