@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spark_hire_app/model/company/company_info.dart';
+import 'package:spark_hire_app/model/company/fetch_company_info.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/components/company_info_header.dart';
+import 'package:spark_hire_app/service/company_service.dart';
+import 'package:spark_hire_app/utils/toast_util.dart';
 
 class CompanyDetailPage extends StatefulWidget {
   final int companyId;
@@ -11,168 +16,104 @@ class CompanyDetailPage extends StatefulWidget {
 
 class _CompanyDetailPageState extends State<CompanyDetailPage>
     with SingleTickerProviderStateMixin {
+  final CompanyService _service = CompanyService();
   late TabController _tabController;
+  bool _isLoading = false;
+  CompanyInfo? _companyInfo;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    loadCompanyInfo(companyId: widget.companyId);
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: [
-          // 顶部背景与公司基本信息
-          _buildSliverHeader(),
-
-          // TabBar 吸顶部分
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _SliverAppBarDelegate(
-              TabBar(
-                controller: _tabController,
-                isScrollable: true,
-                labelColor: const Color(0xFF6C63FF),
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: Colors.transparent,
-                dividerColor: Colors.transparent,
-                tabAlignment: TabAlignment.start,
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                tabs: const [
-                  Tab(text: "简介"),
-                  Tab(text: "职位"),
-                  Tab(text: "福利"),
-                  Tab(text: "薪资"),
-                ],
-              ),
-            ),
-          ),
-
-          // 内容部分
-          SliverPadding(
-            padding: EdgeInsets.all(24.w),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                _buildSectionTitle("公司介绍"),
-
-                20.verticalSpace,
-
-                _buildIntroContent(),
-
-                40.verticalSpace,
-
-                _buildSectionTitle("办公环境", trailing: "查看全部"),
-
-                20.verticalSpace,
-
-                _buildOfficeGallery(),
-                100.verticalSpace, // 底部留白
-              ]),
-            ),
-          ),
-        ],
-      ),
-    );
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 
-  // 构建顶部紫色区域
-  Widget _buildSliverHeader() {
-    return SliverAppBar(
-      expandedHeight: 400.h,
-      pinned: true,
-      elevation: 0,
-      backgroundColor: const Color(0xFF2E1AAB),
-      leading: const BackButton(color: Colors.white),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.more_vert, color: Colors.white),
+Future<void> loadCompanyInfo({required int companyId}) async {
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
+    final req = FetchCompanyDetailInfoRequest(companyId: companyId);
+    final response = await _service.fetchCompanyDetailInfo(req);
+    setState(() {
+      _companyInfo = response.companyInfo;
+    });
+  } catch (e) {
+    ToastUtils.showErrorMsg("获取公司信息失败: $e");
+  } finally {
+    setState(() {
+      _isLoading = false;
+    });
+  }
+}
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Placeholder();
+    }
+    return Scaffold(body: _buildBody());
+  }
+
+  Widget _buildBody() {
+    return CustomScrollView(
+      slivers: [
+        // 顶部背景与公司基本信息
+        CompanyInfoHeader(companyInfo: _companyInfo!),
+
+        // TabBar 吸顶部分
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _SliverAppBarDelegate(
+            TabBar(
+              controller: _tabController,
+              isScrollable: true,
+              labelColor: const Color(0xFF6C63FF),
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Colors.transparent,
+              dividerColor: Colors.transparent,
+              tabAlignment: TabAlignment.start,
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              tabs: const [
+                Tab(text: "简介"),
+                Tab(text: "职位"),
+                Tab(text: "福利"),
+                Tab(text: "薪资"),
+              ],
+            ),
+          ),
+        ),
+
+        // 内容部分
+        SliverPadding(
+          padding: EdgeInsets.all(24.w),
+          sliver: SliverList(
+            delegate: SliverChildListDelegate([
+              _buildSectionTitle("公司介绍"),
+
+              20.verticalSpace,
+
+              _buildIntroContent(),
+
+              40.verticalSpace,
+
+              _buildSectionTitle("办公环境", trailing: "查看全部"),
+
+              20.verticalSpace,
+
+              _buildOfficeGallery(),
+              100.verticalSpace, // 底部留白
+            ]),
+          ),
         ),
       ],
-      flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFF4527A0), Color(0xFF2E1AAB)],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              60.verticalSpace,
-              // Logo
-              CircleAvatar(
-                radius: 40.r,
-                backgroundColor: Colors.white,
-                child: Text(
-                  "N",
-                  style: TextStyle(
-                    fontSize: 40.sp,
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              20.verticalSpace,
-              Text(
-                "网飞",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              12.verticalSpace,
-              Text(
-                "9K 粉丝  •  上海，浦东新区",
-                style: TextStyle(color: Colors.white70, fontSize: 14.sp),
-              ),
-              30.verticalSpace,
-              // 按钮组
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildHeaderButton("关注", Colors.white, Colors.black),
-                  20.horizontalSpace,
-                  _buildHeaderButton("访问网站", Colors.white, Colors.black),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      // 底部圆角效果
-      bottom: PreferredSize(
-        preferredSize: Size.fromHeight(30.h),
-        child: Container(
-          height: 30.h,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeaderButton(String text, Color bg, Color textColor) {
-    return Container(
-      width: 140.w,
-      height: 44.h,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Text(
-        text,
-        style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
-      ),
     );
   }
 

@@ -26,7 +26,7 @@ class JobDetailPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          "职位详细",
+          AppLocalizations.of(context)!.jobDetailText,
           style: TextStyle(
             color: Colors.white,
             fontSize: 18.sp,

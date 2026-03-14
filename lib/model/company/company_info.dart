@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:spark_hire_app/model/information/geo_info.dart';
 import 'package:spark_hire_app/model/information/list_career.dart';
 
@@ -11,7 +13,10 @@ class CompanyInfo {
   final String description;
   final GeoDetailInfo geoInfo;
   final IndustryDetailInfo industryInfo;
-  
+  final String backgroundImg;
+  final List<String> companyImageList;
+  final int favoriteCnt;
+
   CompanyInfo({
     required this.id,
     required this.companyName,
@@ -19,6 +24,9 @@ class CompanyInfo {
     required this.description,
     required this.geoInfo,
     required this.industryInfo,
+    required this.backgroundImg,
+    required this.companyImageList,
+    required this.favoriteCnt,
   });
 
   CompanyInfo copyWith({
@@ -28,6 +36,9 @@ class CompanyInfo {
     String? description,
     GeoDetailInfo? geoInfo,
     IndustryDetailInfo? industryInfo,
+    String? backgroundImg,
+    List<String>? companyImageList,
+    int? favoriteCnt,
   }) {
     return CompanyInfo(
       id: id ?? this.id,
@@ -36,6 +47,9 @@ class CompanyInfo {
       description: description ?? this.description,
       geoInfo: geoInfo ?? this.geoInfo,
       industryInfo: industryInfo ?? this.industryInfo,
+      backgroundImg: backgroundImg ?? this.backgroundImg,
+      companyImageList: companyImageList ?? this.companyImageList,
+      favoriteCnt: favoriteCnt ?? this.favoriteCnt,
     );
   }
 
@@ -47,6 +61,9 @@ class CompanyInfo {
       'description': description,
       'geoInfo': geoInfo.toJson(),
       'industryInfo': industryInfo.toMap(),
+      'backgroundImg': backgroundImg,
+      'companyImageList': companyImageList,
+      'favoriteCnt': favoriteCnt,
     };
   }
 
@@ -60,6 +77,9 @@ class CompanyInfo {
       industryInfo: IndustryDetailInfo.fromMap(
         map['industryInfo'] as Map<String, dynamic>,
       ),
+      backgroundImg: map['backgroundImg'] as String,
+      favoriteCnt: map['favoriteCnt'] as int,
+      companyImageList: List<String>.from(map['companyImageList'] ?? []),
     );
   }
 
@@ -70,7 +90,7 @@ class CompanyInfo {
 
   @override
   String toString() {
-    return 'CompanyInfo(id: $id, companyName: $companyName, companyLogo: $companyLogo, description: $description, geoInfo: $geoInfo, industryInfo: $industryInfo)';
+    return 'CompanyInfo(id: $id, companyName: $companyName, companyLogo: $companyLogo, description: $description, geoInfo: $geoInfo, industryInfo: $industryInfo, backgroundImg: $backgroundImg, companyImageList: $companyImageList, favoriteCnt: $favoriteCnt)';
   }
 
   @override
@@ -82,7 +102,10 @@ class CompanyInfo {
         other.companyLogo == companyLogo &&
         other.description == description &&
         other.geoInfo == geoInfo &&
-        other.industryInfo == industryInfo;
+        other.industryInfo == industryInfo &&
+        other.backgroundImg == backgroundImg &&
+        listEquals(other.companyImageList, companyImageList) &&
+        other.favoriteCnt == favoriteCnt;
   }
 
   @override
@@ -92,6 +115,9 @@ class CompanyInfo {
         companyLogo.hashCode ^
         description.hashCode ^
         geoInfo.hashCode ^
-        industryInfo.hashCode;
+        industryInfo.hashCode ^
+        backgroundImg.hashCode ^
+        companyImageList.hashCode ^
+        favoriteCnt.hashCode;
   }
 }
