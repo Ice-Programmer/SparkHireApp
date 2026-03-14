@@ -106,7 +106,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   Text(
                     AppLocalizations.of(context)!.appName,
                     style: TextStyle(
-                      color: Theme.of(context).colorScheme.tertiary,
+                      color: Theme.of(context).colorScheme.secondary,
                       fontSize: 38.sp,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2,

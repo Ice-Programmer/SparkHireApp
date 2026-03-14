@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
+import 'package:spark_hire_app/components/expandable_text.dart';
 import 'package:spark_hire_app/model/company/company_info.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:spark_hire_app/pages/job/job_detail_page/components/geo_detail_content.dart';
 
 class CompanyDescriptionContent extends StatelessWidget {
   final CompanyInfo companyInfo;
@@ -19,8 +22,9 @@ class CompanyDescriptionContent extends StatelessWidget {
 
         8.verticalSpace,
 
-        Text(
-          companyInfo.description,
+        ExpandableText(
+          text: companyInfo.description,
+          maxLines: 10, // 默认折叠时显示 4 行
           style: TextStyle(
             fontSize: 14.sp,
             color: Theme.of(context).colorScheme.tertiary,
@@ -28,15 +32,27 @@ class CompanyDescriptionContent extends StatelessWidget {
           ),
         ),
 
-        40.verticalSpace,
+        30.verticalSpace,
 
+        // 办公环境
         _buildSectionTitle(context),
 
         20.verticalSpace,
 
         _buildOfficeGallery(context),
 
-        100.verticalSpace,
+        30.verticalSpace,
+
+        // 办公地点
+        Text(
+          AppLocalizations.of(context)!.workLocationText,
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        ),
+
+        12.verticalSpace,
+
+        // 工作地点
+        JobLocationMapCard(geoInfo: companyInfo.geoInfo),
       ],
     );
   }
