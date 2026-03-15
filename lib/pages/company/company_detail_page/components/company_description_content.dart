@@ -16,7 +16,7 @@ class CompanyDescriptionContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "公司介绍",
+          AppLocalizations.of(context)!.companyDescriptionText,
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
         ),
 
@@ -24,7 +24,7 @@ class CompanyDescriptionContent extends StatelessWidget {
 
         ExpandableText(
           text: companyInfo.description,
-          maxLines: 10, // 默认折叠时显示 4 行
+          maxLines: 10,
           style: TextStyle(
             fontSize: 14.sp,
             color: Theme.of(context).colorScheme.tertiary,
@@ -63,13 +63,13 @@ class CompanyDescriptionContent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          "办公环境",
+          AppLocalizations.of(context)!.officeEnvText,
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
         ),
 
         // todo 跳转逻辑
         Text(
-          "查看全部",
+          AppLocalizations.of(context)!.viewAllText,
           style: TextStyle(
             fontSize: 13.sp,
             color: Theme.of(context).colorScheme.primary,

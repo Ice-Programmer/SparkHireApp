@@ -67,14 +67,13 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
               delegate: _SliverTabBarDelegate(
                 TabBar(
                   controller: _tabController,
-                  isScrollable: true,
+                  isScrollable: false,
+                  tabAlignment: TabAlignment.fill,
                   labelColor: Theme.of(context).colorScheme.primary,
-                  unselectedLabelColor: Colors.grey,
+                  unselectedLabelColor: Theme.of(context).colorScheme.outline,
                   indicatorColor: Theme.of(context).colorScheme.primary,
                   indicatorSize: TabBarIndicatorSize.label,
                   dividerColor: Colors.transparent,
-                  tabAlignment: TabAlignment.start,
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
                   tabs: const [
                     Tab(text: "简介"),
                     Tab(text: "职位"),
@@ -90,7 +89,9 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
         body: TabBarView(
           controller: _tabController,
           children: [
-            _buildScrollPage(CompanyDescriptionContent(companyInfo: _companyInfo!)),
+            _buildScrollPage(
+              CompanyDescriptionContent(companyInfo: _companyInfo!),
+            ),
             _buildScrollPage(const Center(child: Text("职位列表"))),
             _buildScrollPage(const Center(child: Text("福利说明"))),
             _buildScrollPage(const Center(child: Text("薪资参考"))),
@@ -120,7 +121,11 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => tabBar.preferredSize.height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Container(
       color: Theme.of(context).colorScheme.surface,
       alignment: Alignment.centerLeft,
@@ -129,5 +134,5 @@ class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  bool shouldRebuild(_SliverTabBarDelegate oldDelegate) => false;
+  bool shouldRebuild(_SliverTabBarDelegate oldDelegate) => true;
 }
