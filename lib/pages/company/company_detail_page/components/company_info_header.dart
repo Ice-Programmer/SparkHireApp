@@ -72,6 +72,7 @@ class CompanyInfoHeader extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      // 公司头像
                       CircleAvatar(
                         radius: 40.r,
                         backgroundColor: Colors.white,
@@ -82,7 +83,10 @@ class CompanyInfoHeader extends StatelessWidget {
                           borderRadius: 10.r,
                         ),
                       ),
+
                       20.verticalSpace,
+
+                      // 公司名称
                       Text(
                         companyInfo.companyName,
                         style: TextStyle(
@@ -92,6 +96,8 @@ class CompanyInfoHeader extends StatelessWidget {
                         ),
                       ),
                       12.verticalSpace,
+
+                      // 关注者 · 地址
                       Text(
                         "${SalaryUtil.formatSalary(companyInfo.favoriteCnt)} ${AppLocalizations.of(context)!.followText}  •  ${companyInfo.geoInfo.thirdGeoLevelName}, ${companyInfo.geoInfo.forthGeoLevelName}",
                         style: TextStyle(
@@ -99,8 +105,13 @@ class CompanyInfoHeader extends StatelessWidget {
                           fontSize: 14.sp,
                         ),
                       ),
+
+
                       30.verticalSpace,
+
+                      // 关注 + 访问网站
                       _buildButtonList(context),
+
                       30.verticalSpace,
                     ],
                   ),
@@ -119,6 +130,7 @@ class CompanyInfoHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        // 关注   
         CustomButton(
           onPressed: () {},
           textColor: Theme.of(context).colorScheme.primary,
@@ -130,7 +142,10 @@ class CompanyInfoHeader extends StatelessWidget {
           isShadow: false,
           backgroundColor: Colors.white,
         ),
+
         20.horizontalSpace,
+
+        // 访问网站
         CustomButton(
           onPressed: () {},
           textColor: Theme.of(context).colorScheme.primary,
