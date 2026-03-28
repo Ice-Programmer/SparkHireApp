@@ -3,7 +3,9 @@ import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/http/dio_instance.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/model/user/register_user.dart';
+import 'package:spark_hire_app/model/user/user_favor.dart';
 import 'package:spark_hire_app/model/user/user_mail_login.dart';
+import 'package:spark_hire_app/utils/toast_util.dart';
 
 class UserService {
   final DioInstance _dioInstance = DioInstance.instance();
@@ -70,6 +72,58 @@ class UserService {
           result.baseResp.statusCode,
         );
       }
+
+      return result;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<UserFavorResponse> userFavor(UserFavorRequest req) async {
+    try {
+      final resp = await _dioInstance.post(
+        path: '/api/v1/ice/sparkhire/user/favor',
+        data: req.toJson(),
+        options: Options(contentType: 'application/json'),
+      );
+
+      final result = UserFavorResponse.fromMap(resp.data);
+
+      if (!result.success) {
+        throw BusinessException(
+          result.baseResp.statusMessage,
+          result.baseResp.statusCode,
+        );
+      }
+
+      ToastUtils.showSuccessMsg("关注成功！");
+
+      return result;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<UserCancelFavorResponse> userCancelFavor(
+    UserCancelFavorRequest req,
+  ) async {
+    try {
+      final resp = await _dioInstance.post(
+        path: '/api/v1/ice/sparkhire/user/favor/cancel',
+        data: req.toJson(),
+        options: Options(contentType: 'application/json'),
+      );
+
+      final result = UserCancelFavorResponse.fromMap(resp.data);
+
+      if (!result.success) {
+        throw BusinessException(
+          result.baseResp.statusMessage,
+          result.baseResp.statusCode,
+        );
+      }
+
+      ToastUtils.showSuccessMsg("取消关注成功！");
 
       return result;
     } on DioException catch (e) {

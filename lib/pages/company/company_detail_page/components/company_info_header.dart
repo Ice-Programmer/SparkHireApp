@@ -6,6 +6,7 @@ import 'package:spark_hire_app/common/assets.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:spark_hire_app/model/company/company_info.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/components/company_favor_btn.dart';
 import 'package:spark_hire_app/utils/salary_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -18,8 +19,8 @@ class CompanyInfoHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     // 定义展开高度
     final double expandedHeight = 320.h;
-    
-    final double collapsedToolbarHeight = 30.h; 
+
+    final double collapsedToolbarHeight = 30.h;
 
     return SliverLayoutBuilder(
       builder: (BuildContext context, SliverConstraints constraints) {
@@ -42,7 +43,7 @@ class CompanyInfoHeader extends StatelessWidget {
         return SliverAppBar(
           expandedHeight: expandedHeight,
           // 显式设置 Toolbar 和折叠高度
-          toolbarHeight: collapsedToolbarHeight, 
+          toolbarHeight: collapsedToolbarHeight,
           collapsedHeight: collapsedToolbarHeight,
           elevation: 0,
           pinned: true,
@@ -95,6 +96,7 @@ class CompanyInfoHeader extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+
                       12.verticalSpace,
 
                       // 关注者 · 地址
@@ -105,7 +107,6 @@ class CompanyInfoHeader extends StatelessWidget {
                           fontSize: 14.sp,
                         ),
                       ),
-
 
                       30.verticalSpace,
 
@@ -125,22 +126,15 @@ class CompanyInfoHeader extends StatelessWidget {
   }
 
   Widget _buildButtonList(BuildContext context) {
-    // ... 原有按钮代码保持不变
     final btnWidth = MediaQuery.of(context).size.width * 0.4;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // 关注   
-        CustomButton(
-          onPressed: () {},
-          textColor: Theme.of(context).colorScheme.primary,
+        // 使用封装好的动态关注按钮
+        CompanyFollowButton(
+          companyId: companyInfo.id,
+          hasFavor: companyInfo.hasFavor,
           btnWidth: btnWidth,
-          btnHeight: 44.h,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.bold,
-          title: AppLocalizations.of(context)!.followText,
-          isShadow: false,
-          backgroundColor: Colors.white,
         ),
 
         20.horizontalSpace,

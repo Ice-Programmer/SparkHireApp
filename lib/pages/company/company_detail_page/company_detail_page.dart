@@ -4,6 +4,7 @@ import 'package:spark_hire_app/model/company/company_info.dart';
 import 'package:spark_hire_app/model/company/fetch_company_info.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_description_content.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_info_header.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/components/company_job_content.dart';
 import 'package:spark_hire_app/service/company_service.dart';
 import 'package:spark_hire_app/utils/toast_util.dart';
 
@@ -92,7 +93,8 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
             _buildScrollPage(
               CompanyDescriptionContent(companyInfo: _companyInfo!),
             ),
-            _buildScrollPage(const Center(child: Text("职位列表"))),
+            _buildScrollPage(CompanyJobContent()),
+            // _buildScrollPage(const Center(child: Text("职位列表"))),
             _buildScrollPage(const Center(child: Text("福利说明"))),
             _buildScrollPage(const Center(child: Text("薪资参考"))),
           ],

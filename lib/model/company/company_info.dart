@@ -16,6 +16,7 @@ class CompanyInfo {
   final String backgroundImg;
   final List<String> companyImageList;
   final int favoriteCnt;
+  final bool hasFavor;
 
   CompanyInfo({
     required this.id,
@@ -27,6 +28,7 @@ class CompanyInfo {
     required this.backgroundImg,
     required this.companyImageList,
     required this.favoriteCnt,
+    required this.hasFavor,
   });
 
   CompanyInfo copyWith({
@@ -39,6 +41,7 @@ class CompanyInfo {
     String? backgroundImg,
     List<String>? companyImageList,
     int? favoriteCnt,
+    bool? hasFavor,
   }) {
     return CompanyInfo(
       id: id ?? this.id,
@@ -50,6 +53,7 @@ class CompanyInfo {
       backgroundImg: backgroundImg ?? this.backgroundImg,
       companyImageList: companyImageList ?? this.companyImageList,
       favoriteCnt: favoriteCnt ?? this.favoriteCnt,
+      hasFavor: hasFavor ?? this.hasFavor,
     );
   }
 
@@ -64,6 +68,7 @@ class CompanyInfo {
       'backgroundImg': backgroundImg,
       'companyImageList': companyImageList,
       'favoriteCnt': favoriteCnt,
+      'hasFavor': hasFavor,
     };
   }
 
@@ -80,6 +85,7 @@ class CompanyInfo {
       backgroundImg: map['backgroundImg'] as String,
       favoriteCnt: map['favoriteCnt'] as int,
       companyImageList: List<String>.from(map['companyImageList'] ?? []),
+      hasFavor: map['hasFavor'] as bool,
     );
   }
 
@@ -105,7 +111,8 @@ class CompanyInfo {
         other.industryInfo == industryInfo &&
         other.backgroundImg == backgroundImg &&
         listEquals(other.companyImageList, companyImageList) &&
-        other.favoriteCnt == favoriteCnt;
+        other.favoriteCnt == favoriteCnt &&
+        other.hasFavor == hasFavor;
   }
 
   @override
@@ -118,6 +125,7 @@ class CompanyInfo {
         industryInfo.hashCode ^
         backgroundImg.hashCode ^
         companyImageList.hashCode ^
-        favoriteCnt.hashCode;
+        favoriteCnt.hashCode ^
+        hasFavor.hashCode;
   }
 }
