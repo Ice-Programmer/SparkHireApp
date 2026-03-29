@@ -34,7 +34,6 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    // return _buildBody();
     return ChangeNotifierProvider.value(value: _viewModel, child: _buildBody());
   }
 
@@ -95,7 +94,6 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
                   ),
                 ),
                 _buildScrollPage(CompanyJobContent()),
-                // _buildScrollPage(const Center(child: Text("职位列表"))),
                 _buildScrollPage(const Center(child: Text("福利说明"))),
                 _buildScrollPage(const Center(child: Text("薪资参考"))),
               ],
