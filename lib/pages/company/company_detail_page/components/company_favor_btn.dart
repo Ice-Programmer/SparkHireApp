@@ -1,100 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:spark_hire_app/model/user/user_favor.dart';
-import 'package:spark_hire_app/service/user_service.dart';
-import 'package:spark_hire_app/utils/toast_util.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/view_model/company_view_model.dart';
 
-class CompanyFollowButton extends StatefulWidget {
-  final int companyId;
-  final bool hasFavor;
+class CompanyFollowButton extends StatelessWidget {
   final double btnWidth;
 
-  const CompanyFollowButton({
-    super.key,
-    required this.companyId,
-    required this.hasFavor,
-    required this.btnWidth,
-  });
-
-  @override
-  State<CompanyFollowButton> createState() => _CompanyFollowButtonState();
-}
-
-class _CompanyFollowButtonState extends State<CompanyFollowButton> {
-  late bool _isFollowed = widget.hasFavor;
-  bool _isLoading = false;
-  final UserService _userService = UserService();
-
-  Future<void> _toggleFollow() async {
-    if (_isLoading) return;
-
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      if (_isFollowed) {
-        // 取消关注
-        await _userService.userCancelFavor(
-          UserCancelFavorRequest(
-            targetId: widget.companyId,
-            targetType: TargetType.company,
-          ),
-        );
-      } else {
-        // 关注
-        await _userService.userFavor(
-          UserFavorRequest(
-            targetId: widget.companyId,
-            targetType: TargetType.company,
-          ),
-        );
-      }
-
-      setState(() {
-        _isFollowed = !_isFollowed;
-      });
-    } catch (e) {
-      ToastUtils.showErrorMsg("操作失败: $e");
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
+  const CompanyFollowButton({super.key, required this.btnWidth});
 
   @override
   Widget build(BuildContext context) {
+    // 监听 ViewModel
+    final viewModel = context.watch<CompanyViewModel>();
+    final info = viewModel.companyInfo;
+
+    if (info == null) return const SizedBox.shrink();
+
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context)!;
 
-    final String btnText = _isFollowed ? '已关注' : localizations.followText;
-    final Color bgColor = _isFollowed ? Colors.grey.shade300 : Colors.white;
+    final bool isFollowed = info.hasFavor;
+    final String btnText = isFollowed ? '已关注' : localizations.followText;
+    final Color bgColor = isFollowed ? Colors.grey.shade300 : Colors.white;
     final Color textColor =
-        _isFollowed ? Colors.grey.shade700 : theme.colorScheme.primary;
-
-    if (_isLoading) {
-      return SizedBox(
-        width: widget.btnWidth,
-        height: 44.h,
-        child: const Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        ),
-      );
-    }
+        isFollowed ? Colors.grey.shade700 : theme.colorScheme.primary;
 
     return CustomButton(
-      onPressed: _toggleFollow,
+      onPressed:
+          viewModel.isActionLoading ? null : () => viewModel.toggleFollow(),
       textColor: textColor,
-      btnWidth: widget.btnWidth,
+      btnWidth: btnWidth,
       btnHeight: 44.h,
       fontSize: 14.sp,
       fontWeight: FontWeight.bold,
-      title: btnText,
+      title: viewModel.isActionLoading ? "..." : btnText, // 也可以在这里换成转圈
       isShadow: false,
       backgroundColor: bgColor,
     );

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spark_hire_app/model/company/company_info.dart';
-import 'package:spark_hire_app/model/company/fetch_company_info.dart';
+import 'package:provider/provider.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_description_content.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_info_header.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_job_content.dart';
-import 'package:spark_hire_app/service/company_service.dart';
-import 'package:spark_hire_app/utils/toast_util.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/view_model/company_view_model.dart';
 
 class CompanyDetailPage extends StatefulWidget {
   final int companyId;
@@ -18,16 +16,14 @@ class CompanyDetailPage extends StatefulWidget {
 
 class _CompanyDetailPageState extends State<CompanyDetailPage>
     with SingleTickerProviderStateMixin {
-  final CompanyService _service = CompanyService();
-  bool _isLoading = false;
-  CompanyInfo? _companyInfo;
+  final CompanyViewModel _viewModel = CompanyViewModel();
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    loadCompanyInfo(companyId: widget.companyId);
+    _viewModel.loadCompanyInfo(companyId: widget.companyId);
   }
 
   @override
@@ -36,70 +32,77 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
     super.dispose();
   }
 
-  Future<void> loadCompanyInfo({required int companyId}) async {
-    setState(() => _isLoading = true);
-    try {
-      final req = FetchCompanyDetailInfoRequest(companyId: companyId);
-      final response = await _service.fetchCompanyDetailInfo(req);
-      setState(() => _companyInfo = response.companyInfo);
-    } catch (e) {
-      ToastUtils.showErrorMsg("获取公司信息失败: $e");
-    } finally {
-      setState(() => _isLoading = false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_isLoading || _companyInfo == null) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
+    // return _buildBody();
+    return ChangeNotifierProvider.value(value: _viewModel, child: _buildBody());
+  }
 
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            // 1. 伸缩头部
-            CompanyInfoHeader(companyInfo: _companyInfo!),
+  Widget _buildBody() {
+    return Consumer<CompanyViewModel>(
+      builder: (context, viewModel, child) {
+        if (viewModel.isLoading || viewModel.companyInfo == null) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-            // 2. 吸顶 TabBar
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverTabBarDelegate(
-                TabBar(
-                  controller: _tabController,
-                  isScrollable: false,
-                  tabAlignment: TabAlignment.fill,
-                  labelColor: Theme.of(context).colorScheme.primary,
-                  unselectedLabelColor: Theme.of(context).colorScheme.outline,
-                  indicatorColor: Theme.of(context).colorScheme.primary,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  dividerColor: Colors.transparent,
-                  tabs: const [
-                    Tab(text: "简介"),
-                    Tab(text: "职位"),
-                    Tab(text: "福利"),
-                    Tab(text: "薪资"),
-                  ],
+        return Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                // 1. 伸缩头部
+                Consumer<CompanyViewModel>(
+                  builder: (context, viewModel, child) {
+                    return CompanyInfoHeader(
+                      companyInfo: viewModel.companyInfo!,
+                    );
+                  },
                 ),
-              ),
+
+                // 2. 吸顶 TabBar
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverTabBarDelegate(
+                    TabBar(
+                      controller: _tabController,
+                      isScrollable: false,
+                      tabAlignment: TabAlignment.fill,
+                      labelColor: Theme.of(context).colorScheme.primary,
+                      unselectedLabelColor:
+                          Theme.of(context).colorScheme.outline,
+                      indicatorColor: Theme.of(context).colorScheme.primary,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      dividerColor: Colors.transparent,
+                      tabs: const [
+                        Tab(text: "简介"),
+                        Tab(text: "职位"),
+                        Tab(text: "福利"),
+                        Tab(text: "薪资"),
+                      ],
+                    ),
+                  ),
+                ),
+              ];
+            },
+            // 3. 标签页内容
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                _buildScrollPage(
+                  CompanyDescriptionContent(
+                    companyInfo: _viewModel.companyInfo!,
+                  ),
+                ),
+                _buildScrollPage(CompanyJobContent()),
+                // _buildScrollPage(const Center(child: Text("职位列表"))),
+                _buildScrollPage(const Center(child: Text("福利说明"))),
+                _buildScrollPage(const Center(child: Text("薪资参考"))),
+              ],
             ),
-          ];
-        },
-        // 3. 标签页内容
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            _buildScrollPage(
-              CompanyDescriptionContent(companyInfo: _companyInfo!),
-            ),
-            _buildScrollPage(CompanyJobContent()),
-            // _buildScrollPage(const Center(child: Text("职位列表"))),
-            _buildScrollPage(const Center(child: Text("福利说明"))),
-            _buildScrollPage(const Center(child: Text("薪资参考"))),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 

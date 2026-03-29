@@ -132,8 +132,6 @@ class CompanyInfoHeader extends StatelessWidget {
       children: [
         // 使用封装好的动态关注按钮
         CompanyFollowButton(
-          companyId: companyInfo.id,
-          hasFavor: companyInfo.hasFavor,
           btnWidth: btnWidth,
         ),
 
@@ -141,7 +139,8 @@ class CompanyInfoHeader extends StatelessWidget {
 
         // 访问网站
         CustomButton(
-          onPressed: () {},
+          onPressed: () {
+          },
           textColor: Theme.of(context).colorScheme.primary,
           btnWidth: btnWidth,
           btnHeight: 42.h,
