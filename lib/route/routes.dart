@@ -28,7 +28,7 @@ import 'package:spark_hire_app/pages/personal/wish_career/wish_career_edit_page.
 import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
 import 'package:spark_hire_app/pages/register/register_verification_page.dart';
-import 'package:spark_hire_app/pages/schedule/schedule_page.dart';
+import 'package:spark_hire_app/pages/schedule/schedule_page/schedule_page.dart';
 import 'package:spark_hire_app/pages/search/search_page.dart';
 import 'package:spark_hire_app/pages/select_page/career_selection_page.dart';
 import 'package:spark_hire_app/pages/welcome/guidance_page.dart';

@@ -11,7 +11,7 @@ ThemeData darkMode = ThemeData(
     onPrimary: Colors.white,
     secondary: const Color(0xFFA6FF00),
     onSurface: Colors.white,
-    inverseSurface: const Color(0xFF333333),
+    inverseSurface: const Color(0xFF1A1B25),
     onError: const Color(0xFFE13138),
     outline: const Color(0xFFA4ACB9),
     surface: const Color(0xFF0D0D12),

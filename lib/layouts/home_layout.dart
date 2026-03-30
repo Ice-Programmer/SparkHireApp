@@ -55,7 +55,9 @@ class _HomeLayoutState extends State<HomeLayout> {
       body: widget.child,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.go("/schedule");
+        },
         backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 8,
         shape: CircleBorder(),
