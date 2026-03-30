@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/http/dio_instance.dart';
+import 'package:spark_hire_app/model/company/fetch_company_benefit.dart';
 import 'package:spark_hire_app/model/company/fetch_company_info.dart';
 
 class CompanyService {
@@ -17,6 +18,31 @@ class CompanyService {
       );
 
       final result = FetchCompanyDetailInfoResponse.fromMap(resp.data);
+
+      if (!result.success) {
+        throw BusinessException(
+          result.baseResp.statusMessage,
+          result.baseResp.statusCode,
+        );
+      }
+
+      return result;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+    Future<FetchCompanyBenefitsResponse> fetchCompanyBenefits(
+    FetchCompanyBenefitsRequest req,
+  ) async {
+    try {
+      final resp = await _dioInstance.post(
+        path: '/api/v1/ice/sparkhire/runtime/company/benefit/fetch',
+        data: req.toJson(),
+        options: Options(contentType: 'application/json'),
+      );
+
+      final result = FetchCompanyBenefitsResponse.fromMap(resp.data);
 
       if (!result.success) {
         throw BusinessException(

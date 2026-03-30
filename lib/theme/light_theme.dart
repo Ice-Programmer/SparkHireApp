@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spark_hire_app/theme/semantic_theme.dart';
 import 'package:spark_hire_app/theme/skeleton_theme.dart';
 
 ThemeData lightMode = ThemeData(
@@ -14,12 +15,13 @@ ThemeData lightMode = ThemeData(
     onError: const Color(0xFFE13138),
     outline: const Color(0xFF818898),
     surface: const Color(0xFFFFFFFF),
-    tertiary: Colors.grey[700]
+    tertiary: Colors.grey[700],
   ),
   extensions: [
     SkeletonTheme(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade200,
     ),
+    SemanticTheme(success: Color(0xFF40C4AA)),
   ],
 );

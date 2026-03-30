@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spark_hire_app/theme/semantic_theme.dart';
 import 'package:spark_hire_app/theme/skeleton_theme.dart';
 
 ThemeData darkMode = ThemeData(
@@ -21,5 +22,6 @@ ThemeData darkMode = ThemeData(
       baseColor: Colors.grey.shade800,
       highlightColor: Colors.grey.shade700,
     ),
+    SemanticTheme(success: Color(0xFF40C4AA)),
   ],
 );

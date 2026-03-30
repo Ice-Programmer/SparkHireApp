@@ -13,7 +13,7 @@ class AnalysisDataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const neonGreen = Color(0xFFA6FF00);
+    final neonGreen = Theme.of(context).colorScheme.secondary;
 
     return GestureDetector(
       onTap: onTap,

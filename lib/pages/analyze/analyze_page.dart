@@ -117,7 +117,7 @@ class AnalyzePage extends StatelessWidget {
               Expanded(
                 child: _buildDataColumn(
                   icon: Icons.person_outline,
-                  iconColor: const Color(0xFFA6FF00), // 荧光绿
+                  iconColor: Theme.of(context).colorScheme.secondary,
                   label: AppLocalizations.of(context)!.resumeViewsText,
                   value: "174",
                 ),
