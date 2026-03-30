@@ -3,6 +3,7 @@ import 'package:spark_hire_app/http/business_exception.dart';
 import 'package:spark_hire_app/http/dio_instance.dart';
 import 'package:spark_hire_app/model/company/fetch_company_benefit.dart';
 import 'package:spark_hire_app/model/company/fetch_company_info.dart';
+import 'package:spark_hire_app/model/company/query_company_comment_page.dart';
 
 class CompanyService {
   final DioInstance _dioInstance = DioInstance.instance();
@@ -32,7 +33,7 @@ class CompanyService {
     }
   }
 
-    Future<FetchCompanyBenefitsResponse> fetchCompanyBenefits(
+  Future<FetchCompanyBenefitsResponse> fetchCompanyBenefits(
     FetchCompanyBenefitsRequest req,
   ) async {
     try {
@@ -43,6 +44,31 @@ class CompanyService {
       );
 
       final result = FetchCompanyBenefitsResponse.fromMap(resp.data);
+
+      if (!result.success) {
+        throw BusinessException(
+          result.baseResp.statusMessage,
+          result.baseResp.statusCode,
+        );
+      }
+
+      return result;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    }
+  }
+
+  Future<QueryCompanyCommentPageResponse> queryCompanyCommentPage(
+    QueryCompanyCommentPageRequest req,
+  ) async {
+    try {
+      final resp = await _dioInstance.post(
+        path: '/api/v1/ice/sparkhire/runtime/company/comment/page',
+        data: req.toJson(),
+        options: Options(contentType: 'application/json'),
+      );
+
+      final result = QueryCompanyCommentPageResponse.fromMap(resp.data);
 
       if (!result.success) {
         throw BusinessException(
