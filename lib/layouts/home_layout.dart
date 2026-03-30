@@ -17,7 +17,7 @@ class HomeLayout extends StatefulWidget {
 class _HomeLayoutState extends State<HomeLayout> {
   final UserService _userService = UserService();
   int _index = 0;
-  final List<String> tabRoutes = ["/job", "/search", "/favorite", "/personal"];
+  final List<String> tabRoutes = ["/job", "/form", "/favorite", "/personal"];
 
   @override
   void initState() {
