@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomDivider extends StatelessWidget {
   final String? text;
@@ -35,7 +36,7 @@ class CustomDivider extends StatelessWidget {
           buildLine(),
           if (text != null)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: Text(
                 text!,
                 style: TextStyle(color: textColor, fontWeight: FontWeight.w500),

@@ -1,4 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // lib/model/user_role.dart
+import 'dart:convert';
+
 import 'package:spark_hire_app/model/common/base.dart';
 import 'package:spark_hire_app/model/common/base_response.dart';
 
@@ -79,6 +82,26 @@ class UserBasicInfo {
     required this.email,
   });
 
+  
+
+  UserBasicInfo copyWith({
+    int? id,
+    String? username,
+    UserRole? role,
+    String? userAvatar,
+    Gender? gender,
+    String? email,
+  }) {
+    return UserBasicInfo(
+      id: id ?? this.id,
+      username: username ?? this.username,
+      role: role ?? this.role,
+      userAvatar: userAvatar ?? this.userAvatar,
+      gender: gender ?? this.gender,
+      email: email ?? this.email,
+    );
+  }
+
   factory UserBasicInfo.fromJson(Map<String, dynamic> json) {
     return UserBasicInfo(
       id: json['id'] as int,
@@ -88,6 +111,58 @@ class UserBasicInfo {
       gender: GenderExt.fromInt(json['gender'] as int),
       email: json['email'] as String,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'username': username,
+      'role': role.value,
+      'userAvatar': userAvatar,
+      'gender': gender.value,
+      'email': email,
+    };
+  }
+
+  factory UserBasicInfo.fromMap(Map<String, dynamic> map) {
+    return UserBasicInfo(
+      id: map['id'] as int,
+      username: map['username'] as String,
+      role: UserRoleExt.fromInt(map['role']),
+      userAvatar: map['userAvatar'] as String,
+      gender: GenderExt.fromInt(map['gender']),
+      email: map['email'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  @override
+  String toString() {
+    return 'UserBasicInfo(id: $id, username: $username, role: $role, userAvatar: $userAvatar, gender: $gender, email: $email)';
+  }
+
+  @override
+  bool operator ==(covariant UserBasicInfo other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.id == id &&
+      other.username == username &&
+      other.role == role &&
+      other.userAvatar == userAvatar &&
+      other.gender == gender &&
+      other.email == email;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      username.hashCode ^
+      role.hashCode ^
+      userAvatar.hashCode ^
+      gender.hashCode ^
+      email.hashCode;
   }
 }
 

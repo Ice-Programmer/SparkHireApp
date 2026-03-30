@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:spark_hire_app/pages/company/company_detail_page/components/company_benefit_content.dart';
-import 'package:spark_hire_app/pages/company/company_detail_page/components/company_description_content.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/benefits/company_benefit_content.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/comments/company_comments_content.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/description/company_description_content.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_info_header.dart';
-import 'package:spark_hire_app/pages/company/company_detail_page/components/company_job_content.dart';
+import 'package:spark_hire_app/pages/company/company_detail_page/recruitments/company_job_content.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/view_model/company_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -101,7 +102,9 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
                 _buildScrollPage(
                   CompanyBenefitContent(companyId: widget.companyId),
                 ),
-                _buildScrollPage(const Center(child: Text("薪资参考"))),
+                _buildScrollPage(
+                  CompanyCommentsContent(companyId: widget.companyId),
+                ),
               ],
             ),
           ),
