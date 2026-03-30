@@ -6,6 +6,7 @@ import 'package:spark_hire_app/pages/company/company_detail_page/components/comp
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_info_header.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/components/company_job_content.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/view_model/company_view_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CompanyDetailPage extends StatefulWidget {
   final int companyId;
@@ -74,11 +75,13 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
                       indicatorColor: Theme.of(context).colorScheme.primary,
                       indicatorSize: TabBarIndicatorSize.label,
                       dividerColor: Colors.transparent,
-                      tabs: const [
-                        Tab(text: "简介"),
-                        Tab(text: "职位"),
-                        Tab(text: "福利"),
-                        Tab(text: "薪资"),
+                      tabs: [
+                        Tab(
+                          text: AppLocalizations.of(context)!.introductionText,
+                        ),
+                        Tab(text: AppLocalizations.of(context)!.jobText),
+                        Tab(text: AppLocalizations.of(context)!.benefitsText),
+                        Tab(text: AppLocalizations.of(context)!.commentText),
                       ],
                     ),
                   ),
@@ -95,7 +98,6 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
                   ),
                 ),
                 _buildScrollPage(CompanyJobContent()),
-                // _buildScrollPage(const Center(child: Text("福利说明"))),
                 _buildScrollPage(
                   CompanyBenefitContent(companyId: widget.companyId),
                 ),
