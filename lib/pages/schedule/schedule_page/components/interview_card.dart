@@ -1,19 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/components/custom_divider.dart';
+import 'package:spark_hire_app/model/interview/interview_info.dart';
 
 class InterviewCard extends StatelessWidget {
-  final String logoUrl, company, position, date, time, type;
+  final InterviewInfo interviewInfo;
 
-  const InterviewCard({
-    super.key,
-    required this.logoUrl,
-    required this.company,
-    required this.position,
-    required this.date,
-    required this.time,
-    required this.type,
-  });
+  const InterviewCard({super.key, required this.interviewInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +25,25 @@ class InterviewCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 20.r,
-                backgroundColor: Theme.of(
-                  context,
-                ).colorScheme.primary.withValues(alpha: 0.1),
-                child: Padding(
-                  padding: EdgeInsets.all(8.w),
-                  child: Image.network(logoUrl),
+              Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.04),
+                  border: Border.all(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.1),
+                    width: 0.5,
+                  ),
+                  borderRadius: BorderRadius.circular(39.r),
+                ),
+                padding: EdgeInsets.all(8.r),
+                child: CacheImage(
+                  height: 26.h,
+                  width: 26.w,
+                  imageUrl: interviewInfo.companyLink,
+                  borderRadius: 6.r,
                 ),
               ),
 
@@ -47,14 +53,15 @@ class InterviewCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    position,
+                    interviewInfo.recruitmentName,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 16.sp,
+                      fontSize: 15.sp,
                     ),
                   ),
+
                   Text(
-                    company,
+                    interviewInfo.companyName,
                     style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                   ),
                 ],
@@ -68,15 +75,39 @@ class InterviewCard extends StatelessWidget {
 
           8.verticalSpace,
 
-          _infoRow(context, Icons.calendar_today_outlined, "日期", date),
+          _infoRow(
+            context,
+            Icons.calendar_today_outlined,
+            "日期",
+            formatUnixTimestampDate(interviewInfo.interviewTs),
+          ),
 
           8.verticalSpace,
 
-          _infoRow(context, Icons.access_time, "时间", time),
+          _infoRow(
+            context,
+            Icons.access_time,
+            "时间",
+            formatTo24Hour(interviewInfo.interviewTs),
+          ),
 
           8.verticalSpace,
 
-          _infoRow(context, Icons.videocam_outlined, "面试方式", type),
+          _infoRow(
+            context,
+            Icons.videocam_outlined,
+            "面试时长",
+            '${interviewInfo.duration} 分钟',
+          ),
+
+          8.verticalSpace,
+
+          _infoRow(
+            context,
+            Icons.videocam_outlined,
+            "面试方式",
+            interviewInfo.type.getLocalizedName(context),
+          ),
 
           20.verticalSpace,
 
@@ -135,5 +166,15 @@ class InterviewCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String formatUnixTimestampDate(int timestamp) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  String formatTo24Hour(int timestamp) {
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return DateFormat('HH:mm').format(date);
   }
 }

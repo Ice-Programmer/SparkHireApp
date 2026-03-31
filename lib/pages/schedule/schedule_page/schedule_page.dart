@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:spark_hire_app/model/interview/interview_status.dart';
 import 'package:spark_hire_app/pages/schedule/schedule_page/components/calendar_strip.dart';
 import 'package:spark_hire_app/pages/schedule/schedule_page/components/interview_card.dart';
 import 'package:spark_hire_app/components/sliding_toggle.dart';
+import 'package:spark_hire_app/pages/schedule/schedule_page/view_model/interview_view_model.dart';
 
 class SchedulePage extends StatefulWidget {
   const SchedulePage({super.key});
@@ -17,6 +20,13 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => InterviewViewModel()..fetchInterviews(),
+      builder: (_, _) => _buildBodyUI(),
+    );
+  }
+
+  Widget _buildBodyUI() {
     return SafeArea(
       minimum: EdgeInsets.symmetric(vertical: 20.h, horizontal: 20.w),
       child: SingleChildScrollView(
@@ -56,36 +66,47 @@ class _SchedulePageState extends State<SchedulePage> {
             20.verticalSpace,
 
             // 面试卡片 先 mock
-            Column(
-              children: [
-                InterviewCard(
-                  logoUrl:
-                      'https://cdn-icons-png.flaticon.com/512/145/145808.png',
-                  company: 'Pinterest',
-                  position: '用户界面设计师',
-                  date: '2024-12-20',
-                  time: '上午 11:00',
-                  type: '视频面试',
-                ),
-
-                20.verticalSpace,
-
-                InterviewCard(
-                  logoUrl:
-                      'https://cdn-icons-png.flaticon.com/512/732/732252.png',
-                  company: 'Webflow',
-                  position: '平面设计师',
-                  date: '2024-12-20',
-                  time: '上午 11:00',
-                  type: '视频面试',
-                ),
-              ],
+            Consumer<InterviewViewModel>(
+              builder: (context, vm, child) => _buildInterviewList(vm),
             ),
 
             100.verticalSpace,
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildInterviewList(InterviewViewModel vm) {
+    if (vm.isLoading) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.only(top: 50),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (vm.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.only(top: 50),
+          child: Text(
+            "暂无面试安排",
+            style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+          ),
+        ),
+      );
+    }
+
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: vm.interviewList.length,
+      separatorBuilder: (context, index) => 20.verticalSpace,
+      itemBuilder: (context, index) {
+        return InterviewCard(interviewInfo: vm.interviewList[index]);
+      },
     );
   }
 }
