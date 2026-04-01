@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/custom_divider.dart';
-import 'package:spark_hire_app/model/information/list_career.dart';
+import 'package:spark_hire_app/components/empty_state.dart';
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/components/career_info_card.dart';
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/view_model/career_view_model.dart';
 
@@ -14,8 +14,8 @@ class GraphHomePage extends StatefulWidget {
 }
 
 class _GraphHomePageState extends State<GraphHomePage> {
-  // 1. 在 State 中持有 ViewModel，确保它在当前页面生命周期内只创建一次
   late final CareerViewModel _viewModel;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -24,26 +24,89 @@ class _GraphHomePageState extends State<GraphHomePage> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: _viewModel,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Consumer<CareerViewModel>(
-            builder: (context, vm, _) {
-              return ListView.separated(
-                padding: EdgeInsets.all(20.w),
-                itemCount: vm.careerInfoList.length,
-                separatorBuilder:
-                    (context, index) =>
-                        CustomDivider(thickness: 0.5, height: 40.h),
-                itemBuilder:
-                    (context, index) =>
-                        CareerInfoCard(careerInfo: vm.careerInfoList[index]),
-              );
-            },
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 1. 页面大标题
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+              child: Text(
+                'Explore Careers',
+                style: TextStyle(
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+
+            // 2. 搜索框
+            _buildSearch(),
+
+            // 3. 结果列表
+            Expanded(
+              child: Consumer<CareerViewModel>(
+                builder: (context, vm, _) {
+                  final list = vm.careerInfoList;
+
+                  if (list.isEmpty) {
+                    return EmptyState(title: "No careers found.");
+                  }
+
+                  return ListView.separated(
+                    padding: EdgeInsets.all(20.w),
+                    itemCount: list.length,
+                    separatorBuilder:
+                        (context, index) =>
+                            CustomDivider(thickness: 0.5, height: 40.h),
+                    itemBuilder:
+                        (context, index) =>
+                            CareerInfoCard(careerInfo: list[index]),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSearch() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+      child: TextField(
+        controller: _searchController,
+        onChanged: (value) => _viewModel.filterCareers(value),
+        decoration: InputDecoration(
+          hintText: 'Search career name...',
+          prefixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.outline),
+          filled: true,
+          fillColor: Theme.of(context).colorScheme.inverseSurface,
+          contentPadding: EdgeInsets.symmetric(vertical: 0.h),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide.none,
           ),
+          suffixIcon:
+              _searchController.text.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.clear, size: 18),
+                    onPressed: () {
+                      _searchController.clear();
+                      _viewModel.filterCareers('');
+                    },
+                  )
+                  : null,
         ),
       ),
     );
