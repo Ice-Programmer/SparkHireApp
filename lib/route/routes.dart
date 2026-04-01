@@ -7,6 +7,7 @@ import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
 import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
 import 'package:spark_hire_app/pages/form/form_page/form_page.dart';
+import 'package:spark_hire_app/pages/graph/graph_home_page.dart/graph_home_page.dart';
 import 'package:spark_hire_app/pages/job/job_detail_page/job_detail_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/job_home_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
@@ -135,10 +136,10 @@ final GoRouter router = GoRouter(
               (context, state) => NoTransitionPage(child: SchedulePage()),
         ),
         GoRoute(
-          path: '/favorite',
-          name: '收藏',
+          path: '/graph',
+          name: '图谱',
           pageBuilder:
-              (context, state) => NoTransitionPage(child: FavoritePage()),
+              (context, state) => NoTransitionPage(child: GraphHomePage()),
         ),
         GoRoute(
           path: '/personal',

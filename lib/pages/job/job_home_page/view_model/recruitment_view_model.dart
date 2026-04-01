@@ -55,7 +55,6 @@ class RecruitmentViewModel extends ChangeNotifier {
         _hasMore = false;
       }
     } catch (e) {
-      // 在这里处理异常，可以引入 Toast 等提示用户网络错误
       ToastUtils.showErrorMsg("获取招聘信息列表失败: $e");
     } finally {
       _isLoading = false;
