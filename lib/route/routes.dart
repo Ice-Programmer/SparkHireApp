@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
+import 'package:spark_hire_app/model/information/list_career.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
-import 'package:spark_hire_app/pages/favorite/favorite_page.dart';
 import 'package:spark_hire_app/pages/form/form_page/form_page.dart';
+import 'package:spark_hire_app/pages/graph/career_graph_page.dart/career_graph_page.dart';
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/graph_home_page.dart';
 import 'package:spark_hire_app/pages/job/job_detail_page/job_detail_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/job_home_page.dart';
@@ -30,7 +31,6 @@ import 'package:spark_hire_app/pages/register/profile/select_role_page.dart';
 import 'package:spark_hire_app/pages/register/register_page.dart';
 import 'package:spark_hire_app/pages/register/register_verification_page.dart';
 import 'package:spark_hire_app/pages/schedule/schedule_page/schedule_page.dart';
-import 'package:spark_hire_app/pages/search/search_page.dart';
 import 'package:spark_hire_app/pages/select_page/career_selection_page.dart';
 import 'package:spark_hire_app/pages/welcome/guidance_page.dart';
 import 'package:spark_hire_app/pages/welcome/welcome_page.dart';
@@ -112,6 +112,13 @@ final GoRouter router = GoRouter(
             companyId:
                 int.tryParse(state.pathParameters['companyId'] ?? '0') ?? 0,
           ),
+    ),
+    GoRoute(
+      path: '/graph/career',
+      name: "岗位分析",
+      builder:
+          (context, state) =>
+              CareerGraphPage(careerInfo: state.extra as CareerInfo),
     ),
 
     ShellRoute(

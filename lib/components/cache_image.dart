@@ -58,6 +58,9 @@ class CacheImage extends StatelessWidget {
         width: width,
         fit: BoxFit.cover,
         placeholderBuilder: (context) => _buildPlaceholder(),
+        errorBuilder: (context, error, stackTrace) {
+          return _buildPlaceholder();
+        },
       );
     }
 

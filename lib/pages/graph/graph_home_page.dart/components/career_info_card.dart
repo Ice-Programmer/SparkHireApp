@@ -6,14 +6,13 @@ import 'package:spark_hire_app/model/information/list_career.dart';
 
 class CareerInfoCard extends StatelessWidget {
   final CareerInfo careerInfo;
+
   const CareerInfoCard({super.key, required this.careerInfo});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,6 +30,7 @@ class CareerInfoCard extends StatelessWidget {
                 children: [
                   2.verticalSpace,
 
+                  // 职业名称
                   Text(
                     careerInfo.careerName,
                     style: TextStyle(
@@ -39,6 +39,7 @@ class CareerInfoCard extends StatelessWidget {
                     ),
                   ),
 
+                  // 职业描述
                   Text(
                     careerInfo.description,
                     maxLines: 2,
@@ -56,6 +57,8 @@ class CareerInfoCard extends StatelessWidget {
                 ],
               ),
             ),
+
+            10.horizontalSpace,
 
             // 右侧箭头图标
             const Icon(
