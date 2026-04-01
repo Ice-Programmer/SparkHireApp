@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/components/custom_tag.dart';
 import 'package:spark_hire_app/model/information/list_career.dart';
@@ -11,63 +12,58 @@ class CareerInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // career logo icon
-            _buildCareerImage(icon: careerInfo.careerIcon, context: context),
+    return GestureDetector(
+      onTap: () {
+        context.push("/graph/career", extra: careerInfo);
+      },
+      child: Row(
+        children: [
+          // career logo icon
+          _buildCareerImage(icon: careerInfo.careerIcon, context: context),
 
-            18.horizontalSpace,
+          18.horizontalSpace,
 
-            // 中间文字信息
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  2.verticalSpace,
+          // 中间文字信息
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                2.verticalSpace,
 
-                  // 职业名称
-                  Text(
-                    careerInfo.careerName,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                // 职业名称
+                Text(
+                  careerInfo.careerName,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
                   ),
+                ),
 
-                  // 职业描述
-                  Text(
-                    careerInfo.description,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: Theme.of(context).colorScheme.tertiary,
-                    ),
+                // 职业描述
+                Text(
+                  careerInfo.description,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Theme.of(context).colorScheme.tertiary,
                   ),
+                ),
 
-                  4.verticalSpace,
+                4.verticalSpace,
 
-                  // 状态标签
-                  CustomTag(fontSize: 12.sp, text: careerInfo.careerTypeName),
-                ],
-              ),
+                // 状态标签
+                CustomTag(fontSize: 12.sp, text: careerInfo.careerTypeName),
+              ],
             ),
+          ),
 
-            10.horizontalSpace,
+          10.horizontalSpace,
 
-            // 右侧箭头图标
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 20,
-              color: Colors.black87,
-            ),
-          ],
-        ),
+          // 右侧箭头图标
+          Icon(Icons.arrow_forward_ios, size: 20.sp),
+        ],
       ),
     );
   }

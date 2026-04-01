@@ -166,5 +166,6 @@
   "workCompanyName": "Company",
   "workLocationText": "Work Location",
   "yearText": "years",
-  "yearlyText": "Annual"
+  "yearlyText": "Annual",
+  "careerAnalysis": "Career Analysis"
 }

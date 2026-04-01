@@ -166,5 +166,6 @@
   "workCompanyName": "公司名称",
   "workLocationText": "工作地点",
   "yearText": "年",
-  "yearlyText": "年薪"
+  "yearlyText": "年薪",
+  "careerAnalysis": "职业分析"
 }
