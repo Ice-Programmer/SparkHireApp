@@ -68,17 +68,15 @@ class _GraphHomePageState extends State<GraphHomePage> {
                       return EmptyState(title: "No careers found.");
                     }
 
-                    return Expanded(
-                      child: ListView.separated(
-                        padding: EdgeInsets.zero,
-                        itemCount: list.length,
-                        separatorBuilder:
-                            (context, index) =>
-                                CustomDivider(thickness: 0.5, height: 40.h),
-                        itemBuilder:
-                            (context, index) =>
-                                CareerInfoCard(careerInfo: list[index]),
-                      ),
+                    return ListView.separated(
+                      padding: EdgeInsets.zero,
+                      itemCount: list.length,
+                      separatorBuilder:
+                          (context, index) =>
+                              CustomDivider(thickness: 0.5, height: 40.h),
+                      itemBuilder:
+                          (context, index) =>
+                              CareerInfoCard(careerInfo: list[index]),
                     );
                   },
                 ),
