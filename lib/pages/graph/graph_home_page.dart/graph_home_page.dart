@@ -5,6 +5,7 @@ import 'package:spark_hire_app/components/custom_divider.dart';
 import 'package:spark_hire_app/components/empty_state.dart';
 import 'package:spark_hire_app/components/keyboard_wrapper.dart';
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/components/career_info_card.dart';
+import 'package:spark_hire_app/pages/graph/graph_home_page.dart/components/career_info_card_skeleton.dart';
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/view_model/career_view_model.dart';
 
 class GraphHomePage extends StatefulWidget {
@@ -59,19 +60,25 @@ class _GraphHomePageState extends State<GraphHomePage> {
                   builder: (context, vm, _) {
                     final list = vm.careerInfoList;
 
+                    if (vm.isLoadingCareer) {
+                      return CareerInfoCardSkeleton();
+                    }
+
                     if (list.isEmpty) {
                       return EmptyState(title: "No careers found.");
                     }
 
-                    return ListView.separated(
-                      padding: EdgeInsets.zero,
-                      itemCount: list.length,
-                      separatorBuilder:
-                          (context, index) =>
-                              CustomDivider(thickness: 0.5, height: 40.h),
-                      itemBuilder:
-                          (context, index) =>
-                              CareerInfoCard(careerInfo: list[index]),
+                    return Expanded(
+                      child: ListView.separated(
+                        padding: EdgeInsets.zero,
+                        itemCount: list.length,
+                        separatorBuilder:
+                            (context, index) =>
+                                CustomDivider(thickness: 0.5, height: 40.h),
+                        itemBuilder:
+                            (context, index) =>
+                                CareerInfoCard(careerInfo: list[index]),
+                      ),
                     );
                   },
                 ),
