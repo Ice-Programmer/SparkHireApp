@@ -361,6 +361,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.70.2"
+  flame:
+    dependency: transitive
+    description:
+      name: flame
+      sha256: c50e2f39e118f5f6a6f3339ce6825ee803c7e5fada95ec50fb02eb27944e0e76
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.30.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -382,6 +390,22 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.4.1"
+  flutter_force_directed_graph:
+    dependency: "direct main"
+    description:
+      name: flutter_force_directed_graph
+      sha256: "5024c7e1854341f6dbca656d23efa387c40986599d6d613b4b55f0abffde0416"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.8"
+  flutter_graph_view:
+    dependency: "direct main"
+    description:
+      name: flutter_graph_view
+      sha256: c5bca9320c1149f4f46cdfdbdfa70edaf2ff15498e413a4a48e9a7bda16b814d
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.2.1"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -501,14 +525,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.3.2"
-  graphview:
-    dependency: "direct main"
-    description:
-      name: graphview
-      sha256: a683865b36172cc8c470f45f6d34bb901ba5b4e80fc345f6a0021abc57fa8f4c
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.5.1"
   http:
     dependency: transitive
     description:
@@ -805,6 +821,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.0.2"
+  ordered_set:
+    dependency: transitive
+    description:
+      name: ordered_set
+      sha256: d6c1d053a533e84931a388cbf03f1ad21a0543bf06c7a281859d3ffacd8e15f2
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "8.0.0"
   package_config:
     dependency: transitive
     description:
