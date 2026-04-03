@@ -14,19 +14,19 @@ class CareerGraphViewModel extends ChangeNotifier {
   bool get isLoadingTagList => _isLoadingTagList;
 
   /// 获取职业关联 tag
-  Future<void> fetchCareerRelativeSkillTags({required int ccareerId}) async {
-    _isLoadingTagList = false;
+  Future<void> fetchCareerRelativeSkillTags({required int careerId}) async {
+    _isLoadingTagList = true;
     notifyListeners();
 
     try {
-      final req = FetchCareerRelativeSkillTagsRequest(ccareerId: ccareerId);
+      final req = FetchCareerRelativeSkillTagsRequest(careerId: careerId);
       final response = await _graphService.fetchCareerRelativeSkillTags(req);
 
       _skillTagList = response.tagList ?? [];
     } catch (e) {
       ToastUtils.showErrorMsg("获取职业关联 tag 失败: $e");
     } finally {
-      _isLoadingTagList = true;
+      _isLoadingTagList = false;
       notifyListeners();
     }
   }

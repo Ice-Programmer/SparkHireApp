@@ -7,24 +7,24 @@ import 'package:spark_hire_app/model/common/base_response.dart';
 import 'package:spark_hire_app/model/tag/tag_info.dart';
 
 class FetchCareerRelativeSkillTagsRequest {
-  final int ccareerId;
-  FetchCareerRelativeSkillTagsRequest({required this.ccareerId});
+  final int careerId;
+  FetchCareerRelativeSkillTagsRequest({required this.careerId});
 
-  FetchCareerRelativeSkillTagsRequest copyWith({int? ccareerId}) {
+  FetchCareerRelativeSkillTagsRequest copyWith({int? careerId}) {
     return FetchCareerRelativeSkillTagsRequest(
-      ccareerId: ccareerId ?? this.ccareerId,
+      careerId: careerId ?? this.careerId,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{'ccareerId': ccareerId};
+    return <String, dynamic>{'careerId': careerId};
   }
 
   factory FetchCareerRelativeSkillTagsRequest.fromMap(
     Map<String, dynamic> map,
   ) {
     return FetchCareerRelativeSkillTagsRequest(
-      ccareerId: map['ccareerId'] as int,
+      careerId: map['careerId'] as int,
     );
   }
 
@@ -37,17 +37,17 @@ class FetchCareerRelativeSkillTagsRequest {
 
   @override
   String toString() =>
-      'FetchCareerRelativeSkillTagsRequest(ccareerId: $ccareerId)';
+      'FetchCareerRelativeSkillTagsRequest(careerId: $careerId)';
 
   @override
   bool operator ==(covariant FetchCareerRelativeSkillTagsRequest other) {
     if (identical(this, other)) return true;
 
-    return other.ccareerId == ccareerId;
+    return other.careerId == careerId;
   }
 
   @override
-  int get hashCode => ccareerId.hashCode;
+  int get hashCode => careerId.hashCode;
 }
 
 class FetchCareerRelativeSkillTagsResponse {

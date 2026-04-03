@@ -11,7 +11,7 @@ class GraphService {
   ) async {
     try {
       final resp = await _dioInstance.post(
-        path: '/api/v1/ice/sparkhire/runtime/tag/current',
+        path: '/api/v1/ice/sparkhire/graph/analysis/career/skills/fetch',
         data: req.toJson(),
       );
 

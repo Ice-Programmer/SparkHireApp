@@ -24,7 +24,7 @@ class _CareerGraphPageState extends State<CareerGraphPage> {
   @override
   void initState() {
     super.initState();
-    _viewModel.fetchCareerRelativeSkillTags(ccareerId: widget.careerInfo.id);
+    _viewModel.fetchCareerRelativeSkillTags(careerId: widget.careerInfo.id);
   }
 
   @override
@@ -55,9 +55,7 @@ class _CareerGraphPageState extends State<CareerGraphPage> {
                 20.verticalSpace,
 
                 // career skill tag
-                CareerSkillGraph(),
-
-                
+                CareerSkillGraph(careerInfo: widget.careerInfo),
               ],
             ),
           ),

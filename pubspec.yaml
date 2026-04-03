@@ -63,7 +63,6 @@ dependencies:
   collection: ^1.19.1
   fl_chart: ^0.70.0
   flutter_markdown_plus: ^1.0.7
-  flutter_graph_view: ^1.2.1
   flutter_force_directed_graph: ^1.0.8
 
 
