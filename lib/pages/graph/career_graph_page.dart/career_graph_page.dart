@@ -6,6 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:spark_hire_app/components/edit_title.dart';
 import 'package:spark_hire_app/pages/graph/career_graph_page.dart/components/career_analysis_header.dart';
 import 'package:spark_hire_app/pages/graph/career_graph_page.dart/components/career_data_card.dart';
+import 'package:spark_hire_app/pages/graph/career_graph_page.dart/components/career_radio_graph.dart';
 import 'package:spark_hire_app/pages/graph/career_graph_page.dart/components/career_skill_graph.dart';
 import 'package:spark_hire_app/pages/graph/career_graph_page.dart/view_model/career_graph_view_model.dart';
 
@@ -56,6 +57,10 @@ class _CareerGraphPageState extends State<CareerGraphPage> {
 
                 // career skill tag
                 CareerSkillGraph(careerInfo: widget.careerInfo),
+
+                20.verticalSpace,
+
+                CareerRadioGraph(),
               ],
             ),
           ),

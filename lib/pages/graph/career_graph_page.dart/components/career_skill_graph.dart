@@ -15,10 +15,24 @@ class CareerSkillGraph extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 技能图谱
-        Text(
-          "技能图谱",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+        Row(
+          children: [
+            Container(
+              width: 4.w,
+              height: 18.h,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+
+            8.horizontalSpace,
+
+            Text(
+              "技能图谱",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+            ),
+          ],
         ),
 
         10.verticalSpace,
