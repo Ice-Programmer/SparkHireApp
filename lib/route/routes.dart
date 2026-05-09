@@ -6,7 +6,7 @@ import 'package:spark_hire_app/model/information/list_career.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
-import 'package:spark_hire_app/pages/form/form_page/form_page.dart';
+import 'package:spark_hire_app/pages/forum/forum_page/forum_page.dart';
 import 'package:spark_hire_app/pages/graph/career_graph_page.dart/career_graph_page.dart';
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/graph_home_page.dart';
 import 'package:spark_hire_app/pages/job/job_detail_page/job_detail_page.dart';

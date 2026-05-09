@@ -41,6 +41,7 @@ class ClickableSearchButton extends StatelessWidget {
                 ),
               ),
             ),
+
             Container(
               width: 1,
               height: 24,

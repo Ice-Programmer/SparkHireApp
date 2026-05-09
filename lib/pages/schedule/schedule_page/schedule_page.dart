@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:spark_hire_app/model/interview/interview_status.dart';
 import 'package:spark_hire_app/pages/schedule/schedule_page/components/calendar_strip.dart';
 import 'package:spark_hire_app/pages/schedule/schedule_page/components/interview_card.dart';
 import 'package:spark_hire_app/components/sliding_toggle.dart';

@@ -17,6 +17,9 @@ class CustomButton extends StatelessWidget {
   final bool disable;
   final Color? borderColor;
   final bool disableSplash;
+  
+  /// 新增：控制图标在左边还是右边。默认 false (图标在左)
+  final bool isIconRight;
 
   const CustomButton({
     super.key,
@@ -35,32 +38,50 @@ class CustomButton extends StatelessWidget {
     this.disable = false,
     this.borderColor,
     this.disableSplash = false,
+    this.isIconRight = false, // 默认图标在左侧
   });
 
   @override
   Widget build(BuildContext context) {
+    // 提取共用的 Text Widget
+    final textWidget = title != null
+        ? Text(
+            title!,
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: fontWeight,
+              color: textColor,
+            ),
+          )
+        : null;
+
+    // 提取共用的 Icon Widget
+    final iconWidget = icon != null
+        ? Icon(icon, color: textColor, size: fontSize)
+        : null;
+
     return SizedBox(
       height: btnHeight,
       width: btnWidth,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color:
-              disable
-                  ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4)
-                  : backgroundColor,
+          color: disable
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.4)
+              : backgroundColor,
           borderRadius: BorderRadius.circular(borderRadius),
           border: borderColor != null ? Border.all(color: borderColor!) : null,
-          boxShadow:
-              (isShadow && backgroundColor != null)
-                  ? [
-                    BoxShadow(
-                      color: backgroundColor!.withValues(alpha: 0.3),
-                      spreadRadius: 2.r,
-                      blurRadius: 5.r,
-                      offset: Offset(0, 3.h),
-                    ),
-                  ]
-                  : [],
+          boxShadow: (isShadow && backgroundColor != null)
+              ? [
+                  BoxShadow(
+                    color: backgroundColor!.withValues(alpha: 0.3),
+                    spreadRadius: 2.r,
+                    blurRadius: 5.r,
+                    offset: Offset(0, 3.h),
+                  ),
+                ]
+              : [],
         ),
         child: Material(
           color: Colors.transparent,
@@ -77,20 +98,18 @@ class CustomButton extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (icon != null)
-                      Icon(icon, color: textColor, size: fontSize),
-                    if (iconGap != null) iconGap!.horizontalSpace,
-                    if (title != null)
-                      Text(
-                        title!,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: fontSize,
-                          fontWeight: fontWeight,
-                          color: textColor,
-                        ),
-                      ),
+                    // 根据 isIconRight 决定排列顺序
+                    if (isIconRight) ...[
+                      if (textWidget != null) textWidget,
+                      if (iconWidget != null && textWidget != null && iconGap != null)
+                        iconGap!.horizontalSpace,
+                      if (iconWidget != null) iconWidget,
+                    ] else ...[
+                      if (iconWidget != null) iconWidget,
+                      if (iconWidget != null && textWidget != null && iconGap != null)
+                        iconGap!.horizontalSpace,
+                      if (textWidget != null) textWidget,
+                    ],
                   ],
                 ),
               ),
