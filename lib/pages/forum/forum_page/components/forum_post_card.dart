@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
+import 'package:spark_hire_app/model/forum/post/forum_post.dart';
 
-class ForumCard extends StatelessWidget {
-  const ForumCard({super.key});
+class ForumPostCard extends StatelessWidget {
+  final ForumPostInfo postInfo;
+
+  const ForumPostCard({super.key, required this.postInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -25,25 +28,24 @@ class ForumCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // 公司头像
+                // 用户头像
                 CacheImage(
                   height: 38.h,
                   width: 38.w,
-                  imageUrl:
-                      "https://ice-spark-hire.tos-cn-shanghai.volces.com/user/avatar/1774001433_image_picker_478573B1-1306-4D34-9987-053098E32B60-24996-00001F5A62C4FB82.jpg",
+                  imageUrl: postInfo.creatorInfo.userAvatar,
                   borderRadius: 20.r,
                 ),
 
                 12.horizontalSpace,
 
-                // 职位信息
+                // 名称
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 职位名称
+                      // 名称
                       Text(
-                        "设计师如何提升作品集的竞争力",
+                        postInfo.title,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -54,9 +56,9 @@ class ForumCard extends StatelessWidget {
 
                       4.verticalSpace,
 
-                      // 公司名称
+                      // 作者
                       Text(
-                        "Ice Programmer",
+                        postInfo.creatorInfo.username,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -79,9 +81,9 @@ class ForumCard extends StatelessWidget {
 
             10.verticalSpace,
 
-            // 第三行：职位描述
+            // 第三行 post 描述
             Text(
-              "作品集是设计师的敲门砖，如何打造一个让人眼前一亮的作品集？分享一些实用建议和案例分析...",
+              postInfo.content,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -91,18 +93,27 @@ class ForumCard extends StatelessWidget {
               ),
             ),
 
-            16.verticalSpace,
+            10.verticalSpace,
 
-            // 第四行：地点和薪资
             /// 底部数据
             Row(
               children: [
                 _buildMeta(Icons.thumb_up_alt_outlined, "1324"),
-                const SizedBox(width: 20),
+
+                20.horizontalSpace,
+
                 _buildMeta(Icons.mode_comment_outlined, "32"),
-                const SizedBox(width: 20),
+
+                20.horizontalSpace,
+
                 _buildMeta(Icons.remove_red_eye_outlined, "2.3k"),
+
                 const Spacer(),
+
+                Text(
+                  "2 小时前",
+                  style: TextStyle(fontSize: 12.sp, color: Colors.grey[500]),
+                ),
               ],
             ),
           ],
@@ -111,34 +122,13 @@ class ForumCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCompanyImage({
-    required String icon,
-    required BuildContext context,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.04),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
-          width: 0.5,
-        ),
-        borderRadius: BorderRadius.circular(39.r),
-      ),
-      padding: EdgeInsets.all(8.r),
-      child: CacheImage(
-        height: 26.h,
-        width: 26.w,
-        imageUrl: icon,
-        borderRadius: 6.r,
-      ),
-    );
-  }
-
   Widget _buildMeta(IconData icon, String text) {
     return Row(
       children: [
         Icon(icon, size: 18, color: Colors.grey),
-        const SizedBox(width: 6),
+
+        6.horizontalSpace,
+
         Text(text, style: const TextStyle(color: Colors.grey)),
       ],
     );
