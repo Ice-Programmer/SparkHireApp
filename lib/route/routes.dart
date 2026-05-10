@@ -4,6 +4,7 @@ import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/information/list_career.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
+import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/candidate_ai_analysis_page.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
 import 'package:spark_hire_app/pages/forum/forum_detail_page/forum_detail_page.dart';
@@ -167,9 +168,9 @@ List<GoRoute> _getForumRoutes() {
     GoRoute(
       path: '/detail/:postId',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder:  (context, state) => ForumDetailPage(
-            postId:
-                int.tryParse(state.pathParameters['postId'] ?? '0') ?? 0,
+      builder:
+          (context, state) => ForumDetailPage(
+            postId: int.tryParse(state.pathParameters['postId'] ?? '0') ?? 0,
           ),
     ),
   ];
@@ -239,6 +240,11 @@ List<GoRoute> _getCandidateEditRoutes() {
             wishCareerId:
                 int.tryParse(state.pathParameters['wishCareerId'] ?? '0') ?? 0,
           ),
+    ),
+    GoRoute(
+      path: '/ai/analysis',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => CandidateAiAnalysisPage(),
     ),
   ];
 }
