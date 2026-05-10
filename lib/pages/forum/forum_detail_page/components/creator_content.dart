@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:spark_hire_app/components/custom_tag.dart';
+import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 
 class CreatorContent extends StatelessWidget {
-  const CreatorContent({super.key});
+  final UserBasicInfo creatorInfo;
+  const CreatorContent({super.key, required this.creatorInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +16,7 @@ class CreatorContent extends StatelessWidget {
         CacheImage(
           height: 46.h,
           width: 46.w,
-          imageUrl:
-              "https://ice-man-1316749988.cos.ap-shanghai.myqcloud.com/imgs/%E5%85%AB%E5%A5%88%E8%A6%8B.jpg",
+          imageUrl: creatorInfo.userAvatar,
           borderRadius: 20.r,
         ),
 
@@ -28,7 +29,7 @@ class CreatorContent extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "设计小助手",
+                    creatorInfo.username,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,

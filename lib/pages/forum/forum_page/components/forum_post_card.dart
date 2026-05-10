@@ -13,7 +13,7 @@ class ForumPostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.push("/forum/detail");
+        context.push("/forum/detail/${postInfo.id}");
       },
       child: Container(
         padding: EdgeInsets.all(16.w),

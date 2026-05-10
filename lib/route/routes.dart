@@ -165,9 +165,12 @@ final GoRouter router = GoRouter(
 List<GoRoute> _getForumRoutes() {
   return <GoRoute>[
     GoRoute(
-      path: '/detail',
+      path: '/detail/:postId',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => ForumDetailPage(),
+      builder:  (context, state) => ForumDetailPage(
+            postId:
+                int.tryParse(state.pathParameters['postId'] ?? '0') ?? 0,
+          ),
     ),
   ];
 }
