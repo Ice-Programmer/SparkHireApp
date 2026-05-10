@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
 import 'package:spark_hire_app/model/forum/post/forum_post.dart';
 
@@ -11,7 +12,9 @@ class ForumPostCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        context.push("/forum/detail");
+      },
       child: Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
@@ -58,7 +61,7 @@ class ForumPostCard extends StatelessWidget {
 
                       // 作者
                       Text(
-                        postInfo.creatorInfo.username,
+                        '@${postInfo.creatorInfo.username}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(

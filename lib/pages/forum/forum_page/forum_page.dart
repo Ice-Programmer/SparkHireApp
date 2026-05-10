@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/clickable_search_bar.dart';
-import 'package:spark_hire_app/pages/forum/forum_page/components/forum_post_card.dart';
 import 'package:spark_hire_app/pages/forum/forum_page/components/popular_topic.dart';
 import 'package:spark_hire_app/pages/forum/forum_page/components/post_content_list.dart';
 import 'package:spark_hire_app/pages/forum/forum_page/components/title_content.dart';
@@ -40,7 +39,6 @@ class _FormPageState extends State<FormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         minimum: EdgeInsets.all(20.w),
         child: ChangeNotifierProvider.value(
@@ -86,7 +84,6 @@ class _FormPageState extends State<FormPage> {
                 10.verticalSpace,
           
                 /// 帖子列表
-                // const ForumPostCard(),
                 Consumer<ForumPostViewModel>(builder: (context, viewModel, child) {
                   return PostContentList(viewModel: viewModel);
                 })

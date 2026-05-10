@@ -6,6 +6,7 @@ import 'package:spark_hire_app/model/information/list_career.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
+import 'package:spark_hire_app/pages/forum/forum_detail_page/forum_detail_page.dart';
 import 'package:spark_hire_app/pages/forum/forum_page/forum_page.dart';
 import 'package:spark_hire_app/pages/graph/career_graph_page.dart/career_graph_page.dart';
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/graph_home_page.dart';
@@ -132,9 +133,10 @@ final GoRouter router = GoRouter(
               (context, state) => NoTransitionPage(child: JobHomePage()),
         ),
         GoRoute(
-          path: '/form',
+          path: '/forum',
           name: '论坛',
           pageBuilder: (context, state) => NoTransitionPage(child: FormPage()),
+          routes: _getForumRoutes(),
         ),
         GoRoute(
           path: '/schedule',
@@ -159,6 +161,16 @@ final GoRouter router = GoRouter(
     ),
   ],
 );
+
+List<GoRoute> _getForumRoutes() {
+  return <GoRoute>[
+    GoRoute(
+      path: '/detail',
+      parentNavigatorKey: ToastUtils.rootNavigatorKey,
+      builder: (context, state) => ForumDetailPage(),
+    ),
+  ];
+}
 
 List<GoRoute> _getCandidateEditRoutes() {
   return [
