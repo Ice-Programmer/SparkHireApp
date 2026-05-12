@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'package:spark_hire_app/model/common/base.dart';
 import 'package:spark_hire_app/model/common/base_response.dart';
@@ -67,31 +68,51 @@ class OptimizeResumeOverviewItem {
 
   @override
   int get hashCode => category.hashCode ^ count.hashCode ^ progress.hashCode;
+
+  IconData get icon {
+    if (category == "个人信息") {
+      return Icons.person;
+    }
+
+    if (category == "教育经历") {
+      return Icons.school;
+    }
+
+    if (category == "工作经历") {
+      return Icons.work;
+    }
+
+    if (category == "技能标签") {
+      return Icons.code;
+    }
+
+    return Icons.device_unknown;
+  }
 }
 
 class OptimizeResumeSuggestion {
   final String category;
   final String title;
-  final String descritpion;
+  final String description;
   final String tag;
 
   OptimizeResumeSuggestion({
     required this.category,
     required this.title,
-    required this.descritpion,
+    required this.description,
     required this.tag,
   });
 
   OptimizeResumeSuggestion copyWith({
     String? category,
     String? title,
-    String? descritpion,
+    String? description,
     String? tag,
   }) {
     return OptimizeResumeSuggestion(
       category: category ?? this.category,
       title: title ?? this.title,
-      descritpion: descritpion ?? this.descritpion,
+      description: description ?? this.description,
       tag: tag ?? this.tag,
     );
   }
@@ -100,7 +121,7 @@ class OptimizeResumeSuggestion {
     return <String, dynamic>{
       'category': category,
       'title': title,
-      'descritpion': descritpion,
+      'description': description,
       'tag': tag,
     };
   }
@@ -109,7 +130,7 @@ class OptimizeResumeSuggestion {
     return OptimizeResumeSuggestion(
       category: map['category'] as String,
       title: map['title'] as String,
-      descritpion: map['descritpion'] as String,
+      description: map['description'] as String,
       tag: map['tag'] as String,
     );
   }
@@ -123,7 +144,7 @@ class OptimizeResumeSuggestion {
 
   @override
   String toString() {
-    return 'OptimizeResumeSuggestion(category: $category, title: $title, descritpion: $descritpion, tag: $tag)';
+    return 'OptimizeResumeSuggestion(category: $category, title: $title, description: $description, tag: $tag)';
   }
 
   @override
@@ -132,7 +153,7 @@ class OptimizeResumeSuggestion {
 
     return other.category == category &&
         other.title == title &&
-        other.descritpion == descritpion &&
+        other.description == description &&
         other.tag == tag;
   }
 
@@ -140,7 +161,7 @@ class OptimizeResumeSuggestion {
   int get hashCode {
     return category.hashCode ^
         title.hashCode ^
-        descritpion.hashCode ^
+        description.hashCode ^
         tag.hashCode;
   }
 }
@@ -149,7 +170,7 @@ class OptimizeResumeResult {
   final double score;
   final String comparisonText;
   final List<OptimizeResumeOverviewItem>? overviewItems;
-  final List<OptimizeResumeOverviewItem>? suggestions;
+  final List<OptimizeResumeSuggestion>? suggestions;
 
   OptimizeResumeResult({
     required this.score,
@@ -162,7 +183,7 @@ class OptimizeResumeResult {
     double? score,
     String? comparisonText,
     List<OptimizeResumeOverviewItem>? overviewItems,
-    List<OptimizeResumeOverviewItem>? suggestions,
+    List<OptimizeResumeSuggestion>? suggestions,
   }) {
     return OptimizeResumeResult(
       score: score ?? this.score,
@@ -183,28 +204,26 @@ class OptimizeResumeResult {
 
   factory OptimizeResumeResult.fromMap(Map<String, dynamic> map) {
     return OptimizeResumeResult(
-      score: map['score'] as double,
+      score: (map['score'] as num).toDouble(),
       comparisonText: map['comparisonText'] as String,
       overviewItems:
           map['overviewItems'] != null
               ? List<OptimizeResumeOverviewItem>.from(
-                (map['overviewItems'] as List<int>)
-                    .map<OptimizeResumeOverviewItem?>(
-                      (x) => OptimizeResumeOverviewItem.fromMap(
-                        x as Map<String, dynamic>,
-                      ),
-                    ),
+                (map['overviewItems']).map<OptimizeResumeOverviewItem?>(
+                  (x) => OptimizeResumeOverviewItem.fromMap(
+                    x as Map<String, dynamic>,
+                  ),
+                ),
               )
               : null,
       suggestions:
           map['suggestions'] != null
-              ? List<OptimizeResumeOverviewItem>.from(
-                (map['suggestions'] as List<int>)
-                    .map<OptimizeResumeOverviewItem?>(
-                      (x) => OptimizeResumeOverviewItem.fromMap(
-                        x as Map<String, dynamic>,
-                      ),
-                    ),
+              ? List<OptimizeResumeSuggestion>.from(
+                (map['suggestions']).map<OptimizeResumeSuggestion?>(
+                  (x) => OptimizeResumeSuggestion.fromMap(
+                    x as Map<String, dynamic>,
+                  ),
+                ),
               )
               : null,
     );

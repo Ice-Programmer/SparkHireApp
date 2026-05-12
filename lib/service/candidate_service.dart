@@ -94,7 +94,7 @@ class CandidateService {
         options: Options(contentType: 'application/json'),
       );
 
-      final result = SmartOptimizeCandidateResumeResponse.fromJson(resp.data);
+      final result = SmartOptimizeCandidateResumeResponse.fromMap(resp.data);
 
       if (!result.success) {
         throw BusinessException(

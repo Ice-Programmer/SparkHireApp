@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spark_hire_app/model/candidate/optimize_resume.dart';
+import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/score_card_skeleton.dart';
 
 class ScoreCard extends StatelessWidget {
-  const ScoreCard({super.key});
+  final OptimizeResumeResult? result;
+  const ScoreCard({super.key, this.result});
 
   @override
   Widget build(BuildContext context) {
+    if (result == null) {
+      return const ScoreCardSkeleton();
+    }
     return Container(
       padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(

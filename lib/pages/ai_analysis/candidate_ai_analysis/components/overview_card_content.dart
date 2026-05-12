@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spark_hire_app/model/candidate/optimize_resume.dart';
+import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/overview_card_content_skeleton.dart';
 
 class OverviewCardContent extends StatelessWidget {
-  const OverviewCardContent({super.key});
+  final OptimizeResumeResult? result;
+  const OverviewCardContent({super.key, this.result});
 
   @override
   Widget build(BuildContext context) {
-    final overviewItems = [
-      {"title": "个人信息", "icon": Icons.person, "count": "2 条待优化"},
-      {"title": "教育经历", "icon": Icons.school, "count": "1 条待优化"},
-      {"title": "工作经历", "icon": Icons.work, "count": "3 条待优化"},
-      {"title": "技能标签", "icon": Icons.code, "count": "1 条待优化"},
-    ];
+    if (result == null) {
+      return OverviewCardContentSkeleton();
+    }
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: overviewItems.length,
+      itemCount: result?.overviewItems?.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 12,
@@ -23,7 +24,7 @@ class OverviewCardContent extends StatelessWidget {
         childAspectRatio: 1.6,
       ),
       itemBuilder: (context, index) {
-        final item = overviewItems[index];
+        final item = result?.overviewItems?[index];
         return Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
@@ -49,7 +50,7 @@ class OverviewCardContent extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
-                      item["icon"] as IconData,
+                      item!.icon,
                       color: Theme.of(context).colorScheme.primary,
                       size: 23.sp,
                     ),
@@ -58,7 +59,7 @@ class OverviewCardContent extends StatelessWidget {
                   20.horizontalSpace,
 
                   Text(
-                    item["title"] as String,
+                    item.category,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
@@ -72,7 +73,7 @@ class OverviewCardContent extends StatelessWidget {
               4.verticalSpace,
 
               Text(
-                item["count"] as String,
+                item.count,
                 style: TextStyle(
                   color: Colors.orange.shade600,
                   fontWeight: FontWeight.w600,
@@ -85,7 +86,7 @@ class OverviewCardContent extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: LinearProgressIndicator(
-                  value: 0.45,
+                  value: item.progress,
                   minHeight: 4.h,
                   backgroundColor: Theme.of(context).colorScheme.inverseSurface,
                   valueColor: AlwaysStoppedAnimation(Colors.orange.shade400),

@@ -9,7 +9,6 @@ import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_card.dart';
 import 'package:spark_hire_app/pages/personal/career_exp/career_exp_card.dart';
 import 'package:spark_hire_app/pages/personal/components/ai_analysis_card/ai_analysis_card.dart';
-import 'package:spark_hire_app/pages/personal/components/ai_analysis_card/ai_analysis_card_skeleton.dart';
 import 'package:spark_hire_app/pages/personal/contract_info/contract_info_card.dart';
 import 'package:spark_hire_app/pages/personal/education_exp/education_info_card.dart';
 import 'package:spark_hire_app/pages/personal/summary_info/summary_info_card.dart';

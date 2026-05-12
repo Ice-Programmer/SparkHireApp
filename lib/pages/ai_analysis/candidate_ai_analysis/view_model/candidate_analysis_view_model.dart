@@ -21,7 +21,7 @@ class CandidateAnalysisViewModel extends ChangeNotifier {
       final response = await _service.smartOptimizeCandidateResume(req);
       _optimizeResumeResult = response.optimizeResumeResult;
     } catch (e) {
-      ToastUtils.showErrorMsg("获取公司信息失败: $e");
+      ToastUtils.showErrorMsg("获取 ai 报告失败: $e");
     } finally {
       _isLoading = false;
       notifyListeners();

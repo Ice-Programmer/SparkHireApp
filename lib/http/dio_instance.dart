@@ -13,7 +13,7 @@ class DioInstance {
   }
 
   final Dio _dio = Dio();
-  final _defaultTimeout = const Duration(seconds: 30);
+  final _defaultTimeout = const Duration(seconds: 600);
 
   void initDio({
     String httpMethod = HttpMethods.get,

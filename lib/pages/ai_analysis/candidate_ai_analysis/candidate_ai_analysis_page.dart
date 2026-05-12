@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:spark_hire_app/model/candidate/optimize_resume.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/candidate_info_card.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/overview_card_content.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/score_card.dart';
+import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/overview_card_content_skeleton.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/suggestion_card_content.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/title_app_bar.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/view_model/candidate_analysis_view_model.dart';
@@ -40,14 +42,27 @@ class _CandidateAiAnalysisPageState extends State<CandidateAiAnalysisPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 /// AI Banner
-                CandidateInfoCard(),
+                Selector<CandidateAnalysisViewModel, bool>(
+                  selector: (_, vm) => vm.isLoading,
+                  builder: (_, isLoading, __) {
+                    return CandidateInfoCard(
+                      userBasicInfo: widget.userBasicInfo,
+                      isLoading: isLoading,
+                    );
+                  },
+                ),
 
                 10.verticalSpace,
 
                 /// 综合评分
-                const ScoreCard(),
+                Selector<CandidateAnalysisViewModel, OptimizeResumeResult?>(
+                  selector: (_, vm) => vm.optimizeResumeResult,
+                  builder: (_, result, __) {
+                    return ScoreCard(result: result);
+                  },
+                ),
 
-                20.verticalSpace,
+                10.verticalSpace,
 
                 const Text(
                   "优化建议概览",
@@ -57,7 +72,12 @@ class _CandidateAiAnalysisPageState extends State<CandidateAiAnalysisPage> {
                 10.verticalSpace,
 
                 /// 概览
-                OverviewCardContent(),
+                Selector<CandidateAnalysisViewModel, OptimizeResumeResult?>(
+                  selector: (_, vm) => vm.optimizeResumeResult,
+                  builder: (_, result, __) {
+                    return OverviewCardContent(result: result);
+                  },
+                ),
 
                 20.verticalSpace,
 

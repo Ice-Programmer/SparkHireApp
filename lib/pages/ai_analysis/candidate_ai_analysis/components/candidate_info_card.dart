@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spark_hire_app/components/cache_image.dart';
+import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 
 class CandidateInfoCard extends StatelessWidget {
-  const CandidateInfoCard({super.key});
+  final UserBasicInfo userBasicInfo;
+  final bool isLoading;
+  const CandidateInfoCard({
+    super.key,
+    required this.userBasicInfo,
+    required this.isLoading,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +31,7 @@ class CandidateInfoCard extends StatelessWidget {
                 Row(
                   children: [
                     CacheImage(
-                      imageUrl:
-                          "https://ice-man-1316749988.cos.ap-shanghai.myqcloud.com/imgs/%E5%85%AB%E5%A5%88%E8%A6%8B.jpg",
+                      imageUrl: userBasicInfo.userAvatar,
                       height: 42.h,
                       width: 42.h,
                       borderRadius: 20.r,
@@ -35,7 +41,7 @@ class CandidateInfoCard extends StatelessWidget {
 
                     /// 名字
                     Text(
-                      "IceProgrammer",
+                      userBasicInfo.username,
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
@@ -47,7 +53,9 @@ class CandidateInfoCard extends StatelessWidget {
                 10.verticalSpace,
 
                 Text(
-                  "根据你的资料，AI 已为你生成专属优化建议",
+                  isLoading
+                      ? "正在急速生成 ai 报告中，请耐心等待..."
+                      : "根据你的资料，AI 已为你生成专属优化建议",
                   style: TextStyle(height: 1.5, fontSize: 12.sp),
                 ),
               ],
