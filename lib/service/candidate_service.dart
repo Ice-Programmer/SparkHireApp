@@ -4,6 +4,7 @@ import 'package:spark_hire_app/http/dio_instance.dart';
 import 'package:spark_hire_app/model/candidate/edit_candidate_basic.dart';
 import 'package:spark_hire_app/model/candidate/edit_candidate_profile.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
+import 'package:spark_hire_app/model/candidate/optimize_resume.dart';
 
 class CandidateService {
   final DioInstance _dioInstance = DioInstance.instance();
@@ -58,7 +59,9 @@ class CandidateService {
     }
   }
 
-  Future<EditCandidateBasicInfoResponse> editCandidateBasicInfo(EditCandidateBasicInfoRequest req) async {
+  Future<EditCandidateBasicInfoResponse> editCandidateBasicInfo(
+    EditCandidateBasicInfoRequest req,
+  ) async {
     try {
       final resp = await _dioInstance.post(
         path: '/api/v1/ice/sparkhire/runtime/user/candidate/basic/edit',
@@ -81,4 +84,28 @@ class CandidateService {
     }
   }
 
+  Future<SmartOptimizeCandidateResumeResponse> smartOptimizeCandidateResume(
+    SmartOptimizeCandidateResumeRequest req,
+  ) async {
+    try {
+      final resp = await _dioInstance.post(
+        path: '/api/v1/ice/sparkhire/runtime/user/candidate/resume/optimize',
+        data: req.toJson(),
+        options: Options(contentType: 'application/json'),
+      );
+
+      final result = SmartOptimizeCandidateResumeResponse.fromJson(resp.data);
+
+      if (!result.success) {
+        throw BusinessException(
+          result.baseResp.statusMessage,
+          result.baseResp.statusCode,
+        );
+      }
+
+      return result;
+    } on DioException catch (e) {
+      throw Exception(e.message);
+    }
+  }
 }

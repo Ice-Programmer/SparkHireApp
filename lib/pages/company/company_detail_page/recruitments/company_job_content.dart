@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/clickable_search_bar.dart';
+import 'package:spark_hire_app/model/recruitment/query_recruitment_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/components/recruitment_info_card.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/view_model/recruitment_view_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 /// 公司职位列表 todo 优化
 class CompanyJobContent extends StatefulWidget {
-  const CompanyJobContent({super.key});
+  final int companyId;
+  const CompanyJobContent({super.key, required this.companyId});
 
   @override
   State<CompanyJobContent> createState() => _CompanyJobContentState();
@@ -20,7 +22,10 @@ class _CompanyJobContentState extends State<CompanyJobContent> {
   @override
   void initState() {
     super.initState();
-    _viewModel.refresh();
+    RecuritmentCondition req = RecuritmentCondition(
+      companyId: widget.companyId
+    );
+    _viewModel.refresh(condition: req);
   }
 
   @override

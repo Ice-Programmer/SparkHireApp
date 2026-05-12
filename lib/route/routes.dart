@@ -4,6 +4,7 @@ import 'package:spark_hire_app/layouts/home_layout.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/information/list_career.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
+import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/candidate_ai_analysis_page.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
@@ -244,7 +245,10 @@ List<GoRoute> _getCandidateEditRoutes() {
     GoRoute(
       path: '/ai/analysis',
       parentNavigatorKey: ToastUtils.rootNavigatorKey,
-      builder: (context, state) => CandidateAiAnalysisPage(),
+      builder:
+          (context, state) => CandidateAiAnalysisPage(
+            userBasicInfo: state.extra as UserBasicInfo,
+          ),
     ),
   ];
 }

@@ -4,11 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/common/assets.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
+import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 
 class AiAnalysisCard extends StatelessWidget {
+  final UserBasicInfo? userBasicInfo;
   final VoidCallback? onTap;
 
-  const AiAnalysisCard({super.key, this.onTap});
+  const AiAnalysisCard({super.key, this.onTap, this.userBasicInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,10 @@ class AiAnalysisCard extends StatelessWidget {
 
                       Text(
                         "深度分析你的资料，提供专属优化意见",
-                        style: TextStyle(color: Colors.white70, fontSize: 12.sp),
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12.sp,
+                        ),
                       ),
                     ],
                   ),
@@ -66,7 +71,11 @@ class AiAnalysisCard extends StatelessWidget {
                     icon: Icons.arrow_forward_ios,
                     iconGap: 4.w,
                     isIconRight: true,
-                    onPressed: () => context.push("/personal/ai/analysis"),
+                    onPressed:
+                        () => context.push(
+                          "/personal/ai/analysis",
+                          extra: userBasicInfo!,
+                        ),
                   ),
                 ],
               ),

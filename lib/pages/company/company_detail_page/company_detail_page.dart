@@ -98,7 +98,7 @@ class _CompanyDetailPageState extends State<CompanyDetailPage>
                     companyInfo: _viewModel.companyInfo!,
                   ),
                 ),
-                _buildScrollPage(CompanyJobContent()),
+                _buildScrollPage(CompanyJobContent(companyId: widget.companyId,)),
                 _buildScrollPage(
                   CompanyBenefitContent(companyId: widget.companyId),
                 ),

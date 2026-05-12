@@ -90,7 +90,12 @@ class CandidatePage extends StatelessWidget {
 
           5.verticalSpace,
 
-          const AiAnalysisCard(),
+          Selector<UserViewModel, UserBasicInfo?>(
+            selector: (_, vm) => vm.currentUserBasicInfo,
+            builder: (_, userBasicInfo, __) {
+              return AiAnalysisCard(userBasicInfo: userBasicInfo,);
+            },
+          ),
 
           5.verticalSpace,
 
