@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/common/assets.dart';
 import 'package:spark_hire_app/components/custom_button.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
+import 'package:spark_hire_app/pages/personal/components/ai_analysis_card/ai_analysis_card_skeleton.dart';
 
 class AiAnalysisCard extends StatelessWidget {
   final UserBasicInfo? userBasicInfo;
@@ -14,6 +15,10 @@ class AiAnalysisCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (userBasicInfo == null) {
+      return const AiAnalysisCardSkeleton();
+    }
+
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
@@ -58,7 +63,7 @@ class AiAnalysisCard extends StatelessWidget {
                     ],
                   ),
 
-                  // 新手指南
+                  // ai 分析
                   CustomButton(
                     textColor: Theme.of(context).colorScheme.primary,
                     btnWidth: 90.w,
