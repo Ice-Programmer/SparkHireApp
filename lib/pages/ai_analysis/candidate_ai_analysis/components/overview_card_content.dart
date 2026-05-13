@@ -13,89 +13,104 @@ class OverviewCardContent extends StatelessWidget {
       return OverviewCardContentSkeleton();
     }
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: result?.overviewItems?.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        childAspectRatio: 1.6,
-      ),
-      itemBuilder: (context, index) {
-        final item = result?.overviewItems?[index];
-        return Container(
-          padding: const EdgeInsets.all(14),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(
-              color: Theme.of(
-                context,
-              ).colorScheme.outline.withValues(alpha: 0.2),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "优化建议概览",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+
+        10.verticalSpace,
+
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: result?.overviewItems?.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            childAspectRatio: 1.6,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+          itemBuilder: (context, index) {
+            final item = result?.overviewItems?[index];
+            return Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                border: Border.all(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.outline.withValues(alpha: 0.2),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 43.w,
-                    height: 43.w,
-                    decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.primary.withAlpha(25),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      item!.icon,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 23.sp,
+                  Row(
+                    children: [
+                      Container(
+                        width: 43.w,
+                        height: 43.w,
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primary.withAlpha(25),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          item!.icon,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 23.sp,
+                        ),
+                      ),
+
+                      20.horizontalSpace,
+
+                      Text(
+                        item.category,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const Spacer(),
+
+                  4.verticalSpace,
+
+                  Text(
+                    item.count,
+                    style: TextStyle(
+                      color: Colors.orange.shade600,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 11.5.sp,
                     ),
                   ),
 
-                  20.horizontalSpace,
+                  8.verticalSpace,
 
-                  Text(
-                    item.category,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.bold,
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: LinearProgressIndicator(
+                      value: item.progress,
+                      minHeight: 4.h,
+                      backgroundColor:
+                          Theme.of(context).colorScheme.inverseSurface,
+                      valueColor: AlwaysStoppedAnimation(
+                        Colors.orange.shade400,
+                      ),
                     ),
                   ),
                 ],
               ),
-
-              const Spacer(),
-
-              4.verticalSpace,
-
-              Text(
-                item.count,
-                style: TextStyle(
-                  color: Colors.orange.shade600,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 11.5.sp,
-                ),
-              ),
-
-              8.verticalSpace,
-
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: LinearProgressIndicator(
-                  value: item.progress,
-                  minHeight: 4.h,
-                  backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-                  valueColor: AlwaysStoppedAnimation(Colors.orange.shade400),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ],
     );
   }
 }

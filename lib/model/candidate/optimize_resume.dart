@@ -164,6 +164,26 @@ class OptimizeResumeSuggestion {
         description.hashCode ^
         tag.hashCode;
   }
+
+  IconData get icon {
+    if (category == "个人信息") {
+      return Icons.person;
+    }
+
+    if (category == "教育经历") {
+      return Icons.school;
+    }
+
+    if (category == "工作经历") {
+      return Icons.work;
+    }
+
+    if (category == "技能标签") {
+      return Icons.code;
+    }
+
+    return Icons.device_unknown;
+  }
 }
 
 class OptimizeResumeResult {
@@ -255,6 +275,19 @@ class OptimizeResumeResult {
         comparisonText.hashCode ^
         overviewItems.hashCode ^
         suggestions.hashCode;
+  }
+
+  String get level {
+    if (score > 85) {
+      return "优秀";
+    }
+    if (score > 70) {
+      return "良好";
+    }
+    if (score > 60) {
+      return "及格";
+    }
+    return "一般";
   }
 }
 

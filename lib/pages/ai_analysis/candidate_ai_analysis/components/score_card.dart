@@ -39,7 +39,7 @@ class ScoreCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "78",
+                      result!.score.toInt().toString(),
                       style: TextStyle(
                         fontSize: 40.sp, // 64 -> 48
                         fontWeight: FontWeight.bold,
@@ -73,7 +73,7 @@ class ScoreCard extends StatelessWidget {
 
                     Expanded(
                       child: Text(
-                        "比同类用户高出 32%，继续优化可冲击 90+",
+                        result!.comparisonText,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.tertiary,
                           height: 1.4,
@@ -110,7 +110,7 @@ class ScoreCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "78",
+                      result!.score.toInt().toString(),
                       style: TextStyle(
                         fontSize: 22.sp,
                         fontWeight: FontWeight.bold,
@@ -118,7 +118,7 @@ class ScoreCard extends StatelessWidget {
                     ),
 
                     Text(
-                      "优秀",
+                      result!.level,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.tertiary,
                         fontSize: 11.5.sp,

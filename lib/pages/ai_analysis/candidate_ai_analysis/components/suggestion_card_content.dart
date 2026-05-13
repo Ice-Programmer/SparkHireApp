@@ -1,48 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spark_hire_app/model/candidate/optimize_resume.dart';
+import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/suggestion_card_skeleton.dart';
 
 class SuggestionCardContent extends StatelessWidget {
-  const SuggestionCardContent({super.key});
+  final OptimizeResumeResult? result;
+  const SuggestionCardContent({super.key, this.result});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SuggestionSection(
-          icon: Icons.person,
-          title: "个人信息",
-          count: "2 条建议",
-          suggestionTitle: "完善个人简介，突出你的技术优势",
-          desc: "你的简介较为简短，建议补充技术栈、项目经验或个人特色，让招聘官快速了解你的优势。",
-          tag: "重要",
-          acceptCount: "已有 128 人采纳",
-        ),
+    if (result == null) {
+      return Column(
+        children: [
+          const SuggestionCardSkeleton(),
+          10.verticalSpace,
+          const SuggestionCardSkeleton(),
+        ],
+      );
+    }
+    final List<OptimizeResumeSuggestion> allSuggestions =
+        result?.suggestions ?? [];
 
-        const SizedBox(height: 16),
+    final Map<String, OptimizeResumeSuggestion> filteredMap = {};
+    for (var item in allSuggestions) {
+      if (!filteredMap.containsKey(item.category)) {
+        filteredMap[item.category] = item;
+      }
+    }
 
-        const SuggestionSection(
-          icon: Icons.school,
-          title: "教育经历",
-          count: "1 条建议",
-          suggestionTitle: "补充在校项目或相关课程",
-          desc: "添加相关课程、竞赛或项目经验，能更好展示你的学习能力和实践经验。",
-          tag: "建议",
-          acceptCount: "已有 86 人采纳",
-        ),
+    final displayList = filteredMap.values.toList();
 
-        const SizedBox(height: 16),
+    if (displayList.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
-        const SuggestionSection(
-          icon: Icons.work,
-          title: "工作经历",
-          count: "3 条建议",
-          suggestionTitle: "增加项目成果的数据化表达",
-          desc: "建议在工作经历中增加性能提升、用户增长、效率优化等数据，让你的经历更有说服力。",
-          tag: "推荐",
-          acceptCount: "已有 203 人采纳",
-        ),
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: displayList.length,
+      itemBuilder: (context, index) {
+        final item = displayList[index];
+        final isLast = index == displayList.length - 1;
 
-        const SizedBox(height: 30),
-      ],
+        // 查找该分类下总共有多少条建议（可选，用于在 header 展示）
+        final totalCount =
+            allSuggestions.where((s) => s.category == item.category).length;
+
+        return Padding(
+          padding: EdgeInsets.only(bottom: isLast ? 30.h : 16.h),
+          child: SuggestionSection(
+            icon: item.icon,
+            title: item.category,
+            // 这里可以展示该分类下的总建议数
+            count: "$totalCount 条建议",
+            suggestionTitle: item.title,
+            desc: item.description,
+            tag: item.tag,
+            acceptCount: "已有 ${120 + index * 15} 人采纳",
+          ),
+        );
+      },
     );
   }
 }
@@ -70,10 +87,12 @@ class SuggestionSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16), // 22 -> 16
+      padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline.withAlpha(40),
+        ),
       ),
       child: Column(
         children: [
@@ -82,31 +101,37 @@ class SuggestionSection extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: Colors.deepPurple.shade600,
-                size: 24, // 28 -> 24
+                color: Theme.of(context).colorScheme.primary,
+                size: 24.sp,
               ),
-              const SizedBox(width: 8),
+
+              8.horizontalSpace,
+
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 18, // 24 -> 18
+                style: TextStyle(
+                  fontSize: 17.5.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+
               const Spacer(),
+
               Text(
                 count,
                 style: TextStyle(
-                  color: Colors.deepPurple.shade600,
+                  color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w600,
-                  fontSize: 14,
+                  fontSize: 13.5.sp,
                 ),
               ),
-              const SizedBox(width: 4),
+
+              4.horizontalSpace,
+
               Icon(
                 Icons.keyboard_arrow_up,
-                color: Colors.deepPurple.shade600,
-                size: 20,
+                color: Theme.of(context).colorScheme.primary,
+                size: 20.sp,
               ),
             ],
           ),
@@ -115,84 +140,89 @@ class SuggestionSection extends StatelessWidget {
 
           /// suggestion
           Container(
-            padding: const EdgeInsets.all(14), // 18 -> 14
+            padding: EdgeInsets.all(14.w),
             decoration: BoxDecoration(
-              color: const Color(0xFFF9F9FC),
-              borderRadius: BorderRadius.circular(16),
+              color: Theme.of(context).colorScheme.inverseSurface,
+              borderRadius: BorderRadius.circular(16.r),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "✨",
-                      style: TextStyle(fontSize: 18), // 22 -> 18
+                      style: TextStyle(fontSize: 17.sp), // 22 -> 18
                     ),
-                    const SizedBox(width: 8),
+
+                    8.horizontalSpace,
 
                     Expanded(
                       child: Text(
                         suggestionTitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 15, // 18 -> 15
+                          fontSize: 14.sp, // 18 -> 15
                         ),
                       ),
                     ),
 
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.h,
+                        vertical: 4.w,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade100,
-                        borderRadius: BorderRadius.circular(8),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withAlpha(40),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Text(
                         tag,
                         style: TextStyle(
-                          color: Colors.deepPurple.shade700,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
-                          fontSize: 11, // 12 -> 11
+                          fontSize: 10.5.sp,
                         ),
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 10),
+                10.verticalSpace,
 
                 Text(
                   desc,
                   style: TextStyle(
-                    color: Colors.grey.shade700,
+                    color: Theme.of(context).colorScheme.tertiary,
                     height: 1.5,
-                    fontSize: 13, // 15 -> 13
+                    fontSize: 12.5.sp,
                   ),
                 ),
 
-                const SizedBox(height: 14),
+                14.verticalSpace,
 
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14, // 18 -> 14
-                        vertical: 8, // 12 -> 8
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.w,
+                        vertical: 8.h,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.deepPurple.shade50,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withAlpha(25),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         "去优化",
                         style: TextStyle(
-                          color: Colors.deepPurple.shade700,
+                          color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.bold,
-                          fontSize: 13,
+                          fontSize: 12.5.sp,
                         ),
                       ),
                     ),
@@ -201,15 +231,17 @@ class SuggestionSection extends StatelessWidget {
 
                     Icon(
                       Icons.thumb_up_alt_outlined,
-                      size: 16, // 18 -> 16
-                      color: Colors.grey.shade600,
+                      size: 15.sp,
+                      color: Theme.of(context).colorScheme.tertiary,
                     ),
-                    const SizedBox(width: 6),
+
+                    6.horizontalSpace,
+
                     Text(
                       acceptCount,
                       style: TextStyle(
-                        color: Colors.grey.shade700,
-                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.tertiary,
+                        fontSize: 11.5.sp,
                       ),
                     ),
                   ],

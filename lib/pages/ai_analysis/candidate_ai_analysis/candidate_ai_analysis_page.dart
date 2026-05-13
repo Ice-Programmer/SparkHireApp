@@ -7,6 +7,7 @@ import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/component
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/overview_card_content.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/score_card.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/overview_card_content_skeleton.dart';
+import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/suggestion_card_skeleton.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/suggestion_card_content.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/title_app_bar.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/view_model/candidate_analysis_view_model.dart';
@@ -64,13 +65,6 @@ class _CandidateAiAnalysisPageState extends State<CandidateAiAnalysisPage> {
 
                 10.verticalSpace,
 
-                const Text(
-                  "优化建议概览",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-
-                10.verticalSpace,
-
                 /// 概览
                 Selector<CandidateAnalysisViewModel, OptimizeResumeResult?>(
                   selector: (_, vm) => vm.optimizeResumeResult,
@@ -81,7 +75,12 @@ class _CandidateAiAnalysisPageState extends State<CandidateAiAnalysisPage> {
 
                 20.verticalSpace,
 
-                const SuggestionCardContent(),
+                Selector<CandidateAnalysisViewModel, OptimizeResumeResult?>(
+                  selector: (_, vm) => vm.optimizeResumeResult,
+                  builder: (_, result, __) {
+                    return SuggestionCardContent(result: result);
+                  },
+                ),
               ],
             ),
           ),
