@@ -68,7 +68,7 @@ class CompanyInfoHeader extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     Assets.assetsImageCompanyCompanyBackground,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.cover,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -131,16 +131,13 @@ class CompanyInfoHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         // 使用封装好的动态关注按钮
-        CompanyFollowButton(
-          btnWidth: btnWidth,
-        ),
+        CompanyFollowButton(btnWidth: btnWidth),
 
         20.horizontalSpace,
 
         // 访问网站
         CustomButton(
-          onPressed: () {
-          },
+          onPressed: () {},
           textColor: Theme.of(context).colorScheme.primary,
           btnWidth: btnWidth,
           btnHeight: 42.h,
