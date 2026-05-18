@@ -6,6 +6,7 @@ import 'package:spark_hire_app/components/custom_markdown.dart';
 import 'package:spark_hire_app/model/recruitment/job_type.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
 import 'package:spark_hire_app/pages/job/job_detail_page/components/geo_detail_content.dart';
+import 'package:spark_hire_app/pages/job/job_detail_page/components/job_apply_btn.dart';
 import 'package:spark_hire_app/utils/salary_util.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -97,7 +98,10 @@ class JobDetailPage extends StatelessWidget {
         ),
       ),
       // 底部固定按钮
-      bottomNavigationBar: _buildBottomBar(context),
+      bottomNavigationBar: JobApplyBtn(
+        hasApplied: recruitmentInfo.hasApplied,
+        recruitmentId: recruitmentInfo.id,
+      ),
     );
   }
 
@@ -302,36 +306,6 @@ class JobDetailPage extends StatelessWidget {
           children: tags.map((tag) => _buildTag(context, tag.tagName)).toList(),
         ),
       ],
-    );
-  }
-
-  // 构建底部悬浮按钮
-  Widget _buildBottomBar(BuildContext context) {
-    return Container(
-      color: Theme.of(context).colorScheme.surface,
-      padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 34.h),
-      child: SizedBox(
-        width: double.infinity,
-        height: 60.h,
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.r),
-            ),
-          ),
-          child: Text(
-            AppLocalizations.of(context)!.applyJobText,
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
     );
   }
 

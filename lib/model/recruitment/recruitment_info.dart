@@ -23,6 +23,7 @@ class RecruitmentInfo {
   final GeoDetailInfo geoInfo;
   final SalaryInfo salaryInfo;
   final List<TagInfo> tagInfoList;
+  final bool hasApplied;
 
   RecruitmentInfo({
     required this.id,
@@ -36,6 +37,7 @@ class RecruitmentInfo {
     required this.geoInfo,
     required this.salaryInfo,
     required this.tagInfoList,
+    required this.hasApplied,
   });
 
   RecruitmentInfo copyWith({
@@ -50,6 +52,7 @@ class RecruitmentInfo {
     GeoDetailInfo? geoInfo,
     SalaryInfo? salaryInfo,
     List<TagInfo>? tagInfoList,
+    bool? hasApplied,
   }) {
     return RecruitmentInfo(
       id: id ?? this.id,
@@ -63,6 +66,7 @@ class RecruitmentInfo {
       geoInfo: geoInfo ?? this.geoInfo,
       salaryInfo: salaryInfo ?? this.salaryInfo,
       tagInfoList: tagInfoList ?? this.tagInfoList,
+      hasApplied: hasApplied ?? this.hasApplied,
     );
   }
 
@@ -79,6 +83,7 @@ class RecruitmentInfo {
       'geoInfo': geoInfo.toJson(),
       'salaryInfo': salaryInfo.toMap(),
       'tagInfoList': tagInfoList.map((x) => x.toJson()).toList(),
+      'hasApplied': hasApplied,
     };
   }
 
@@ -103,6 +108,7 @@ class RecruitmentInfo {
           (x) => TagInfo.fromJson(x as Map<String, dynamic>),
         ),
       ),
+      hasApplied: map['hasApplied'] as bool,
     );
   }
 
@@ -113,7 +119,7 @@ class RecruitmentInfo {
 
   @override
   String toString() {
-    return 'RecruitmentInfo(id: $id, name: $name, companyInfo: $companyInfo, careerInfo: $careerInfo, description: $description, requirement: $requirement, educationStatus: $educationStatus, jobType: $jobType, geoInfo: $geoInfo, salaryInfo: $salaryInfo, tagInfoList: $tagInfoList)';
+    return 'RecruitmentInfo(id: $id, name: $name, companyInfo: $companyInfo, careerInfo: $careerInfo, description: $description, requirement: $requirement, educationStatus: $educationStatus, jobType: $jobType, geoInfo: $geoInfo, salaryInfo: $salaryInfo, tagInfoList: $tagInfoList, hasApplied: $hasApplied)';
   }
 
   @override
@@ -130,7 +136,8 @@ class RecruitmentInfo {
         other.jobType == jobType &&
         other.geoInfo == geoInfo &&
         other.salaryInfo == salaryInfo &&
-        listEquals(other.tagInfoList, tagInfoList);
+        listEquals(other.tagInfoList, tagInfoList) &&
+        other.hasApplied == hasApplied;
   }
 
   @override
@@ -145,6 +152,7 @@ class RecruitmentInfo {
         jobType.hashCode ^
         geoInfo.hashCode ^
         salaryInfo.hashCode ^
-        tagInfoList.hashCode;
+        tagInfoList.hashCode ^
+        hasApplied.hashCode;
   }
 }
