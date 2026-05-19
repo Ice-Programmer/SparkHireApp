@@ -13,6 +13,8 @@ class CustomInput extends StatefulWidget {
   final int maxLines;
   final bool isPassword;
   final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onSubmitted;
+  final TextInputAction? textInputAction;
   final double prefixGap;
   final String? defaultValue;
   final Color? borderColor;
@@ -36,6 +38,8 @@ class CustomInput extends StatefulWidget {
     this.maxLines = 1,
     this.isPassword = false,
     this.onChanged,
+    this.onSubmitted, // 新增
+    this.textInputAction, // 新增
     this.backgroundColor,
     this.prefixGap = 20,
     this.defaultValue,
@@ -120,6 +124,8 @@ class _CustomInputState extends State<CustomInput> {
               maxLines: widget.maxLines,
               obscureText: widget.isPassword ? _obscureText : false,
               textAlignVertical: TextAlignVertical.center,
+              textInputAction: widget.textInputAction ?? TextInputAction.done,
+              onFieldSubmitted: widget.onSubmitted,
               style: TextStyle(
                 fontSize: widget.fontSize,
                 color:

@@ -85,6 +85,10 @@ class _JobHomePageState extends State<JobHomePage> {
 
               20.verticalSpace,
 
+              _buildTitle(context),
+
+              20.verticalSpace,
+
               // 工作列表
               Consumer<RecruitmentViewModel>(
                 builder: (context, viewModel, child) {
@@ -95,6 +99,31 @@ class _JobHomePageState extends State<JobHomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTitle(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "🔥 ${AppLocalizations.of(context)!.popularJobText}",
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        ),
+
+        // 查看全部
+        GestureDetector(
+          onTap: () {},
+          child: Text(
+            AppLocalizations.of(context)!.viewAllText,
+            style: TextStyle(
+              fontSize: 15.sp,
+              color: Theme.of(context).colorScheme.primary,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

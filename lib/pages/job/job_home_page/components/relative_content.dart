@@ -9,44 +9,9 @@ class RelativeJobContent extends StatelessWidget {
   final RecruitmentViewModel viewModel;
   const RelativeJobContent({super.key, required this.viewModel});
 
-  Widget _buildTitle(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "🔥 ${AppLocalizations.of(context)!.popularJobText}",
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-        ),
-
-        // 查看全部
-        GestureDetector(
-          onTap: () {},
-          child: Text(
-            AppLocalizations.of(context)!.viewAllText,
-            style: TextStyle(
-              fontSize: 15.sp,
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // 标题
-        _buildTitle(context),
-
-        20.verticalSpace,
-
-        // 求职卡片列表
-        _buildRecruitmentCardList(context),
-      ],
-    );
+    return _buildRecruitmentCardList(context);
   }
 
   Widget _buildRecruitmentCardList(BuildContext context) {
@@ -85,7 +50,6 @@ class RelativeJobContent extends StatelessWidget {
     );
   }
 
-  // 构建底部的加载指示器
   Widget _buildLoadMoreIndicator() {
     return Padding(
       padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
@@ -93,7 +57,6 @@ class RelativeJobContent extends StatelessWidget {
         child: Builder(
           builder: (context) {
             if (viewModel.isLoadingMore) {
-              // 正在加载下一页
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

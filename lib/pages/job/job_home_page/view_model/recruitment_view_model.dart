@@ -11,6 +11,9 @@ class RecruitmentViewModel extends ChangeNotifier {
   List<RecruitmentInfo> _recruitmentInfoList = [];
   List<RecruitmentInfo> get recruitmentInfoList => _recruitmentInfoList;
 
+  int _total = 0;
+  int get total => _total;
+
   int _pageNum = 1;
   final int _pageSize = 5;
   RecuritmentCondition? _condition;
@@ -47,6 +50,7 @@ class RecruitmentViewModel extends ChangeNotifier {
 
       // 拿到新数据后直接覆盖列表
       _recruitmentInfoList = response.recruitmentList ?? [];
+      _total = response.total ?? 0;
 
       // 判断是否还有更多数据
       // 1. 如果返回的数据小于一页的容量，说明没有下一页了
