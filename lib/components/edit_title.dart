@@ -3,22 +3,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final BuildContext context;
   final String titleName;
   final VoidCallback? onDeletePress;
   final bool needActions;
+  final bool centerTitle;
   const EditAppBar({
     super.key,
     required this.titleName,
     this.onDeletePress,
-    required this.context,
     this.needActions = false,
+    this.centerTitle = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      centerTitle: false,
+      centerTitle: centerTitle,
       title: Text(
         titleName,
         style: TextStyle(
@@ -33,14 +33,14 @@ class EditAppBar extends StatelessWidget implements PreferredSizeWidget {
               : [
                 IconButton(
                   icon: const Icon(Icons.more_horiz),
-                  onPressed: _showMoreActionSheet,
+                  onPressed: () => _showMoreActionSheet(context),
                 ),
                 8.horizontalSpace,
               ],
     );
   }
 
-  void _showMoreActionSheet() {
+  void _showMoreActionSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(

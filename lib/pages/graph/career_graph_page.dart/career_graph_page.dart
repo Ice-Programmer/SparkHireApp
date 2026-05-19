@@ -32,7 +32,6 @@ class _CareerGraphPageState extends State<CareerGraphPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: EditAppBar(
-        context: context,
         titleName: AppLocalizations.of(context)!.careerAnalysis,
       ),
       body: ChangeNotifierProvider.value(

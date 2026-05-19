@@ -29,7 +29,6 @@ class _SummaryEditPageState extends State<SummaryEditPage> {
     return KeyboardDismissWrapper(
       child: Scaffold(
         appBar: EditAppBar(
-          context: context,
           titleName: AppLocalizations.of(context)!.summaryText,
         ),
         bottomNavigationBar: EditSaveBtn(

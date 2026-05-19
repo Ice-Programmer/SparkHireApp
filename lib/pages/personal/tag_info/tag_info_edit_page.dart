@@ -195,7 +195,6 @@ class _TagInfoEditPageState extends State<TagInfoEditPage> {
     return KeyboardDismissWrapper(
       child: Scaffold(
         appBar: EditAppBar(
-          context: context,
           titleName: AppLocalizations.of(context)!.skillText,
         ),
         bottomNavigationBar: EditSaveBtn(onEdit: _isLoading ? () {} : _onSave),

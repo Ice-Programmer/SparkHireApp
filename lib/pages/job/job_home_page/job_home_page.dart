@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -66,7 +67,9 @@ class _JobHomePageState extends State<JobHomePage> {
 
               // 搜索栏
               ClickableSearchButton(
-                onTap: () {},
+                onTap: () {
+                  context.push("/job/search");
+                },
                 hintText: AppLocalizations.of(context)!.searchText,
               ),
 

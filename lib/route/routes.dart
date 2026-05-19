@@ -14,6 +14,7 @@ import 'package:spark_hire_app/pages/graph/career_graph_page.dart/career_graph_p
 import 'package:spark_hire_app/pages/graph/graph_home_page.dart/graph_home_page.dart';
 import 'package:spark_hire_app/pages/job/job_detail_page/job_detail_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/job_home_page.dart';
+import 'package:spark_hire_app/pages/job/job_search_page/job_search_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_edit_page.dart';
@@ -122,6 +123,11 @@ final GoRouter router = GoRouter(
       builder:
           (context, state) =>
               CareerGraphPage(careerInfo: state.extra as CareerInfo),
+    ),
+    GoRoute(
+      path: '/job/search',
+      name: '岗位检索',
+      builder: (context, state) => JobSearchPage(),
     ),
 
     ShellRoute(

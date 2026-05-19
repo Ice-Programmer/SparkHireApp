@@ -6,8 +6,6 @@ import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/candidate_info_card.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/overview_card_content.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/score_card.dart';
-import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/overview_card_content_skeleton.dart';
-import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/skeleton/suggestion_card_skeleton.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/suggestion_card_content.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/components/title_app_bar.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/view_model/candidate_analysis_view_model.dart';

@@ -106,7 +106,6 @@ class _CandidateInfoEditPageState extends State<CandidateInfoEditPage> {
             child: Column(
               children: [
                 EditAppBar(
-                  context: context,
                   titleName: AppLocalizations.of(context)!.profileTitle,
                 ),
 

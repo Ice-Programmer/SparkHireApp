@@ -141,7 +141,6 @@ class _WishCareerEditPageState extends State<WishCareerEditPage> {
     return KeyboardDismissWrapper(
       child: Scaffold(
         appBar: EditAppBar(
-          context: context,
           titleName: l10n.careerExpText,
           onDeletePress: _onDelete,
           needActions: widget.wishCareerId > 0,

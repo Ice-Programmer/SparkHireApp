@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // 1. 引入 services 库以使用 FilteringTextInputFormatter
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomInput extends StatefulWidget {
@@ -20,7 +20,10 @@ class CustomInput extends StatefulWidget {
   final Color? textColor;
   final String? title;
   final bool enabled;
-  final bool onlyNumbers; // 2. 新增只限数字的可选参数
+  final bool onlyNumbers;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final Color? hintColor;
 
   const CustomInput({
     super.key,
@@ -41,7 +44,10 @@ class CustomInput extends StatefulWidget {
     this.textColor,
     this.title,
     this.enabled = true,
-    this.onlyNumbers = false, // 3. 默认不限制
+    this.onlyNumbers = false,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.hintColor = Colors.grey,
   });
 
   @override
@@ -57,7 +63,7 @@ class _CustomInputState extends State<CustomInput> {
       return const SizedBox.shrink();
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, 
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           widget.title!,
@@ -79,7 +85,9 @@ class _CustomInputState extends State<CustomInput> {
         widget.backgroundColor ??
         (widget.enabled
             ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5));
+            : Theme.of(
+              context,
+            ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,14 +100,16 @@ class _CustomInputState extends State<CustomInput> {
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(widget.borderRadius),
-            border: widget.borderColor != null
-                ? Border.all(
-                    color: widget.enabled
-                        ? widget.borderColor!
-                        : widget.borderColor!.withValues(alpha: 0.3),
-                    width: 1.5,
-                  )
-                : null,
+            border:
+                widget.borderColor != null
+                    ? Border.all(
+                      color:
+                          widget.enabled
+                              ? widget.borderColor!
+                              : widget.borderColor!.withValues(alpha: 0.3),
+                      width: 1.5,
+                    )
+                    : null,
           ),
           child: Opacity(
             opacity: widget.enabled ? 1.0 : 0.6,
@@ -112,48 +122,62 @@ class _CustomInputState extends State<CustomInput> {
               textAlignVertical: TextAlignVertical.center,
               style: TextStyle(
                 fontSize: widget.fontSize,
-                color: widget.textColor ?? Theme.of(context).colorScheme.onSurface,
+                color:
+                    widget.textColor ?? Theme.of(context).colorScheme.onSurface,
                 height: 1.0,
               ),
-              // 4. 配置 inputFormatters 限制输入
-              inputFormatters: widget.onlyNumbers
-                  ? [FilteringTextInputFormatter.digitsOnly] 
-                  : null,
+              inputFormatters:
+                  widget.onlyNumbers
+                      ? [FilteringTextInputFormatter.digitsOnly]
+                      : null,
               decoration: InputDecoration(
                 isDense: true,
                 isCollapsed: true,
                 contentPadding: EdgeInsets.symmetric(
                   horizontal: widget.horizontalPadding,
+                  vertical: widget.height * 0.25,
                 ),
                 border: InputBorder.none,
                 hintText: widget.hintText,
-                suffixIcon: widget.isPassword
-                    ? IconButton(
-                        icon: Icon(
-                          _obscureText ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.grey,
-                        ),
-                        onPressed: widget.enabled
-                            ? () {
-                                setState(() {
-                                  _obscureText = !_obscureText;
-                                });
-                              }
-                            : null,
-                      )
-                    : null,
                 hintStyle: TextStyle(
                   fontSize: widget.fontSize,
-                  color: Colors.grey,
+                  color: widget.hintColor,
+                ),
+                prefixIcon: widget.prefixIcon,
+                prefixIconConstraints: const BoxConstraints(
+                  minWidth: 40,
+                  minHeight: 0,
+                ),
+                suffixIcon:
+                    widget.isPassword
+                        ? IconButton(
+                          icon: Icon(
+                            _obscureText
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                          onPressed:
+                              widget.enabled
+                                  ? () {
+                                    setState(() {
+                                      _obscureText = !_obscureText;
+                                    });
+                                  }
+                                  : null,
+                        )
+                        : widget.suffixIcon,
+                suffixIconConstraints: const BoxConstraints(
+                  minWidth: 40,
+                  minHeight: 0,
                 ),
                 errorStyle: const TextStyle(height: 0, fontSize: 0),
               ),
               onChanged: (value) {
                 widget.onChanged?.call(value);
               },
-              keyboardType: widget.onlyNumbers 
-                  ? TextInputType.number // 如果只限数字，强制弹出数字键盘
-                  : widget.inputType,
+              keyboardType:
+                  widget.onlyNumbers ? TextInputType.number : widget.inputType,
             ),
           ),
         ),

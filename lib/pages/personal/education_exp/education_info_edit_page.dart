@@ -158,7 +158,6 @@ class _EducationInfoEditPageState extends State<EducationInfoEditPage> {
     return KeyboardDismissWrapper(
       child: Scaffold(
         appBar: EditAppBar(
-          context: context,
           titleName: l10n.educationText,
           onDeletePress: _deleteBtn,
           needActions: widget.educationExpId > 0,

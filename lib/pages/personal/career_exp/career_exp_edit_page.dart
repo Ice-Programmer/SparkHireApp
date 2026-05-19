@@ -113,7 +113,6 @@ class _CareerExpEditPageState extends State<CareerExpEditPage> {
     return KeyboardDismissWrapper(
       child: Scaffold(
         appBar: EditAppBar(
-          context: context,
           titleName: AppLocalizations.of(context)!.careerExpText,
           onDeletePress: _deleteBtn,
           needActions: widget.careerExpId > 0,
