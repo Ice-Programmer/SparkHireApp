@@ -22,7 +22,7 @@ class EditAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         titleName,
         style: TextStyle(
-          fontSize: 22.sp,
+          fontSize: 19.sp,
           fontWeight: FontWeight.bold,
           color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
         ),

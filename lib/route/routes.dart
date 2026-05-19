@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spark_hire_app/layouts/home_layout.dart';
+import 'package:spark_hire_app/model/chat/chat_session_info.dart';
 import 'package:spark_hire_app/model/candidate/get_current_candidate.dart';
 import 'package:spark_hire_app/model/information/list_career.dart';
 import 'package:spark_hire_app/model/recruitment/recruitment_info.dart';
 import 'package:spark_hire_app/model/user/fetch_current_user.dart';
 import 'package:spark_hire_app/pages/ai_analysis/candidate_ai_analysis/candidate_ai_analysis_page.dart';
 import 'package:spark_hire_app/pages/analyze/analyze_page.dart';
+import 'package:spark_hire_app/pages/chat/chat_list_page/chat_list_page.dart';
+import 'package:spark_hire_app/pages/chat/chat_page/chat_page.dart';
 import 'package:spark_hire_app/pages/company/company_detail_page/company_detail_page.dart';
 import 'package:spark_hire_app/pages/forum/forum_detail_page/forum_detail_page.dart';
 import 'package:spark_hire_app/pages/forum/forum_page/forum_page.dart';
@@ -134,6 +137,18 @@ final GoRouter router = GoRouter(
       path: '/job/ai/recommend',
       name: 'ai 智能推荐',
       builder: (context, state) => JobSmartRecommendPage(),
+    ),
+    GoRoute(
+      path: '/chat',
+      name: 'chat 页面',
+      builder:
+          (context, state) =>
+              ChatPage(session: state.extra as ChatSessionInfo),
+    ),
+    GoRoute(
+      path: '/chat/list',
+      name: 'chat 列表页面',
+      builder: (context, state) => ChatListPage(),
     ),
 
     ShellRoute(
