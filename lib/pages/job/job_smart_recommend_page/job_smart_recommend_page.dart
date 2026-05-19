@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:spark_hire_app/components/edit_title.dart';
 import 'package:spark_hire_app/pages/job/job_smart_recommend_page/components/recommend_recruitment_card.dart';
 import 'package:spark_hire_app/pages/job/job_smart_recommend_page/components/resume_optimize_card.dart';
+import 'package:spark_hire_app/pages/job/job_smart_recommend_page/components/skeleton/recommend_recruitment_list_skeleton.dart';
 import 'package:spark_hire_app/pages/job/job_smart_recommend_page/components/title_card.dart';
 import 'package:spark_hire_app/pages/job/job_smart_recommend_page/view_model/recommend_recrutiment_view_model.dart';
 
@@ -69,11 +70,9 @@ class _JobSmartRecommendPageState extends State<JobSmartRecommendPage> {
 
                   // 3. 根据加载状态显示不同 UI
                   if (viewModel.isLoading)
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 40),
-                        child: CircularProgressIndicator(),
-                      ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: RecommendRecruitmentListSkeleton(),
                     )
                   else if (recommendations.isEmpty)
                     const Center(
