@@ -15,6 +15,7 @@ import 'package:spark_hire_app/pages/graph/graph_home_page.dart/graph_home_page.
 import 'package:spark_hire_app/pages/job/job_detail_page/job_detail_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/job_home_page.dart';
 import 'package:spark_hire_app/pages/job/job_search_page/job_search_page.dart';
+import 'package:spark_hire_app/pages/job/job_smart_recommend_page/job_smart_recommend_page.dart';
 import 'package:spark_hire_app/pages/login/login_page.dart';
 import 'package:spark_hire_app/pages/login/mail_login_page.dart';
 import 'package:spark_hire_app/pages/personal/basic_info/candidate_info_edit_page.dart';
@@ -128,6 +129,11 @@ final GoRouter router = GoRouter(
       path: '/job/search',
       name: '岗位检索',
       builder: (context, state) => JobSearchPage(),
+    ),
+    GoRoute(
+      path: '/job/ai/recommend',
+      name: 'ai 智能推荐',
+      builder: (context, state) => JobSmartRecommendPage(),
     ),
 
     ShellRoute(

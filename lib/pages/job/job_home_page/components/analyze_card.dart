@@ -69,7 +69,7 @@ class AnalysisDataCard extends StatelessWidget {
                     ],
                   ),
 
-                  24.verticalSpace,
+                  10.verticalSpace,
 
                   // --- 底部栏：核心数据展示 ---
                   Row(

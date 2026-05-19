@@ -8,6 +8,7 @@ import 'package:spark_hire_app/model/recruitment/query_recruitment_page.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/components/relative_content.dart';
 import 'package:spark_hire_app/pages/job/job_home_page/view_model/recruitment_view_model.dart';
 import 'package:spark_hire_app/pages/job/job_search_page/components/search_history_content.dart';
+import 'package:spark_hire_app/pages/job/job_search_page/components/smart_recommend_card.dart';
 import 'package:spark_hire_app/pages/job/job_search_page/view_model/user_search_history_view_model.dart';
 
 class JobSearchPage extends StatefulWidget {
@@ -19,11 +20,10 @@ class JobSearchPage extends StatefulWidget {
 
 class _JobSearchPageState extends State<JobSearchPage> {
   final ScrollController _scrollController = ScrollController();
-  
-  // 统一由 State 类管理的实例
+
   late RecruitmentViewModel _viewModel;
   late UserSearchHistoryViewModel _historyViewModel;
-  
+
   RecuritmentCondition condition = RecuritmentCondition();
 
   @override
@@ -31,14 +31,14 @@ class _JobSearchPageState extends State<JobSearchPage> {
     super.initState();
     _viewModel = RecruitmentViewModel();
     _viewModel.refresh(condition: condition);
-    
+
     _historyViewModel = UserSearchHistoryViewModel();
     _historyViewModel.loadHistoryList();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
-        _viewModel.loadMore(); // 此时滑动到底部，触发的是正确的实例
+        _viewModel.loadMore();
       }
     });
   }
@@ -123,6 +123,10 @@ class _JobSearchPageState extends State<JobSearchPage> {
                   );
                 },
               ),
+
+              20.verticalSpace,
+
+              SmartRecommendCard(),
 
               20.verticalSpace,
 

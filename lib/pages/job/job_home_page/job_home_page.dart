@@ -107,7 +107,7 @@ class _JobHomePageState extends State<JobHomePage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "🔥 ${AppLocalizations.of(context)!.popularJobText}",
+          "相关工作",
           style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
 
